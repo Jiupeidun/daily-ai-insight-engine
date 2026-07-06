@@ -269,11 +269,11 @@ function buildExecutiveBrief(articles: ArticleInsight[]): string {
   const topTopics = buildTopicDistribution(articles).slice(0, 3);
   const topTitles = articles
     .slice(0, 3)
-    .map((article) => `「${article.title}」`)
-    .join("、");
-  const topicText = topTopics.map((topic) => topic.label).join("、");
+    .map((article) => `"${article.title}"`)
+    .join(", ");
+  const topicText = topTopics.map((topic) => topic.label).join(", ");
 
-  return `今日 AI 信息流的主轴集中在 ${topicText}。高分事件包括 ${topTitles}。整体判断：市场注意力仍在从单点模型能力扩散到产品化、算力约束、企业采用和治理问题；真正值得跟踪的不是单篇新闻的热度，而是这些信号是否在同一价值链上互相强化。`;
+  return `Today's AI intelligence flow is concentrated around ${topicText}. The highest-ranked events include ${topTitles}. Overall, market attention is moving from isolated model capability toward productization, compute constraints, enterprise adoption, and governance. The most important signal is whether these events reinforce one another across the AI value chain.`;
 }
 
 function buildTrendRadar(articles: ArticleInsight[]): DailyReport["trendRadar"] {
@@ -325,7 +325,7 @@ export function generateDailyReport(articles: ArticleInsight[], rawCount = artic
 
   const report = {
     id: reportId,
-    title: "AI 舆情分析日报",
+    title: "Daily AI Insight Report",
     generatedAt: now,
     coverageWindow,
     sourceStats: {
@@ -435,7 +435,7 @@ function buildReportSynthesisPrompt(baseline: DailyReport) {
     "You are generating the final support data for a daily AI public-opinion intelligence dashboard and PDF report.",
     "Return only valid JSON. Do not include markdown.",
     "Use only the provided article facts and articleIds. Do not invent URLs, sources, entities, dates, or events.",
-    "Write executiveBrief, rationale, impact, watchNext, risks, and opportunities in Chinese.",
+    "Write executiveBrief, rationale, impact, watchNext, risks, and opportunities in English only.",
     "Generate the entire report support payload: executiveBrief, topEvents, deepDives, trendRadar, riskOpportunity, and charts.",
     "The charts object must contain topicDistribution, sourceMix, impactTimeline, signalRadar, and valueChainMap arrays. Chart rows may contain string and number fields only.",
     "topEvents must use exactly 5 items. deepDives must use exactly 3 items. trendRadar should use 4-6 themes.",

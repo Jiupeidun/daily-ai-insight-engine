@@ -105,7 +105,7 @@ export async function POST() {
     }
 
     const pdf = await renderDailyReportPdf(report);
-    const fileName = `AI-insight-report-${report.generatedAt.slice(0, 10)}.pdf`;
+    const fileName = `daily-ai-insight-report-${report.generatedAt.slice(0, 10)}.pdf`;
     console.log(
       JSON.stringify({
         event: "report-pdf:pdf-rendered",
