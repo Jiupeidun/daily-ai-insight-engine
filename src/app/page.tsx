@@ -192,6 +192,7 @@ function AiFeed({ report }: { report: DailyReport }) {
 
 function formatRunTime(value: string) {
   return new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Shanghai",
     month: "2-digit",
     day: "2-digit",
     hour: "2-digit",
@@ -266,7 +267,7 @@ export default function Home() {
               <Metric
                 label={<Bilingual zh="更新" en="Updated" />}
                 value={formatRunTime(report.generatedAt)}
-                detail={<Bilingual zh="每 12 小时刷新" en="12h refresh" />}
+                detail={<Bilingual zh="上海时间" en="Asia/Shanghai" />}
               />
               <Metric
                 label={<Bilingual zh="来源" en="Sources" />}
