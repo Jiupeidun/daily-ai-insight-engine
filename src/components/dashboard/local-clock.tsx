@@ -14,20 +14,20 @@ export function LocalClock() {
   useEffect(() => {
     const updateClock = () => {
       setClock({
-        time: dayjs().format("YYYY/MM/DD HH:mm:ss"),
+        time: dayjs().format("YYYY/MM/DD HH:mm"),
         timezone: getTimezoneLabel()
       });
     };
 
     updateClock();
-    const timer = window.setInterval(updateClock, 1000);
+    const timer = window.setInterval(updateClock, 60_000);
     return () => window.clearInterval(timer);
   }, []);
 
   return (
     <span className="status-pill status-pill-blue local-clock" title={clock.time ? clock.timezone : undefined}>
       <Clock3 aria-hidden="true" size={14} />
-      <span>{clock.time || "----/--/-- --:--:--"}</span>
+      <span>{clock.time || "----/--/-- --:--"}</span>
     </span>
   );
 }

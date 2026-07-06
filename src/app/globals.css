@@ -511,6 +511,13 @@ h1 {
   color: var(--terminal-blue);
 }
 
+.local-clock,
+.local-clock * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
 .preference-controls {
   flex-wrap: wrap;
   justify-content: flex-end;
