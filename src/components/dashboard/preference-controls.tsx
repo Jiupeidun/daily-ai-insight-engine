@@ -109,7 +109,8 @@ export function PreferenceControls() {
           type="button"
           aria-label="Use system theme"
           aria-pressed={theme === "system"}
-          className={theme === "system" ? "icon-button icon-button-active" : "icon-button"}
+          data-mode="system"
+          className="icon-button theme-button"
           onClick={() => updateTheme("system")}
         >
           <Monitor size={14} />
@@ -118,7 +119,8 @@ export function PreferenceControls() {
           type="button"
           aria-label="Dark theme"
           aria-pressed={theme === "dark"}
-          className={theme === "dark" ? "icon-button icon-button-active" : "icon-button"}
+          data-mode="dark"
+          className="icon-button theme-button"
           onClick={() => updateTheme("dark")}
         >
           <Moon size={14} />
@@ -127,7 +129,8 @@ export function PreferenceControls() {
           type="button"
           aria-label="Light theme"
           aria-pressed={theme === "light"}
-          className={theme === "light" ? "icon-button icon-button-active" : "icon-button"}
+          data-mode="light"
+          className="icon-button theme-button"
           onClick={() => updateTheme("light")}
         >
           <Sun size={14} />

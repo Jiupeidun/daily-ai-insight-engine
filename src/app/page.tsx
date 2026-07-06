@@ -214,12 +214,11 @@ export default function Home() {
             </h1>
             <p>
               <span className="lang-zh">
-                从官方、媒体、社区和研究源采集 AI 信息，使用 Vercel AI SDK + Zod
-                生成可审计洞察，并按需生成当日 PDF 日报。
+                从官方、媒体、社区和研究源采集 AI 信息，生成每日 AI 舆情分析日报。
               </span>
               <span className="lang-en">
-                AI news is collected from official, media, community, and research feeds, then
-                transformed into auditable insights with Vercel AI SDK and Zod.
+                AI news is collected from official, media, community, and research feeds for a
+                daily AI intelligence report.
               </span>
             </p>
           </div>
