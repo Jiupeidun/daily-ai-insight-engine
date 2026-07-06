@@ -303,11 +303,15 @@ function buildMomentumSignals(articles: ArticleInsight[]) {
       const baselineCount = row.baseline.length;
       const recentImpact = average(row.recent.map((article) => article.impact.score));
       const baselineImpact = average(row.baseline.map((article) => article.impact.score));
-      const slope = recentCount - baselineCount / 3;
+      const expectedRecentCount = baselineCount / 3 + 1;
+      const acceleration = recentCount / expectedRecentCount;
+      const accelerationScore = clampReportScore(50 + Math.log2(Math.max(0.25, acceleration)) * 18);
+      const volumeScore = clampReportScore(Math.log1p(recentCount) * 28);
+      const impactScore = recentImpact > 0 ? recentImpact : baselineImpact;
       const momentumScore = clampReportScore(
-        35 + slope * 8 + (recentImpact - baselineImpact) * 0.35 + recentCount * 3
+        accelerationScore * 0.45 + volumeScore * 0.3 + impactScore * 0.25
       );
-      const direction = momentumScore >= 68 ? "rising" : momentumScore <= 42 ? "cooling" : "stable";
+      const direction = momentumScore >= 72 ? "rising" : momentumScore <= 48 ? "cooling" : "stable";
 
       return {
         signal: row.signal,
@@ -316,7 +320,7 @@ function buildMomentumSignals(articles: ArticleInsight[]) {
         baselineCount,
         momentumScore,
         direction,
-        rationale: `${row.signal} has ${recentCount} recent mentions versus ${baselineCount} baseline mentions, with recent average impact ${recentImpact}.`
+        rationale: `${row.signal} has ${recentCount} recent validated items against an expected recent baseline of ${expectedRecentCount.toFixed(1)}, with average impact ${recentImpact}.`
       };
     })
     .filter((row) => row.recentCount > 0 || row.baselineCount > 1)
@@ -688,10 +692,7 @@ export async function generateDailyReportWithAiSupport(
       ...aiSupport,
       charts: {
         ...aiSupport.charts,
-        momentumSignals:
-          aiSupport.charts.momentumSignals.length > 0
-            ? aiSupport.charts.momentumSignals
-            : baseline.charts.momentumSignals
+        momentumSignals: baseline.charts.momentumSignals
       },
       schemaRationale: [
         ...baseline.schemaRationale,

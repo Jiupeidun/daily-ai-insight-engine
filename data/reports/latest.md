@@ -1,6 +1,6 @@
 # Daily AI Insight Report
 
-Generated at: 2026-07-06T16:35:15.879Z
+Generated at: 2026-07-06T17:19:37.498Z
 
 Coverage: 2026-06-29T19:00:00.000Z to 2026-07-06T15:54:06.000Z
 
@@ -74,17 +74,17 @@ Watch next: Watch whether Nvidia and Kyber NVL144 convert this signal into measu
 - frontier_model: 100/100, up. Frontier models momentum is rising: 24 recent mentions versus 32 baseline mentions.
 - developer_tools: 100/100, up. Developer tools momentum is rising: 26 recent mentions versus 29 baseline mentions.
 - enterprise_adoption: 100/100, up. Enterprise adoption momentum is rising: 15 recent mentions versus 19 baseline mentions.
-- ai_infrastructure: 100/100, up. AI infrastructure momentum is rising: 11 recent mentions versus 17 baseline mentions.
+- ai_infrastructure: 100/100, flat. AI infrastructure momentum is stable: 11 recent mentions versus 17 baseline mentions.
 - research: 100/100, up. Research appears in 25 validated items with average impact 76.
 
 ## Momentum Signals
 
-- product_launch (topic): 100/100 rising - product_launch has 35 recent mentions versus 32 baseline mentions, with recent average impact 75.
-- enterprise_adoption (topic): 100/100 rising - enterprise_adoption has 15 recent mentions versus 19 baseline mentions, with recent average impact 78.
-- developer_tools (topic): 100/100 rising - developer_tools has 26 recent mentions versus 29 baseline mentions, with recent average impact 78.
-- frontier_model (topic): 100/100 rising - frontier_model has 24 recent mentions versus 32 baseline mentions, with recent average impact 77.
-- ai_infrastructure (topic): 100/100 rising - ai_infrastructure has 11 recent mentions versus 17 baseline mentions, with recent average impact 79.
-- Nvidia (entity): 100/100 rising - Nvidia has 7 recent mentions versus 0 baseline mentions, with recent average impact 82.
+- product_launch (topic): 84/100 rising - product_launch has 35 recent validated items against an expected recent baseline of 11.7, with average impact 75.
+- Nvidia (entity): 83/100 rising - Nvidia has 7 recent validated items against an expected recent baseline of 1.0, with average impact 82.
+- developer_tools (topic): 80/100 rising - developer_tools has 26 recent validated items against an expected recent baseline of 10.7, with average impact 78.
+- frontier_model (topic): 77/100 rising - frontier_model has 24 recent validated items against an expected recent baseline of 11.7, with average impact 77.
+- enterprise_adoption (topic): 74/100 rising - enterprise_adoption has 15 recent validated items against an expected recent baseline of 7.3, with average impact 78.
+- HashiCorp (entity): 70/100 stable - HashiCorp has 3 recent validated items against an expected recent baseline of 1.0, with average impact 90.
 
 ## Risks and Opportunities
 

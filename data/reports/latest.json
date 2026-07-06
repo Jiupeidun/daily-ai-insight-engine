@@ -1,9 +1,9 @@
 {
   "schemaVersion": "daily-report-v2",
   "scoringVersion": "impact-score-v2",
-  "id": "23236d889a5ba2de",
+  "id": "7e20c5e1b6dc98a4",
   "title": "Daily AI Insight Report",
-  "generatedAt": "2026-07-06T16:35:15.879Z",
+  "generatedAt": "2026-07-06T17:19:37.498Z",
   "coverageWindow": {
     "start": "2026-06-29T19:00:00.000Z",
     "end": "2026-07-06T15:54:06.000Z"
@@ -192,8 +192,8 @@
     {
       "theme": "ai_infrastructure",
       "intensity": 100,
-      "direction": "up",
-      "rationale": "AI infrastructure momentum is rising: 11 recent mentions versus 17 baseline mentions."
+      "direction": "flat",
+      "rationale": "AI infrastructure momentum is stable: 11 recent mentions versus 17 baseline mentions."
     },
     {
       "theme": "research",
@@ -371,72 +371,72 @@
         "type": "topic",
         "recentCount": 35,
         "baselineCount": 32,
-        "momentumScore": 100,
+        "momentumScore": 84,
         "direction": "rising",
-        "rationale": "product_launch has 35 recent mentions versus 32 baseline mentions, with recent average impact 75."
-      },
-      {
-        "signal": "enterprise_adoption",
-        "type": "topic",
-        "recentCount": 15,
-        "baselineCount": 19,
-        "momentumScore": 100,
-        "direction": "rising",
-        "rationale": "enterprise_adoption has 15 recent mentions versus 19 baseline mentions, with recent average impact 78."
-      },
-      {
-        "signal": "developer_tools",
-        "type": "topic",
-        "recentCount": 26,
-        "baselineCount": 29,
-        "momentumScore": 100,
-        "direction": "rising",
-        "rationale": "developer_tools has 26 recent mentions versus 29 baseline mentions, with recent average impact 78."
-      },
-      {
-        "signal": "frontier_model",
-        "type": "topic",
-        "recentCount": 24,
-        "baselineCount": 32,
-        "momentumScore": 100,
-        "direction": "rising",
-        "rationale": "frontier_model has 24 recent mentions versus 32 baseline mentions, with recent average impact 77."
-      },
-      {
-        "signal": "ai_infrastructure",
-        "type": "topic",
-        "recentCount": 11,
-        "baselineCount": 17,
-        "momentumScore": 100,
-        "direction": "rising",
-        "rationale": "ai_infrastructure has 11 recent mentions versus 17 baseline mentions, with recent average impact 79."
+        "rationale": "product_launch has 35 recent validated items against an expected recent baseline of 11.7, with average impact 75."
       },
       {
         "signal": "Nvidia",
         "type": "entity",
         "recentCount": 7,
         "baselineCount": 0,
-        "momentumScore": 100,
+        "momentumScore": 83,
         "direction": "rising",
-        "rationale": "Nvidia has 7 recent mentions versus 0 baseline mentions, with recent average impact 82."
+        "rationale": "Nvidia has 7 recent validated items against an expected recent baseline of 1.0, with average impact 82."
+      },
+      {
+        "signal": "developer_tools",
+        "type": "topic",
+        "recentCount": 26,
+        "baselineCount": 29,
+        "momentumScore": 80,
+        "direction": "rising",
+        "rationale": "developer_tools has 26 recent validated items against an expected recent baseline of 10.7, with average impact 78."
+      },
+      {
+        "signal": "frontier_model",
+        "type": "topic",
+        "recentCount": 24,
+        "baselineCount": 32,
+        "momentumScore": 77,
+        "direction": "rising",
+        "rationale": "frontier_model has 24 recent validated items against an expected recent baseline of 11.7, with average impact 77."
+      },
+      {
+        "signal": "enterprise_adoption",
+        "type": "topic",
+        "recentCount": 15,
+        "baselineCount": 19,
+        "momentumScore": 74,
+        "direction": "rising",
+        "rationale": "enterprise_adoption has 15 recent validated items against an expected recent baseline of 7.3, with average impact 78."
       },
       {
         "signal": "HashiCorp",
         "type": "entity",
         "recentCount": 3,
         "baselineCount": 0,
-        "momentumScore": 100,
-        "direction": "rising",
-        "rationale": "HashiCorp has 3 recent mentions versus 0 baseline mentions, with recent average impact 90."
+        "momentumScore": 70,
+        "direction": "stable",
+        "rationale": "HashiCorp has 3 recent validated items against an expected recent baseline of 1.0, with average impact 90."
       },
       {
         "signal": "IBM",
         "type": "entity",
         "recentCount": 3,
         "baselineCount": 0,
-        "momentumScore": 100,
-        "direction": "rising",
-        "rationale": "IBM has 3 recent mentions versus 0 baseline mentions, with recent average impact 90."
+        "momentumScore": 70,
+        "direction": "stable",
+        "rationale": "IBM has 3 recent validated items against an expected recent baseline of 1.0, with average impact 90."
+      },
+      {
+        "signal": "ai_infrastructure",
+        "type": "topic",
+        "recentCount": 11,
+        "baselineCount": 17,
+        "momentumScore": 69,
+        "direction": "stable",
+        "rationale": "ai_infrastructure has 11 recent validated items against an expected recent baseline of 6.7, with average impact 79."
       }
     ],
     "signalRadar": [
