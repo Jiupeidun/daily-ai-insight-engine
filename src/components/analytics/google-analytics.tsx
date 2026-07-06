@@ -17,7 +17,13 @@ export function GoogleAnalytics({ measurementId }: { measurementId?: string }) {
           function gtag(){dataLayer.push(arguments);}
           window.gtag = gtag;
           gtag('js', new Date());
-          gtag('config', '${measurementId}', { anonymize_ip: true });
+          gtag('config', '${measurementId}', {
+            anonymize_ip: true,
+            send_page_view: true,
+            page_title: document.title,
+            page_location: window.location.href,
+            page_path: window.location.pathname + window.location.search
+          });
         `}
       </Script>
     </>

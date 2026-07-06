@@ -371,6 +371,7 @@ h1 {
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .control-link:hover,
@@ -385,6 +386,15 @@ h1 {
   border-color: var(--status-blue-border);
   background: var(--status-blue-bg);
   color: var(--terminal-blue);
+}
+
+.control-link:disabled {
+  cursor: wait;
+  opacity: 0.74;
+}
+
+.spin-icon {
+  animation: spin 900ms linear infinite;
 }
 
 .status-pill,
@@ -477,7 +487,7 @@ h1 {
 }
 
 .panel-column-left {
-  grid-template-rows: 176px minmax(0, 1fr) minmax(0, 0.72fr);
+  grid-template-rows: 188px minmax(0, 1fr) minmax(0, 0.68fr);
 }
 
 .panel-column-main {
@@ -490,26 +500,31 @@ h1 {
 
 .metric-panel {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  grid-template-columns: 1fr;
+  gap: 6px;
   padding: 10px;
 }
 
 .metric-tile {
-  display: flex;
+  display: grid;
   min-height: 0;
-  flex-direction: column;
-  justify-content: space-between;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "label value"
+    "detail value";
+  column-gap: 10px;
+  align-items: center;
   border: 1px solid var(--terminal-line);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.028);
-  padding: 8px;
+  padding: 6px 8px;
   overflow: hidden;
 }
 
 .metric-tile span,
 .metric-tile small {
   display: block;
+  grid-area: label;
   color: var(--terminal-muted);
   font-family: var(--font-mono);
   font-size: 8px;
@@ -523,17 +538,21 @@ h1 {
 
 .metric-tile strong {
   display: block;
+  grid-area: value;
+  max-width: 116px;
   color: var(--terminal-text);
   font-family: var(--font-mono);
-  font-size: clamp(15px, 1.25vw, 18px);
+  font-size: clamp(13px, 1.05vw, 16px);
   font-weight: 760;
-  line-height: 0.98;
+  line-height: 1.05;
+  text-align: right;
   overflow: hidden;
   text-overflow: clip;
   white-space: nowrap;
 }
 
 .metric-tile small {
+  grid-area: detail;
   color: var(--terminal-dim);
   text-transform: none;
 }
@@ -1006,6 +1025,12 @@ h1 {
   }
   100% {
     background-position: 220% 50%;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 

@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { extractArticles, optionsFromEnv } from "../src/lib/insight/extract";
-import { generateDailyReport } from "../src/lib/insight/report";
+import { generateDailyReportWithAiSupport } from "../src/lib/insight/report";
 import {
   DailyReportSchema,
   RawNewsItemSchema,
@@ -108,7 +108,9 @@ async function main() {
   const rawItems = await readRawItems();
   const options = optionsFromEnv(process.env);
   const articles = await extractArticles(rawItems, options);
-  const report = DailyReportSchema.parse(generateDailyReport(articles, rawItems.length));
+  const report = DailyReportSchema.parse(
+    await generateDailyReportWithAiSupport(articles, rawItems.length, options)
+  );
 
   await mkdir(PROCESSED_DIR, { recursive: true });
   await mkdir(REPORT_DIR, { recursive: true });

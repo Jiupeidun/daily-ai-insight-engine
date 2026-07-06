@@ -25,7 +25,7 @@ import type { DailyReport } from "@/lib/insight/schema";
 export const dynamic = "force-static";
 
 const GITHUB_URL = "https://github.com/Jiupeidun/daily-ai-insight-engine";
-const PDF_HREF = "/reports/latest-ai-insight-report.pdf";
+const PDF_ENDPOINT = "/api/report/pdf";
 
 const STATUS_LABEL = {
   pass: "PASS",
@@ -290,8 +290,7 @@ export default function Home() {
             </p>
           </div>
           <ReportActions
-            pdfHref={PDF_HREF}
-            jsonHref="/api/report"
+            pdfEndpoint={PDF_ENDPOINT}
             githubHref={GITHUB_URL}
             pdfFileName={pdfFileName}
           />
@@ -321,7 +320,7 @@ export default function Home() {
               <MetricTile
                 label={<Bilingual zh="兜底" en="Fallbacks" />}
                 value={String(fallbackItems)}
-                detail={<Bilingual zh="规则抽取" en="deterministic extraction" />}
+                detail={<Bilingual zh="非 AI 条目" en="non-AI items" />}
               />
             </TerminalCard>
 
@@ -341,7 +340,7 @@ export default function Home() {
               right={
                 <span className="mini-label">
                   <Activity aria-hidden="true" size={13} />
-                  <Bilingual zh="仅使用结构化字段" en="structured fields only" />
+                  <Bilingual zh="OpenAI 支撑" en="OpenAI-backed" />
                 </span>
               }
             >

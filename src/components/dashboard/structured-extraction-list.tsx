@@ -53,8 +53,8 @@ export function StructuredExtractionList({ rows }: { rows: ExtractionListRow[] }
     <div className="virtual-extraction">
       <div className="virtual-extraction-meta">
         <span>
-          <span className="lang-zh">虚拟列表</span>
-          <span className="lang-en">Virtual list</span>
+          <span className="lang-zh">已抽取信号</span>
+          <span className="lang-en">Extracted signals</span>
         </span>
         <span>
           {startIndex + 1}-{endIndex} / {rows.length}

@@ -1,6 +1,23 @@
 import type { ArticleInsight, DailyReport, Language, QualityGate, SourceType, Topic } from "./schema";
 import { DailyReportSchema } from "./schema";
 import { stableId } from "./normalize";
+import { DEFAULT_OPENAI_BASE_URL, DEFAULT_OPENAI_MODEL } from "./extract";
+
+type AiReportOptions = {
+  provider?: string;
+  apiKey?: string;
+  baseUrl?: string;
+  model?: string;
+};
+
+const AiReportSupportSchema = DailyReportSchema.pick({
+  executiveBrief: true,
+  topEvents: true,
+  deepDives: true,
+  trendRadar: true,
+  riskOpportunity: true,
+  charts: true
+});
 
 const TOPIC_LABELS: Record<Topic, string> = {
   frontier_model: "Frontier models",
@@ -312,6 +329,162 @@ export function generateDailyReport(articles: ArticleInsight[], rawCount = artic
   };
 
   return DailyReportSchema.parse(report);
+}
+
+function parseJsonObject(input: string): unknown {
+  const trimmed = input.trim();
+  if (trimmed.startsWith("{")) {
+    return JSON.parse(trimmed);
+  }
+
+  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fenced) {
+    return JSON.parse(fenced[1]);
+  }
+
+  const objectStart = trimmed.indexOf("{");
+  const objectEnd = trimmed.lastIndexOf("}");
+  if (objectStart >= 0 && objectEnd > objectStart) {
+    return JSON.parse(trimmed.slice(objectStart, objectEnd + 1));
+  }
+
+  throw new Error("AI response did not contain a JSON object.");
+}
+
+function buildReportSynthesisPrompt(baseline: DailyReport) {
+  const articleBriefs = baseline.articles.slice(0, 18).map((article) => ({
+    articleId: article.id,
+    title: article.title,
+    url: article.url,
+    sourceName: article.sourceName,
+    publishedAt: article.publishedAt,
+    topics: article.taxonomy.topics,
+    valueChain: article.taxonomy.valueChain,
+    score: article.impact.score,
+    event: article.canonicalEvent.whatHappened,
+    evidence: article.canonicalEvent.evidence,
+    whyItMatters: article.canonicalEvent.whyItMatters,
+    signals: article.signals,
+    risks: article.impact.risks,
+    opportunities: article.impact.opportunities
+  }));
+
+  return [
+    "You are generating the final support data for a daily AI public-opinion intelligence dashboard and PDF report.",
+    "Return only valid JSON. Do not include markdown.",
+    "Use only the provided article facts and articleIds. Do not invent URLs, sources, entities, dates, or events.",
+    "Write executiveBrief, rationale, impact, watchNext, risks, and opportunities in Chinese.",
+    "Generate the entire report support payload: executiveBrief, topEvents, deepDives, trendRadar, riskOpportunity, and charts.",
+    "The charts object must contain topicDistribution, sourceMix, impactTimeline, signalRadar, and valueChainMap arrays. Chart rows may contain string and number fields only.",
+    "topEvents must use exactly 5 items. deepDives must use exactly 3 items. trendRadar should use 4-6 themes.",
+    "Expected JSON shape: {\"executiveBrief\": string, \"topEvents\": [...], \"deepDives\": [...], \"trendRadar\": [...], \"riskOpportunity\": [...], \"charts\": {...}}.",
+    JSON.stringify(
+      {
+        allowedThemes: Object.keys(TOPIC_LABELS),
+        baselineSupportData: AiReportSupportSchema.parse(baseline),
+        articles: articleBriefs
+      },
+      null,
+      2
+    )
+  ].join("\n\n");
+}
+
+async function callOpenAiForReport(prompt: string, options: AiReportOptions) {
+  if (!options.apiKey) {
+    throw new Error("AI_API_KEY is required for AI report synthesis.");
+  }
+
+  const baseUrl = (options.baseUrl ?? DEFAULT_OPENAI_BASE_URL).replace(/\/$/, "");
+  const model = options.model ?? DEFAULT_OPENAI_MODEL;
+  const response = await fetch(`${baseUrl}/chat/completions`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${options.apiKey}`
+    },
+    body: JSON.stringify({
+      model,
+      temperature: 0.2,
+      response_format: { type: "json_object" },
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a strict report synthesis system. Return JSON that matches the requested schema."
+        },
+        { role: "user", content: prompt }
+      ]
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`OpenAI report synthesis failed: ${response.status} ${await response.text()}`);
+  }
+
+  const data = (await response.json()) as {
+    choices?: Array<{ message?: { content?: string } }>;
+  };
+  return data.choices?.[0]?.message?.content ?? "";
+}
+
+export async function generateDailyReportWithAiSupport(
+  articles: ArticleInsight[],
+  rawCount = articles.length,
+  options: AiReportOptions = {}
+): Promise<DailyReport> {
+  const baseline = generateDailyReport(articles, rawCount);
+
+  if (options.provider !== "openai_compatible" || !options.apiKey) {
+    return baseline;
+  }
+
+  try {
+    const content = await callOpenAiForReport(buildReportSynthesisPrompt(baseline), options);
+    const aiSupport = AiReportSupportSchema.parse(parseJsonObject(content));
+    return DailyReportSchema.parse({
+      ...baseline,
+      ...aiSupport,
+      schemaRationale: [
+        ...baseline.schemaRationale,
+        "Daily report support data is synthesized by OpenAI from validated article-level insights, then revalidated before rendering."
+      ],
+      qualityGates: [
+        ...baseline.qualityGates,
+        {
+          name: "AI report synthesis",
+          status: "pass",
+          value: `${options.model ?? DEFAULT_OPENAI_MODEL} generated support data`,
+          rationale:
+            "Executive brief, top events, deep dives, trend radar, risk/opportunity framing, and chart datasets were generated by the model from validated article facts."
+        }
+      ],
+      articles: baseline.articles,
+      methodology: baseline.methodology.map((item) =>
+        item.step === "Structured aggregation"
+          ? {
+              ...item,
+              detail:
+                "OpenAI synthesizes final dashboard and PDF support data from validated schema fields; code then revalidates and renders it."
+            }
+          : item
+      )
+    });
+  } catch (error) {
+    const warning = error instanceof Error ? error.message : String(error);
+    return DailyReportSchema.parse({
+      ...baseline,
+      qualityGates: [
+        ...baseline.qualityGates,
+        {
+          name: "AI report synthesis",
+          status: "warn",
+          value: "fallback report support data",
+          rationale: warning
+        }
+      ]
+    });
+  }
 }
 
 export { TOPIC_LABELS };
