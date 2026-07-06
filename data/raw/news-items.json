@@ -1,5 +1,5 @@
 {
-  "collectedAt": "2026-07-06T09:30:11.359Z",
+  "collectedAt": "2026-07-06T14:04:03.696Z",
   "window": {
     "mode": "previous_day_with_backfill",
     "timezoneOffsetMinutes": 480,
@@ -7,31 +7,15 @@
     "end": "2026-07-05T16:00:00.000Z",
     "backfillStart": "2026-06-28T16:00:00.000Z",
     "backfillDays": 7,
-    "primaryItemCount": 26,
-    "backfillItemCount": 94
+    "primaryItemCount": 19,
+    "backfillItemCount": 101
   },
   "targetCount": 120,
-  "candidateCount": 244,
+  "candidateCount": 218,
   "failures": [
     {
-      "source": "google-ai",
+      "source": "tomshardware",
       "error": "Request timed out after 45000ms"
-    },
-    {
-      "source": "unite-ai",
-      "error": "Non-whitespace before first tag.\nLine: 0\nColumn: 1\nChar: R"
-    },
-    {
-      "source": "next-platform",
-      "error": "Attribute without value\nLine: 6\nColumn: 23\nChar: t"
-    },
-    {
-      "source": "blocks-and-files",
-      "error": "Attribute without value\nLine: 6\nColumn: 23\nChar: t"
-    },
-    {
-      "source": "ai-news-infrastructure",
-      "error": "Invalid character in entity name\nLine: 1\nColumn: 491\nChar: &"
     }
   ],
   "items": [
@@ -45,7 +29,7 @@
       "sourceUrl": "https://the-decoder.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-05T15:58:56.000Z",
-      "collectedAt": "2026-07-06T09:29:42.309Z",
+      "collectedAt": "2026-07-06T14:02:35.363Z",
       "language": "en",
       "authors": [
         "Matthias Bastian"
@@ -60,26 +44,6 @@
       ]
     },
     {
-      "id": "396ad41db485caac",
-      "title": "RAMpocalyse pricing prompts maker to construct his own memory using ancient Apollo-era tech — USB drive resurrects hand-threaded magnetic core memory using salvaged Russian computer parts",
-      "summary": "DIYer shows how they made a handsome magnetic core memory USB drive using home CNC and 3D printing equipment. However, it isn't a homebrew answer to the AI-induced memory crisis with only 64 bits of data capacity",
-      "content": "While PC enthusiasts and DIYers gnash their teeth over the RAMpocalypse , the world’s makers and DIYers are busying themselves with alternative, DIY, and left-field solutions to the terrible component crunch . The latest to throw their hat in the DIY memory ring is polymatt with a video walkthrough showing how they made a USB drive with 64 bits of storage. Yes, bits, not even bytes, kilobytes, megabytes, and certainly not terabytes. Still, the video provides another look at the charms of ancient (in computing terms) Magnetic Core Memory. Polymatt sums up their finished USB memory device as a gizmo with “64 iron rings, hand threaded and immersed in silicon oil.” Each ring can store a single bit, providing 64 bits (8 bytes) of total storage capacity. Though this way of providing memory to computer systems seems incredibly archaic, it was good enough for the Apollo spacecraft guidance computers. Polymatt got a key ingredient for this retro-modern memory stick project by salvaging an old Russian computer for its tiny magnetic rings. Then we see the TechTuber skillfully make each component of the finished magnetic core memory device by hand, by soldering iron , by CNC machine, and using a Bambu Lab A2L 3D printer. While Polymatt humbly describes the device they made as the “world’s worst USB drive,” that’s only probably true if judged by its capacity-to-weight ratio. In aesthetic terms, it looks great on the desk. Moreover, what it might lack in memory density it makes up for (a bit) by offering persistent (unpowered) storage, and it can even shrug off radiation bursts that would fry most modern memory devices. Check out the 20-minute video if you want to see every step in the maker process. In comparison to the far larger 128-byte magnetic core memory USB drive made by a Japanese tech enthusiast earlier in the year, Polymatt’s model is rather better finished. As the TechTuber admits, the silicone oil probably wasn’t necessary, but they basically liked the aesthetic. Fair enough. They were also pondering over installing an LED for each bit, but shelved that idea. polymatt on YouTube polymatt on YouTube polymatt on YouTube polymatt on YouTube The last section of Polymatt’s video is devoted to testing the DIY memory device. Unlike the USB storage you may be familiar with, this drive doesn’t store your discrete computer data files. Rather, it lets you edit a single persistent file dubbed core.txt, stored on the magnetic core memory array. Polymatt also verified the non-powered persistence of this DIY memory device. Unplugging and plugging the power to this USB-connected device proved that it is indeed a non-volatile memory device. In related homebrew memory news, we are still waiting for Dr. Semiconductor to follow up on his making RAM in a garden shed cleanroom video with the promised ‘PC scale’ sequel.",
-      "url": "https://www.tomshardware.com/pc-components/storage/rampocalyse-pricing-prompts-maker-to-construct-his-own-memory-using-ancient-apollo-era-tech-usb-drive-resurrects-hand-threaded-magnetic-core-memory-using-salvaged-russian-computer-parts",
-      "sourceName": "Tom's Hardware",
-      "sourceUrl": "https://www.tomshardware.com/feeds/all",
-      "sourceType": "tech_media",
-      "publishedAt": "2026-07-05T15:50:00.000Z",
-      "collectedAt": "2026-07-06T09:29:54.310Z",
-      "language": "en",
-      "authors": [
-        " Mark Tyson "
-      ],
-      "rawTags": [
-        "Storage",
-        "PC Components"
-      ]
-    },
-    {
       "id": "0e5225c01de714b2",
       "title": "Baidu's \"Unlimited OCR\" processes dozens of document pages in one pass by treating memory like human forgetting",
       "summary": "Baidu's Unlimited OCR reads dozens of document pages in a single pass, where previous systems topped out at about ten. A modified attention mechanism keeps memory use flat no matter how many pages the model processes. It currently holds the top spot on the most important OCR benchmark. The article Baidu's \"Unlimited OCR\" processes dozens of document pages in one pass by treating memory like human forgetting appeared first on The Decoder.",
@@ -89,7 +53,7 @@
       "sourceUrl": "https://the-decoder.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-05T15:25:07.000Z",
-      "collectedAt": "2026-07-06T09:29:42.309Z",
+      "collectedAt": "2026-07-06T14:02:35.363Z",
       "language": "en",
       "authors": [
         "Jonathan Kemper"
@@ -110,7 +74,7 @@
       "sourceUrl": "https://towardsdatascience.com/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-05T15:00:00.000Z",
-      "collectedAt": "2026-07-06T09:29:50.951Z",
+      "collectedAt": "2026-07-06T14:03:05.005Z",
       "language": "en",
       "authors": [
         "Kezhan Shi"
@@ -125,27 +89,6 @@
       ]
     },
     {
-      "id": "21e9c6afc032538e",
-      "title": "Reviewer tests 'RTX 4080M' desktop graphics card powered by salvaged laptop silicon — performs worse than slightly more expensive RX 9070 GRE but draws only 100W in games",
-      "summary": "Turns out, a modded RTX 4080M desktop GPU performs worse than similarly-priced official options. It currently costs roughly $400 in China and compared to the RX 9070 GRE, this custom card loses in every game tested except PUBG.",
-      "content": "A Chinese reviewer on Bilibili by the name of 杰某 ( Jie Mou ) got his hands on a special RTX 4080 graphics card that uses a mobile core instead of a desktop one. These GPUs emerged after the Trump admin banned the sale of RTX 4090 s in the region, which forced local sellers to resort to strange alternatives, one of which is the supposed \"RTX 4080M.\" It's a custom, modded GPU that doesn't come with a warranty or official drivers, and the benchmarks show it doesn't offer world-beating value either. The reviewer paid 2,000 RMB (~$300) for the tested card but remarks that it now costs close to 2,700-2,800 RMB (~$400) due to the ongoing component crisis caused by the AI rush. At that price, it's almost as expensive as AMD's RX 9070 GRE or Nvidia's RTX 5060 Ti in China, both of which will be brand new, warrantied cards. However, a similarly-modded RTX 4090M in China would cost an absurd 10,000 RMB (~$1,470). Before we go over the benchmarks, the test bench used here was comprised of an Intel Core Ultra 270K Plus mounted on a Maxsun Z890-A motherboard alongside 32GB of DDR5-8200 RAM. In 3DMark TimeSpy, the 4080M scored 18,600 points, which is a respectable result in and of itself, but underwhelming when you take its price into account. Someone in the comments showed the same card netting 19,500 points as well. During the benchmark, the card only pulled around 100W, which is significantly lower than even the mobile RTX 4080's TGP. The mobile core can be pushed up to 175W as per Nvidia's own spec and you'd expect that in a discrete GPU form factor, but it's likely that the custom BIOS or the drivers are holding it back. Speaking of which, the drivers can be easily configured with one-click installers developed by the community. Moving toward gaming, the reviewer compared the 4080M against the aforementioned RX 9070 GRE because of their similar price brackets in China, and both come packing 12GB of VRAM. PUBG was the only game where the 4080M was clearly superior, achieving a 100 FPS lead over the AMD option at 1440p resolution with Ultra settings. In Delta Force at 1440p Ultra, both cards performed the same, but the 4080M did manage to net 10 more FPS at 4K. The reviewer then tested AAA titles where the RX 9070 GRE basically smoked the 4080M as the resolution scaled upward. We'll add a table below so you can see the exact numbers, but the closest the 4080M came to dethroning the Red Team was in Shadow of the Tomb Raider . Running at 1440p with Low settings, the 4080M pushed 286 FPS on average, while the RX 9070 GRE still won with 274 FPS. Game RTX 4080M RX 9070 GRE Difference PUBG (2K, Ultra) ~340+ FPS ~240+ FPS +100 FPS (~41.7%) Delta Force (4K, Ultra) ~100+ FPS ~90+ FPS +10 FPS (~11.1%) Forza Horizon 5 (2K, Low) 214 FPS 297 FPS -83 FPS (-27.9%) Forza Horizon 5 (4K, High) 84 FPS 107 FPS -23 FPS (-21.5%) Cyberpunk 2077 (2K, Low) 171 FPS 184 FPS -13 FPS (-7.1%) Cyberpunk 2077 (4K, High) 49 FPS 76 FPS -27 FPS (-35.5%) Shadow of the Tomb Raider (2K, Low) 268...",
-      "url": "https://www.tomshardware.com/pc-components/gpus/reviewer-tests-rtx-4080m-desktop-graphics-card-powered-by-salvaged-laptop-silicon-performs-worse-than-slightly-more-expensive-rx-9070-gre-but-draws-only-100w-in-games",
-      "sourceName": "Tom's Hardware",
-      "sourceUrl": "https://www.tomshardware.com/feeds/all",
-      "sourceType": "tech_media",
-      "publishedAt": "2026-07-05T14:46:02.000Z",
-      "collectedAt": "2026-07-06T09:29:54.310Z",
-      "language": "en",
-      "authors": [
-        " Hassam Nasir ",
-        " editors@tomshardware.com (Hassam Nasir) "
-      ],
-      "rawTags": [
-        "GPUs",
-        "PC Components"
-      ]
-    },
-    {
       "id": "80e0d4ed81443b28",
       "title": "Infuriating Google commercial imagines the founding fathers embracing AI",
       "summary": "I call BS: the founding fathers definitely would have been Microsoft Teams users. | Image: Google \"Group project, but make it 1776.\" That's how a new commercial for Google Workspace opens. And things only get cringier from there. The clip imagines what it would be like if the founding fathers turned to Google's collaboration tools and Gemini to help them draft the Declaration of Independence. Ben Franklin texts Thomas Jefferson to check on the status of a draft, who takes a photo and uses AI to transcribe it into a Google Doc. Franklin and Adams hop in to make edits in suggestion mode, Gemini finds them a meeting time, takes notes during a Google Meet call, and then Nano Banana whips up a seal for the United States featuring a turkey ( … Read the full story at The Verge.",
@@ -155,71 +98,12 @@
       "sourceUrl": "https://www.theverge.com/rss/index.xml",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-05T14:23:11.000Z",
-      "collectedAt": "2026-07-06T09:28:36.507Z",
+      "collectedAt": "2026-07-06T14:01:37.415Z",
       "language": "en",
       "authors": [
         "Terrence O’Brien"
       ],
       "rawTags": []
-    },
-    {
-      "id": "37060e5b6615ae9a",
-      "title": "F1 25: 2026 Season Edition GPU benchmarks – From Pole Position to the Back of the Grid",
-      "summary": "F1 25: 2026 Season Edition GPU benchmarks – From Pole Position to the Back of the Grid from Tom's Hardware",
-      "content": "F1 25 launched in May 2025, and in the year since release, the developers have delivered numerous patches addressing gameplay, visual quality, and performance and stability issues. EA has now rolled out the game’s largest update yet: the 2026 Season Pack DLC. This paid expansion brings the sweeping 2026 Formula 1 regulation changes into the game, fundamentally reshaping both the cars and the racing experience. With a year of updates behind it and a major overhaul now in place, this is the perfect opportunity to revisit F1 25 and see where performance stands in 2026 with a selection of both Nvidia and AMD GPUs. The 2026 Season Pack DLC The 2026 Season Pack DLC So what exactly is included in the 2026 Season Pack DLC? The DLC features two new teams – Audi, which took over for Sauber, and Cadillac, which is the first major American car manufacturer in F1. The DLC also brings the latest driver line-ups. Racing Bulls will now have Arvid Lindblad and Liam Lawson. Isack Hadjar will race alongside Max Verstappen at Oracle Red Bull Racing. Valtteri Bottas and Sergio Perez team up for Cadillac. The paid expansion also includes a new circuit: MADRING. This 5.4 km hybrid street and purpose-built track has a mix of high-speed sections and more technical corners. It was specifically designed for the new season, so it can only be driven using 2026 cars. The cars are lighter and more agile, reflecting their real-life counterparts in 2026. The idea is for the cars to be more nimble and harder to drive at the limit, which will put greater emphasis on driver skill. The cars also have less downforce and less drag, which should make it easier to follow more closely. Active Aero is also available in the game with the paid DLC. The front and rear wings move in real-time, between straight line and corner mode, to give drivers more speed down the straights and to allow the car to be more responsive in the corners. The new Overtake Mode provides a boost of nearly 500 horsepower when deployed. This mode replaces the old Drag Reduction System (DRS) Overtake Mode can be deployed when a driver is within one second of the car ahead. It can be used either all at once or spread across a lap. Boost Mode is an energy deployment tool available through the use of the Energy Recovery System (ERS). This remains in place as it has for many years. The new regulations place a very high dependency on efficient battery management. Just as in real life, some people will enjoy this added strategic depth, while others will hate it. So, how well are all of these new features implemented? The cars genuinely feel different to drive – in a good way. The new handling characteristics require a different approach to attacking corners. The battery management might lead to more overtakes, but this is the most controversial aspect of the new regulations. The developers have done a good job of simulating how the battery management works in real-life. There are two ways to jump into the 2026 F1 season. E...",
-      "url": "https://www.tomshardware.com/pc-components/gpus/f1-25-2026-season-edition-gpu-benchmarks-from-pole-position-to-the-back-of-the-grid",
-      "sourceName": "Tom's Hardware",
-      "sourceUrl": "https://www.tomshardware.com/feeds/all",
-      "sourceType": "tech_media",
-      "publishedAt": "2026-07-05T14:05:19.000Z",
-      "collectedAt": "2026-07-06T09:29:54.310Z",
-      "language": "en",
-      "authors": [
-        " Dan Mateescu "
-      ],
-      "rawTags": [
-        "GPUs",
-        "PC Components"
-      ]
-    },
-    {
-      "id": "a8f8305ed18f7bb1",
-      "title": "Jim Keller's startup is building a factory to mass-produce small semiconductor fabs —Atomic Semi rebrands as 'Fab2' underlining intended role as a 'fab fab'",
-      "summary": "Atomic Semi, the semiconductor tooling startup founded by chip architect Jim Keller and DIY fabrication pioneer Sam Zeloof, has rebranded as Fab2.",
-      "content": "Atomic Semi, the semiconductor tooling startup founded by chip architect Jim Keller and DIY fabrication pioneer Sam Zeloof, has rebranded as Fab2 and moved its operations to Texas, according to the company's new site at fab2.com . The rebrand recasts the company around the idea they're calling a \"fab fab,\" a factory that mass-produces small semiconductor fabs and the tools inside them. Fab2 designs and builds every tool in its fabs in-house, from pumps, valves, and gas lines to lithography and the vacuum chambers that house it. The company assembles those components into machines, the machines into complete fabs, and then aims to mass-produce the fabs themselves. It pairs the hardware with Studio, an in-browser, collaborative EDA tool for layout, schematic, and simulation work, previously branded as Atomic Studio. Rather than moving 300mm wafers through ginormous production lines, Fab2 targets small, software-defined fabs that pattern chips far smaller than a wafer and turn prototypes around in hours. Zeloof built the concept's proof point as a teenager, fabricating lithographic chips in his parents' garage down to roughly 300nm features before co-founding this company with Keller in 2022. The method's main constraint, however, is throughput. Electron-beam lithography writes patterns directly rather than projecting them through a mask, which makes it slow: a single patterning step on a small chip can take far longer than an EUV scanner needs to expose an entire 300mm wafer. That's a big tradeoff that only really suits prototyping and low-volume runs rather than high-volume production at commercial foundries. Fab2 now operates three sites: a 120,000 square foot facility in Austin serves as the new headquarters for research and production, a 30,000 square foot site in Lockhart houses the \"fab fab\" itself, and the original 25,000 square foot \"garage fab\" remains in San Francisco. Fab2 said it shifted its hiring focus to Texas after four years in California, and Tracxn lists the company at around 84 employees as of May 2026. The startup raised a reported $15 million seed round in 2023, led by the OpenAI Startup Fund, at a valuation of about $100 million, with angel backing from Naval Ravikant, Nat Friedman, and Fred Ehrsam. In moving to Texas, Fab2's model of many small, printable fabs now sits beside the likes of Tesla and SpaceX, which announced Terafab back in March, a single Austin megafab targeting a terawatt of annual compute at a cost of up to $119 billion. The contrasting businesses are clearly not competitors; Fab2 sells small fabs and prototyping speed, while Terafab is built for high-volume AI. But they represent competing answers to the same question of how the U.S. should expand its chipmaking capacity — consolidate everything in massive manufacturing campuses, or distribute production across many small, replicable fabs?",
-      "url": "https://www.tomshardware.com/tech-industry/atomic-semi-rebrands-as-fab2-and-shifts-operations-to-texas",
-      "sourceName": "Tom's Hardware",
-      "sourceUrl": "https://www.tomshardware.com/feeds/all",
-      "sourceType": "tech_media",
-      "publishedAt": "2026-07-05T13:15:00.000Z",
-      "collectedAt": "2026-07-06T09:29:54.310Z",
-      "language": "en",
-      "authors": [
-        " Luke James "
-      ],
-      "rawTags": [
-        "Tech Industry"
-      ]
-    },
-    {
-      "id": "901d9fb317d2d5f8",
-      "title": "Grab this RTX 5070 Ti OLED gaming laptop at $300 off — Acer Predator Helios Neo 16S AI drops to $1,899.99",
-      "summary": "The Acer Predator Helios Neo 16S AI combines an OLED 240 Hz display, Intel's Core Ultra 9 275HX, RTX 5070 Ti graphics, and 32GB of DDR5 memory, all while saving you $300 off its regular price.",
-      "content": "The memory crisis has significantly impacted the PC building community resulting in relatively high prices compared to just a few years ago. This has extended beyond PC hardware components and has impacted laptops as well, making it increasingly difficult for buyers to find a system that offers strong value for money. That said, we’ve spotted a pretty good deal on a gaming laptop today — the Acer Predator Helios Neo 16S AI is on sale and selling for $1,899.99 at Best Buy , a $300 discount from its list price of $2,199.99. Check out this deal on Best Buy The Acer Predator Helios Neo 16S AI is a premium gaming laptop featuring a 16-inch OLED panel with a QHD+ resolution and a 16:10 ratio offering more vertical real estate. It also comes with a 240 Hz refresh rate, support for G-Sync, and 100% coverage of the DCI-P3 color space. Not only will your games look great, but you can even use this for photo and video editing purposes. Acer's Helios Neo 16S AI is a relatively slim gaming laptop with an Nvidia GeForce RTX 5070 Ti, a 240 Hz OLED display, and 32GB of RAM. You also get a fast and efficient Core Ultra 9 275HX CPU, along with plenty of ports. View Deal The laptop also comes with Intel’s high-end Core Ultra 9 275HX processor, which has 24 cores and boost clock speeds of up to 5.4 GHz. For memory there is 32GB of DDR5-6400, which is upgradeable, meaning that you have the option of upgrading it down the line. Handling the graphics is Nvidia’s RTX 5070 Ti laptop GPU with 12GB GDDR7 memory and all the benefits of the Blackwell architecture including DLSS 4 with multi-frame generation and improved ray tracing performance. As for I/O you get three USB 3.2 Type-A, a USB 3.2 Type-C port, a Thunderbolt 4 port, a headphone jack, Ethernet, HDMI, and a microSD card slot. For wireless connectivity, you get Bluetooth 5.4 and Wi-Fi 6E. Other notable features include a 76Wh battery, a quad-zone RGB backlit keyboard, and a sleek profile offering a thickness of 19.9mm. Considering its premium specifications and features, $1,899.99 is a competitive price for the Predator Helios Neo 16S AI . If you've been waiting for a high-end gaming laptop deal, this is worth checking out before it expires. If you're looking for more savings, check out our Best PC Hardware deals for a range of products, or dive deeper into our specialized SSD and Storage Deals, Hard Drive Deals , Gaming Monitor Deals , Graphics Card Deals , gaming chair, or CPU Deals pages.",
-      "url": "https://www.tomshardware.com/pc-components/grab-this-rtx-5070-ti-oled-gaming-laptop-at-usd300-off-acer-predator-helios-neo-16s-ai-drops-to-usd1-899-99",
-      "sourceName": "Tom's Hardware",
-      "sourceUrl": "https://www.tomshardware.com/feeds/all",
-      "sourceType": "tech_media",
-      "publishedAt": "2026-07-05T12:38:55.000Z",
-      "collectedAt": "2026-07-06T09:29:54.310Z",
-      "language": "en",
-      "authors": [
-        " Kunal Khullar ",
-        " editors@tomshardware.com (Kunal Khullar) "
-      ],
-      "rawTags": [
-        "PC Components"
-      ]
     },
     {
       "id": "e4b5b6a3e8fa51d5",
@@ -231,7 +115,7 @@
       "sourceUrl": "https://the-decoder.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-05T10:45:46.000Z",
-      "collectedAt": "2026-07-06T09:29:42.309Z",
+      "collectedAt": "2026-07-06T14:02:35.363Z",
       "language": "en",
       "authors": [
         "Matthias Bastian"
@@ -253,7 +137,7 @@
       "sourceUrl": "https://the-decoder.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-05T10:22:06.000Z",
-      "collectedAt": "2026-07-06T09:29:42.309Z",
+      "collectedAt": "2026-07-06T14:02:35.363Z",
       "language": "en",
       "authors": [
         "Matthias Bastian"
@@ -274,7 +158,7 @@
       "sourceUrl": "https://the-decoder.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-05T09:02:36.000Z",
-      "collectedAt": "2026-07-06T09:29:42.309Z",
+      "collectedAt": "2026-07-06T14:02:35.363Z",
       "language": "en",
       "authors": [
         "Matthias Bastian"
@@ -298,7 +182,7 @@
       "sourceUrl": "https://www.marktechpost.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-05T07:50:19.000Z",
-      "collectedAt": "2026-07-06T09:28:40.506Z",
+      "collectedAt": "2026-07-06T14:01:45.625Z",
       "language": "en",
       "authors": [
         "Michal Sutter"
@@ -325,7 +209,7 @@
       "sourceUrl": "https://www.marktechpost.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-05T03:02:08.000Z",
-      "collectedAt": "2026-07-06T09:28:40.506Z",
+      "collectedAt": "2026-07-06T14:01:45.625Z",
       "language": "en",
       "authors": [
         "Michal Sutter"
@@ -352,7 +236,7 @@
       "sourceUrl": "https://www.marktechpost.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-05T02:31:14.000Z",
-      "collectedAt": "2026-07-06T09:28:40.506Z",
+      "collectedAt": "2026-07-06T14:01:45.625Z",
       "language": "en",
       "authors": [
         "Michal Sutter"
@@ -374,7 +258,7 @@
       "sourceUrl": "https://simonwillison.net/atom/everything/",
       "sourceType": "developer",
       "publishedAt": "2026-07-05T01:00:48.000Z",
-      "collectedAt": "2026-07-06T09:29:46.158Z",
+      "collectedAt": "2026-07-06T14:02:56.206Z",
       "language": "en",
       "authors": [],
       "rawTags": []
@@ -389,7 +273,7 @@
       "sourceUrl": "https://simonwillison.net/atom/everything/",
       "sourceType": "developer",
       "publishedAt": "2026-07-05T00:47:38.000Z",
-      "collectedAt": "2026-07-06T09:29:46.158Z",
+      "collectedAt": "2026-07-06T14:02:56.206Z",
       "language": "en",
       "authors": [],
       "rawTags": []
@@ -404,7 +288,7 @@
       "sourceUrl": "https://simonwillison.net/atom/everything/",
       "sourceType": "developer",
       "publishedAt": "2026-07-04T22:53:52.000Z",
-      "collectedAt": "2026-07-06T09:29:46.158Z",
+      "collectedAt": "2026-07-06T14:02:56.206Z",
       "language": "en",
       "authors": [],
       "rawTags": []
@@ -419,7 +303,7 @@
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-04T20:55:25.000Z",
-      "collectedAt": "2026-07-06T09:28:36.110Z",
+      "collectedAt": "2026-07-06T14:01:34.272Z",
       "language": "en",
       "authors": [
         "Anthony Ha"
@@ -441,7 +325,7 @@
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-04T18:00:05.000Z",
-      "collectedAt": "2026-07-06T09:28:36.110Z",
+      "collectedAt": "2026-07-06T14:01:34.272Z",
       "language": "en",
       "authors": [
         "Anthony Ha"
@@ -465,7 +349,7 @@
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-04T16:32:08.000Z",
-      "collectedAt": "2026-07-06T09:28:36.110Z",
+      "collectedAt": "2026-07-06T14:01:34.272Z",
       "language": "en",
       "authors": [
         "Anthony Ha"
@@ -487,7 +371,7 @@
       "sourceUrl": "https://www.marktechpost.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-04T16:21:21.000Z",
-      "collectedAt": "2026-07-06T09:28:40.506Z",
+      "collectedAt": "2026-07-06T14:01:45.625Z",
       "language": "en",
       "authors": [
         "Michal Sutter"
@@ -513,7 +397,7 @@
       "sourceUrl": "https://www.marktechpost.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-04T16:04:29.000Z",
-      "collectedAt": "2026-07-06T09:28:40.506Z",
+      "collectedAt": "2026-07-06T14:01:45.625Z",
       "language": "en",
       "authors": [
         "Asif Razzaq"
@@ -547,7 +431,7 @@
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-04T15:51:32.000Z",
-      "collectedAt": "2026-07-06T09:28:36.110Z",
+      "collectedAt": "2026-07-06T14:01:34.272Z",
       "language": "en",
       "authors": [
         "Anna Heim"
@@ -570,7 +454,7 @@
       "sourceUrl": "https://towardsdatascience.com/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-04T15:00:00.000Z",
-      "collectedAt": "2026-07-06T09:29:50.951Z",
+      "collectedAt": "2026-07-06T14:03:05.005Z",
       "language": "en",
       "authors": [
         "Ivo Bernardo"
@@ -585,6 +469,32 @@
       ]
     },
     {
+      "id": "64be86fa0e984d75",
+      "title": "NVIDIA AI Introduces ASPIRE: A Self-Improving Robotics Framework Reaching 31% Zero-Shot on LIBERO-Pro Long Tasks",
+      "summary": "NVIDIA's ASPIRE writes and refines robot control programs, then distills validated repairs into a reusable skill library. It gains up to 77 points on LIBERO-Pro and transfers zero-shot to unseen long-horizon tasks. The post NVIDIA AI Introduces ASPIRE: A Self-Improving Robotics Framework Reaching 31% Zero-Shot on LIBERO-Pro Long Tasks appeared first on MarkTechPost.",
+      "content": "Traditional robot programming is hard to scale. It requires orchestrating multimodal perception, physical contact dynamics, diverse configurations, and execution failures by hand. Code-as-policy systems let language models compose these into executable robot programs. That makes robot behavior inspectable, editable, and debuggable. But existing robotic coding agents run in naive execution environments. They receive only coarse, task-level feedback. A failed rollout signals that the task failed, not why. The root cause can be perception, motion planning, grasping, contact dynamics, or long-horizon coordination. These systems also discard fixes once a task ends. So the agent solving its hundredth task is no more experienced than at its first. A team of researchers from NVIDIA, University of Michigan, UIUC, UC Berkeley, and CMU introduces ASPIRE (Agentic Skill Programming through Iterative Robot Exploration) . It is a continual learning system that writes and refines robot control programs. It also distills validated fixes into a reusable, transferable skill library. How ASPIRE works ASPIRE runs an open-ended learning loop with three components. It uses a coordinator–actor architecture. A central coordinator manages the shared skill library and dispatches actor coding agents to tasks. Actors do not exchange full chat histories or raw trajectories. Only distilled skills move between them. Closed-loop robot execution engine : This replaces coarse rollout feedback with per-primitive multimodal traces. For each perception, planning, and control call, it stores inputs, outputs, and return status. It also stores RGB keyframes, overlays, grasp candidates, object poses, and motion-planning results. The agent inspects only the calls implicated by a failure. It then localizes the fault and validates a repair through re-execution. Skill library : Reusable knowledge is rarely an entire task program. So the library stores heterogeneous fixes. These include localization heuristics, perception prompts, grasping constraints, motion primitives, and debugging workflows. Each skill is compact in-context guidance. It holds a failure signature, a when-to-apply condition, a repair strategy, and often a code sketch. The coordinator admits only patterns that pass debug validation and API-policy checks. Evolutionary search : Trace-guided debugging alone can collapse into local repair loops. The agent keeps patching the same failed strategy. To broaden exploration, ASPIRE proposes K candidate programs each round. Candidates condition on top-performing prior programs and their remaining failure traces. The next round explores distinct strategies rather than refining one solution. In simulation, the coding agent is Claude Code with Claude Opus 4.6 and a 1M-token context window. Programs are written in CaP-X, an open-source code-as-policy framework built on MuJoCo Playground. The agent cannot read simulator ground truth. Reading physics-engine state or asset files like .bddl ,...",
+      "url": "https://www.marktechpost.com/2026/07/03/nvidia-ai-introduces-aspire-a-self-improving-robotics-framework-reaching-31-zero-shot-on-libero-pro-long-tasks/",
+      "sourceName": "MarkTechPost",
+      "sourceUrl": "https://www.marktechpost.com/feed/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-04T06:32:47.000Z",
+      "collectedAt": "2026-07-06T14:01:45.625Z",
+      "language": "en",
+      "authors": [
+        "Asif Razzaq"
+      ],
+      "rawTags": [
+        "Agentic AI",
+        "Editors Pick",
+        "New Releases",
+        "Physical AI",
+        "Robotics",
+        "Software Engineering",
+        "Staff",
+        "Uncategorized"
+      ]
+    },
+    {
       "id": "76d96a031aea0356",
       "title": "Open Source AI Gap Map",
       "summary": "Open Source AI Gap Map Current AI is \"a global partnership building a public option for AI\", founded as a non-profit at the AI Action Summit in Paris in February 2025 and backed by serious capital ($400m already committed). They launched their Gap Map a couple of days ago - an attempt at indexing the current state of open source AI: The Gap Map v0.1 details 421 products in depth: 266 software tools and libraries, 85 models, 50 datasets, and 20 hardware projects, produced by 228 organizations. These products are organized into 14 categories across 3 layers of the stack (model components, product / UX, and infrastructure). The remaining 24,400 artifacts constitute the uncategorized long tail of the open source AI ecosystem, and will carry no score until they are researched and cited. The map itself is interesting to explore, but I'm more excited about the underlying data - released under an MIT license in the currentai-org/os-ai-map GitHub account: 1,184 YAML files plus the notebooks, schemas and other scripts used to help gather them. Since the files are on GitHub you can use Datasette Lite to explore some of them - here are 16,185 GitHub repos the project is tracking as a CSV file...",
@@ -594,7 +504,7 @@
       "sourceUrl": "https://simonwillison.net/atom/everything/",
       "sourceType": "developer",
       "publishedAt": "2026-07-03T22:04:31.000Z",
-      "collectedAt": "2026-07-06T09:29:46.158Z",
+      "collectedAt": "2026-07-06T14:02:56.206Z",
       "language": "en",
       "authors": [],
       "rawTags": []
@@ -609,7 +519,7 @@
       "sourceUrl": "https://simonwillison.net/atom/everything/",
       "sourceType": "developer",
       "publishedAt": "2026-07-03T21:25:52.000Z",
-      "collectedAt": "2026-07-06T09:29:46.158Z",
+      "collectedAt": "2026-07-06T14:02:56.206Z",
       "language": "en",
       "authors": [],
       "rawTags": []
@@ -624,7 +534,7 @@
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T21:20:00.000Z",
-      "collectedAt": "2026-07-06T09:28:36.110Z",
+      "collectedAt": "2026-07-06T14:01:34.272Z",
       "language": "en",
       "authors": [
         "Natasha Lomas, Romain Dillet, Kyle Wiggers, Lucas Ropek"
@@ -646,7 +556,7 @@
       "sourceUrl": "https://www.storagereview.com/feed",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T18:47:54.000Z",
-      "collectedAt": "2026-07-06T09:29:58.998Z",
+      "collectedAt": "2026-07-06T14:03:57.749Z",
       "language": "en",
       "authors": [
         "Brian Beeler"
@@ -666,7 +576,7 @@
       "sourceUrl": "https://www.storagereview.com/feed",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T17:55:54.000Z",
-      "collectedAt": "2026-07-06T09:29:58.998Z",
+      "collectedAt": "2026-07-06T14:03:57.749Z",
       "language": "en",
       "authors": [
         "Lyle Smith"
@@ -686,7 +596,7 @@
       "sourceUrl": "https://www.servethehome.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T17:00:43.000Z",
-      "collectedAt": "2026-07-06T09:29:55.680Z",
+      "collectedAt": "2026-07-06T14:03:53.388Z",
       "language": "en",
       "authors": [
         "Ryan Smith"
@@ -709,7 +619,7 @@
       "sourceUrl": "https://towardsdatascience.com/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-03T16:30:00.000Z",
-      "collectedAt": "2026-07-06T09:29:50.951Z",
+      "collectedAt": "2026-07-06T14:03:05.005Z",
       "language": "en",
       "authors": [
         "Maria Mouschoutzi"
@@ -732,7 +642,7 @@
       "sourceUrl": "https://www.infoworld.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T15:57:18.000Z",
-      "collectedAt": "2026-07-06T09:28:40.834Z",
+      "collectedAt": "2026-07-06T14:01:47.616Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -749,7 +659,7 @@
       "sourceUrl": "https://www.computerworld.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T15:50:48.000Z",
-      "collectedAt": "2026-07-06T09:29:33.386Z",
+      "collectedAt": "2026-07-06T14:02:07.953Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -766,7 +676,7 @@
       "sourceUrl": "https://www.storagereview.com/feed",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T14:57:51.000Z",
-      "collectedAt": "2026-07-06T09:29:58.998Z",
+      "collectedAt": "2026-07-06T14:03:57.749Z",
       "language": "en",
       "authors": [
         "Harold Fritts"
@@ -786,7 +696,7 @@
       "sourceUrl": "https://www.computerworld.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T14:07:12.000Z",
-      "collectedAt": "2026-07-06T09:29:33.386Z",
+      "collectedAt": "2026-07-06T14:02:07.953Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -803,7 +713,7 @@
       "sourceUrl": "https://www.csoonline.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T14:05:08.000Z",
-      "collectedAt": "2026-07-06T09:29:33.075Z",
+      "collectedAt": "2026-07-06T14:02:05.934Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -820,7 +730,7 @@
       "sourceUrl": "https://towardsdatascience.com/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-03T13:30:00.000Z",
-      "collectedAt": "2026-07-06T09:29:50.951Z",
+      "collectedAt": "2026-07-06T14:03:05.005Z",
       "language": "en",
       "authors": [
         "Emmimal P Alexander"
@@ -844,7 +754,7 @@
       "sourceUrl": "https://www.darkreading.com/rss.xml",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T13:01:00.000Z",
-      "collectedAt": "2026-07-06T09:29:32.763Z",
+      "collectedAt": "2026-07-06T14:02:04.349Z",
       "language": "en",
       "authors": [
         "Robert Lemos"
@@ -861,7 +771,7 @@
       "sourceUrl": "https://www.kdnuggets.com/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-03T12:00:25.000Z",
-      "collectedAt": "2026-07-06T09:29:47.600Z",
+      "collectedAt": "2026-07-06T14:03:02.087Z",
       "language": "en",
       "authors": [
         "Bala Priya C"
@@ -878,7 +788,7 @@
       "sourceUrl": "https://spectrum.ieee.org/rss/artificial-intelligence/fulltext",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T12:00:01.000Z",
-      "collectedAt": "2026-07-06T09:29:31.449Z",
+      "collectedAt": "2026-07-06T14:02:02.489Z",
       "language": "en",
       "authors": [
         "Matt Hasan"
@@ -900,7 +810,7 @@
       "sourceUrl": "https://www.csoonline.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T11:41:11.000Z",
-      "collectedAt": "2026-07-06T09:29:33.075Z",
+      "collectedAt": "2026-07-06T14:02:05.934Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -917,7 +827,7 @@
       "sourceUrl": "https://www.computerworld.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T11:29:23.000Z",
-      "collectedAt": "2026-07-06T09:29:33.386Z",
+      "collectedAt": "2026-07-06T14:02:07.953Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -934,7 +844,7 @@
       "sourceUrl": "https://www.infoworld.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T11:25:49.000Z",
-      "collectedAt": "2026-07-06T09:28:40.834Z",
+      "collectedAt": "2026-07-06T14:01:47.616Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -951,7 +861,7 @@
       "sourceUrl": "https://www.artificialintelligence-news.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T10:00:00.000Z",
-      "collectedAt": "2026-07-06T09:28:39.163Z",
+      "collectedAt": "2026-07-06T14:01:43.199Z",
       "language": "en",
       "authors": [
         "Muhammad Zulhusni"
@@ -980,7 +890,7 @@
       "sourceUrl": "https://www.datacenterknowledge.com/rss.xml",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T09:00:00.000Z",
-      "collectedAt": "2026-07-06T09:30:00.824Z",
+      "collectedAt": "2026-07-06T14:03:59.879Z",
       "language": "en",
       "authors": [
         "Shane Snider"
@@ -997,7 +907,7 @@
       "sourceUrl": "https://www.infoworld.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T09:00:00.000Z",
-      "collectedAt": "2026-07-06T09:28:40.834Z",
+      "collectedAt": "2026-07-06T14:01:47.616Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -1014,7 +924,7 @@
       "sourceUrl": "https://www.latent.space/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-03T05:11:43.000Z",
-      "collectedAt": "2026-07-06T09:29:47.442Z",
+      "collectedAt": "2026-07-06T14:03:00.059Z",
       "language": "en",
       "authors": [
         "Richard MacManus"
@@ -1031,7 +941,7 @@
       "sourceUrl": "https://www.infoworld.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T01:23:30.000Z",
-      "collectedAt": "2026-07-06T09:28:40.834Z",
+      "collectedAt": "2026-07-06T14:01:47.616Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -1048,7 +958,7 @@
       "sourceUrl": "https://www.computerworld.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-03T01:11:26.000Z",
-      "collectedAt": "2026-07-06T09:29:33.386Z",
+      "collectedAt": "2026-07-06T14:02:07.953Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -1065,12 +975,35 @@
       "sourceUrl": "https://www.latent.space/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-03T00:08:18.000Z",
-      "collectedAt": "2026-07-06T09:29:47.442Z",
+      "collectedAt": "2026-07-06T14:03:00.059Z",
       "language": "en",
       "authors": [
         "Richard MacManus"
       ],
       "rawTags": []
+    },
+    {
+      "id": "7ddbfb1d6d7bb7dd",
+      "title": "Mark Zuckerberg tells staff that AI agents haven’t progressed as quickly as he’d hoped",
+      "summary": "At an internal meeting, the Meta CEO reportedly said that AI development efforts were not moving as quickly as anticipated.",
+      "content": "At an internal meeting, the Meta CEO reportedly said that AI development efforts were not moving as quickly as anticipated.",
+      "url": "https://techcrunch.com/2026/07/02/mark-zuckerberg-tells-staff-that-ai-agents-havent-progressed-as-quickly-as-hed-hoped/",
+      "sourceName": "TechCrunch AI",
+      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-02T23:38:10.000Z",
+      "collectedAt": "2026-07-06T14:01:34.272Z",
+      "language": "en",
+      "authors": [
+        "Lucas Ropek"
+      ],
+      "rawTags": [
+        "AI",
+        "ai agent",
+        "In Brief",
+        "Mark Zuckerberg",
+        "Meta"
+      ]
     },
     {
       "id": "8e1452984f1e4010",
@@ -1082,7 +1015,7 @@
       "sourceUrl": "https://www.infoworld.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T21:30:16.000Z",
-      "collectedAt": "2026-07-06T09:28:40.834Z",
+      "collectedAt": "2026-07-06T14:01:47.616Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -1099,7 +1032,7 @@
       "sourceUrl": "https://developer.nvidia.com/blog/feed/",
       "sourceType": "official",
       "publishedAt": "2026-07-02T21:25:42.000Z",
-      "collectedAt": "2026-07-06T09:29:29.115Z",
+      "collectedAt": "2026-07-06T14:01:53.676Z",
       "language": "en",
       "authors": [
         "Elizabeth Goodman"
@@ -1116,7 +1049,7 @@
       "sourceUrl": "https://www.zdnet.com/topic/artificial-intelligence/rss.xml",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T20:29:26.000Z",
-      "collectedAt": "2026-07-06T09:29:34.807Z",
+      "collectedAt": "2026-07-06T14:02:10.506Z",
       "language": "en",
       "authors": [],
       "rawTags": []
@@ -1131,7 +1064,7 @@
       "sourceUrl": "https://www.computerworld.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T19:38:45.000Z",
-      "collectedAt": "2026-07-06T09:29:33.386Z",
+      "collectedAt": "2026-07-06T14:02:07.953Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -1148,7 +1081,7 @@
       "sourceUrl": "https://www.darkreading.com/rss.xml",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T19:31:58.000Z",
-      "collectedAt": "2026-07-06T09:29:32.763Z",
+      "collectedAt": "2026-07-06T14:02:04.349Z",
       "language": "en",
       "authors": [
         "Nate Nelson"
@@ -1165,7 +1098,7 @@
       "sourceUrl": "https://www.wired.com/feed/tag/ai/latest/rss",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T18:01:20.000Z",
-      "collectedAt": "2026-07-06T09:28:37.113Z",
+      "collectedAt": "2026-07-06T14:01:38.461Z",
       "language": "en",
       "authors": [
         "Maxwell Zeff"
@@ -1185,7 +1118,7 @@
       "sourceUrl": "https://aws.amazon.com/blogs/machine-learning/feed/",
       "sourceType": "official",
       "publishedAt": "2026-07-02T17:55:41.000Z",
-      "collectedAt": "2026-07-06T09:29:27.976Z",
+      "collectedAt": "2026-07-06T14:01:51.371Z",
       "language": "en",
       "authors": [
         "Radha Panchap"
@@ -1206,7 +1139,7 @@
       "sourceUrl": "https://www.datacenterknowledge.com/rss.xml",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T17:52:30.000Z",
-      "collectedAt": "2026-07-06T09:30:00.824Z",
+      "collectedAt": "2026-07-06T14:03:59.879Z",
       "language": "en",
       "authors": [
         "Mark Rushworth"
@@ -1223,7 +1156,7 @@
       "sourceUrl": "https://aws.amazon.com/blogs/machine-learning/feed/",
       "sourceType": "official",
       "publishedAt": "2026-07-02T17:50:23.000Z",
-      "collectedAt": "2026-07-06T09:29:27.976Z",
+      "collectedAt": "2026-07-06T14:01:51.371Z",
       "language": "en",
       "authors": [
         "Sapana Chaudhary"
@@ -1243,7 +1176,7 @@
       "sourceUrl": "https://www.databricks.com/feed",
       "sourceType": "official",
       "publishedAt": "2026-07-02T17:04:19.000Z",
-      "collectedAt": "2026-07-06T09:29:30.084Z",
+      "collectedAt": "2026-07-06T14:01:55.574Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -1261,7 +1194,7 @@
       "sourceUrl": "https://www.databricks.com/feed",
       "sourceType": "official",
       "publishedAt": "2026-07-02T16:47:56.000Z",
-      "collectedAt": "2026-07-06T09:29:30.084Z",
+      "collectedAt": "2026-07-06T14:01:55.574Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -1279,7 +1212,7 @@
       "sourceUrl": "https://towardsdatascience.com/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-02T16:30:00.000Z",
-      "collectedAt": "2026-07-06T09:29:50.951Z",
+      "collectedAt": "2026-07-06T14:03:05.005Z",
       "language": "en",
       "authors": [
         "Sam Black"
@@ -1303,7 +1236,7 @@
       "sourceUrl": "https://www.datacenterknowledge.com/rss.xml",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T16:00:00.000Z",
-      "collectedAt": "2026-07-06T09:30:00.824Z",
+      "collectedAt": "2026-07-06T14:03:59.879Z",
       "language": "en",
       "authors": [
         "Shane Snider"
@@ -1320,7 +1253,7 @@
       "sourceUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T15:37:08.000Z",
-      "collectedAt": "2026-07-06T09:29:30.385Z",
+      "collectedAt": "2026-07-06T14:01:56.002Z",
       "language": "en",
       "authors": [
         "MIT Technology Review Insights"
@@ -1340,7 +1273,7 @@
       "sourceUrl": "https://www.artificialintelligence-news.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T14:38:01.000Z",
-      "collectedAt": "2026-07-06T09:28:39.163Z",
+      "collectedAt": "2026-07-06T14:01:43.199Z",
       "language": "en",
       "authors": [
         "Ryan Daws"
@@ -1378,7 +1311,7 @@
       "sourceUrl": "https://www.latent.space/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-02T14:36:05.000Z",
-      "collectedAt": "2026-07-06T09:29:47.442Z",
+      "collectedAt": "2026-07-06T14:03:00.059Z",
       "language": "en",
       "authors": [
         "Richard MacManus"
@@ -1395,7 +1328,7 @@
       "sourceUrl": "https://machinelearningmastery.com/feed/",
       "sourceType": "developer",
       "publishedAt": "2026-07-02T14:02:23.000Z",
-      "collectedAt": "2026-07-06T09:29:48.191Z",
+      "collectedAt": "2026-07-06T14:03:03.417Z",
       "language": "en",
       "authors": [
         "Bala Priya C"
@@ -1412,7 +1345,7 @@
       "sourceUrl": "https://www.kdnuggets.com/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-02T14:00:42.000Z",
-      "collectedAt": "2026-07-06T09:29:47.600Z",
+      "collectedAt": "2026-07-06T14:03:02.087Z",
       "language": "en",
       "authors": [
         "Kanwal Mehreen"
@@ -1429,7 +1362,7 @@
       "sourceUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T12:51:44.000Z",
-      "collectedAt": "2026-07-06T09:29:30.385Z",
+      "collectedAt": "2026-07-06T14:01:56.002Z",
       "language": "en",
       "authors": [
         "MIT Technology Review Insights"
@@ -1443,14 +1376,14 @@
     {
       "id": "e742ff4aaf63f6ae",
       "title": "Anthropic's AI Finds Bugs. IBM Bets $5B It Can Fix Them.",
-      "summary": "IBM and Red Hat assign 20,000 engineers to the new Project Lightwell service as Anthropic's Mythos findings ignite debate over how to secure the open-source software supply chain.",
-      "content": "IBM and Red Hat assign 20,000 engineers to the new Project Lightwell service as Anthropic's Mythos findings ignite debate over how to secure the open-source software supply chain.",
+      "summary": "IBM and Red Hat assign 20,000 engineers to the new Project Lightwell service as Anthropic's Mythos findings ignite debate over how to secure the open source software supply chain.",
+      "content": "IBM and Red Hat assign 20,000 engineers to the new Project Lightwell service as Anthropic's Mythos findings ignite debate over how to secure the open source software supply chain.",
       "url": "https://www.darkreading.com/vulnerabilities-threats/anthropic-s-ai-finds-bugs-ibm-bets-5b-it-can-fix-them-",
       "sourceName": "Dark Reading",
       "sourceUrl": "https://www.darkreading.com/rss.xml",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T12:33:57.000Z",
-      "collectedAt": "2026-07-06T09:29:32.763Z",
+      "collectedAt": "2026-07-06T14:02:04.349Z",
       "language": "en",
       "authors": [
         "Jeffrey Schwartz"
@@ -1467,7 +1400,7 @@
       "sourceUrl": "https://www.kdnuggets.com/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-02T12:00:59.000Z",
-      "collectedAt": "2026-07-06T09:29:47.600Z",
+      "collectedAt": "2026-07-06T14:03:02.087Z",
       "language": "en",
       "authors": [
         "Iván Palomares Carrascosa"
@@ -1484,7 +1417,7 @@
       "sourceUrl": "https://www.datacenterknowledge.com/rss.xml",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T08:55:00.000Z",
-      "collectedAt": "2026-07-06T09:30:00.824Z",
+      "collectedAt": "2026-07-06T14:03:59.879Z",
       "language": "en",
       "authors": [
         "Henry Chapman"
@@ -1501,7 +1434,7 @@
       "sourceUrl": "https://www.latent.space/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-02T06:13:49.000Z",
-      "collectedAt": "2026-07-06T09:29:47.442Z",
+      "collectedAt": "2026-07-06T14:03:00.059Z",
       "language": "en",
       "authors": [
         "Richard MacManus"
@@ -1518,7 +1451,7 @@
       "sourceUrl": "https://www.csoonline.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T01:31:35.000Z",
-      "collectedAt": "2026-07-06T09:29:33.075Z",
+      "collectedAt": "2026-07-06T14:02:05.934Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -1535,7 +1468,7 @@
       "sourceUrl": "https://www.latent.space/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-01T23:52:30.000Z",
-      "collectedAt": "2026-07-06T09:29:47.442Z",
+      "collectedAt": "2026-07-06T14:03:00.059Z",
       "language": "en",
       "authors": [
         "Richard MacManus"
@@ -1552,7 +1485,7 @@
       "sourceUrl": "https://www.databricks.com/feed",
       "sourceType": "official",
       "publishedAt": "2026-07-01T23:00:00.000Z",
-      "collectedAt": "2026-07-06T09:29:30.084Z",
+      "collectedAt": "2026-07-06T14:01:55.574Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -1571,7 +1504,7 @@
       "sourceUrl": "https://www.darkreading.com/rss.xml",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-01T20:31:21.000Z",
-      "collectedAt": "2026-07-06T09:29:32.763Z",
+      "collectedAt": "2026-07-06T14:02:04.349Z",
       "language": "en",
       "authors": [
         "Alexander Culafi"
@@ -1588,7 +1521,7 @@
       "sourceUrl": "https://aws.amazon.com/blogs/machine-learning/feed/",
       "sourceType": "official",
       "publishedAt": "2026-07-01T18:14:34.000Z",
-      "collectedAt": "2026-07-06T09:29:27.976Z",
+      "collectedAt": "2026-07-06T14:01:51.371Z",
       "language": "en",
       "authors": [
         "Zohreh Norouzi"
@@ -1610,7 +1543,7 @@
       "sourceUrl": "https://www.wired.com/feed/tag/ai/latest/rss",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-01T18:10:00.000Z",
-      "collectedAt": "2026-07-06T09:28:37.113Z",
+      "collectedAt": "2026-07-06T14:01:38.461Z",
       "language": "en",
       "authors": [
         "Will Knight"
@@ -1630,7 +1563,7 @@
       "sourceUrl": "https://aws.amazon.com/blogs/machine-learning/feed/",
       "sourceType": "official",
       "publishedAt": "2026-07-01T18:07:06.000Z",
-      "collectedAt": "2026-07-06T09:29:27.976Z",
+      "collectedAt": "2026-07-06T14:01:51.371Z",
       "language": "en",
       "authors": [
         "Reilly Manton"
@@ -1655,7 +1588,7 @@
       "sourceUrl": "https://aws.amazon.com/blogs/machine-learning/feed/",
       "sourceType": "official",
       "publishedAt": "2026-07-01T18:03:10.000Z",
-      "collectedAt": "2026-07-06T09:29:27.976Z",
+      "collectedAt": "2026-07-06T14:01:51.371Z",
       "language": "en",
       "authors": [
         "Akarsha Sehwag"
@@ -1676,7 +1609,7 @@
       "sourceUrl": "https://developer.nvidia.com/blog/feed/",
       "sourceType": "official",
       "publishedAt": "2026-07-01T17:04:02.000Z",
-      "collectedAt": "2026-07-06T09:29:29.115Z",
+      "collectedAt": "2026-07-06T14:01:53.676Z",
       "language": "en",
       "authors": [
         "Elizabeth Goodman"
@@ -1693,7 +1626,7 @@
       "sourceUrl": "https://spectrum.ieee.org/rss/artificial-intelligence/fulltext",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-01T16:01:27.000Z",
-      "collectedAt": "2026-07-06T09:29:31.449Z",
+      "collectedAt": "2026-07-06T14:02:02.489Z",
       "language": "en",
       "authors": [
         "Melbourne Convention Bureau"
@@ -1717,7 +1650,7 @@
       "sourceUrl": "https://engineering.fb.com/feed/",
       "sourceType": "official",
       "publishedAt": "2026-07-01T16:00:36.000Z",
-      "collectedAt": "2026-07-06T09:29:29.441Z",
+      "collectedAt": "2026-07-06T14:01:54.615Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -1736,7 +1669,7 @@
       "sourceUrl": "https://www.wired.com/feed/tag/ai/latest/rss",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-01T16:00:00.000Z",
-      "collectedAt": "2026-07-06T09:28:37.113Z",
+      "collectedAt": "2026-07-06T14:01:38.461Z",
       "language": "en",
       "authors": [
         "Hugo Lowell"
@@ -1756,7 +1689,7 @@
       "sourceUrl": "https://www.artificialintelligence-news.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-01T15:58:43.000Z",
-      "collectedAt": "2026-07-06T09:28:39.163Z",
+      "collectedAt": "2026-07-06T14:01:43.199Z",
       "language": "en",
       "authors": [
         "Ryan Daws"
@@ -1800,10 +1733,27 @@
       "sourceUrl": "https://www.darkreading.com/rss.xml",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-01T15:44:41.000Z",
-      "collectedAt": "2026-07-06T09:29:32.763Z",
+      "collectedAt": "2026-07-06T14:02:04.349Z",
       "language": "en",
       "authors": [
         "Joan Goodchild"
+      ],
+      "rawTags": []
+    },
+    {
+      "id": "445bbad152dc5f20",
+      "title": "AI Interconnect Delays Spur $1.75B National Grid-Joulent Deal",
+      "summary": "The utility’s planned $1.75 billion investment in Joulent illustrates how dedicated power infrastructure is becoming central to AI data center growth.",
+      "content": "The utility’s planned $1.75 billion investment in Joulent illustrates how dedicated power infrastructure is becoming central to AI data center growth.",
+      "url": "https://www.datacenterknowledge.com/energy-power-supply/national-grid-agrees-to-1-75b-investment-in-joulent-to-expand-ai-power-infrastructure",
+      "sourceName": "Data Center Knowledge",
+      "sourceUrl": "https://www.datacenterknowledge.com/rss.xml",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-01T15:29:03.000Z",
+      "collectedAt": "2026-07-06T14:03:59.879Z",
+      "language": "en",
+      "authors": [
+        "Shane Snider"
       ],
       "rawTags": []
     },
@@ -1817,7 +1767,7 @@
       "sourceUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-01T14:35:16.000Z",
-      "collectedAt": "2026-07-06T09:29:30.385Z",
+      "collectedAt": "2026-07-06T14:01:56.002Z",
       "language": "en",
       "authors": [
         "Will Douglas Heaven"
@@ -1838,7 +1788,7 @@
       "sourceUrl": "https://www.kdnuggets.com/feed",
       "sourceType": "developer",
       "publishedAt": "2026-07-01T12:00:56.000Z",
-      "collectedAt": "2026-07-06T09:29:47.600Z",
+      "collectedAt": "2026-07-06T14:03:02.087Z",
       "language": "en",
       "authors": [
         "Abid Ali Awan"
@@ -1855,7 +1805,7 @@
       "sourceUrl": "https://spectrum.ieee.org/rss/artificial-intelligence/fulltext",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-01T12:00:01.000Z",
-      "collectedAt": "2026-07-06T09:29:31.449Z",
+      "collectedAt": "2026-07-06T14:02:02.489Z",
       "language": "en",
       "authors": [
         "Harry Goldstein"
@@ -1880,7 +1830,7 @@
       "sourceUrl": "https://www.artificialintelligence-news.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-01T11:00:00.000Z",
-      "collectedAt": "2026-07-06T09:28:39.163Z",
+      "collectedAt": "2026-07-06T14:01:43.199Z",
       "language": "en",
       "authors": [
         "Dashveenjit Kaur"
@@ -1911,7 +1861,7 @@
       "sourceUrl": "https://www.wired.com/feed/tag/ai/latest/rss",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-01T10:00:00.000Z",
-      "collectedAt": "2026-07-06T09:28:37.113Z",
+      "collectedAt": "2026-07-06T14:01:38.461Z",
       "language": "en",
       "authors": [
         "Andy Greenberg"
@@ -1931,7 +1881,7 @@
       "sourceUrl": "https://www.artificialintelligence-news.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-01T10:00:00.000Z",
-      "collectedAt": "2026-07-06T09:28:39.163Z",
+      "collectedAt": "2026-07-06T14:01:43.199Z",
       "language": "en",
       "authors": [
         "Muhammad Zulhusni"
@@ -1960,10 +1910,54 @@
       "sourceUrl": "https://bair.berkeley.edu/blog/feed.xml",
       "sourceType": "research",
       "publishedAt": "2026-07-01T09:00:00.000Z",
-      "collectedAt": "2026-07-06T09:29:45.050Z",
+      "collectedAt": "2026-07-06T14:02:52.476Z",
       "language": "en",
       "authors": [],
       "rawTags": []
+    },
+    {
+      "id": "7c4b2f5cf5e2b419",
+      "title": "Anthropic deploys Claude Sonnet 5, Fable and Mythos restored",
+      "summary": "Anthropic has launched Claude Sonnet 5 and restored access to its Fable and Mythos frontier models following a federal export control review. The decision marks the conclusion of an eighteen-day operational pause triggered by a US government export control directive on June 12, which forced the temporary suspension of Anthropic’s highest-capability systems. Government officials enacted […] The post Anthropic deploys Claude Sonnet 5, Fable and Mythos restored appeared first on AI News.",
+      "content": "Anthropic has launched Claude Sonnet 5 and restored access to its Fable and Mythos frontier models following a federal export control review. The decision marks the conclusion of an eighteen-day operational pause triggered by a US government export control directive on June 12, which forced the temporary suspension of Anthropic&#8217;s highest-capability systems. Government officials enacted the restriction after researchers at Amazon documented a method to bypass the safety controls of Fable 5, causing the model to identify software vulnerabilities and supply exploitation code. Anthropic has since developed an updated automated classifier to patch the vulnerability, clearing the path for a full commercial rollout across its platform, cloud infrastructure, and partner networks. The temporary suspension of Fable 5 and Mythos 5 highlighted the regulatory pressures facing frontier intelligence systems. When the export control mandate took effect, the lack of real-time nationality verification systems required a total access blackout for all global users. Security evaluations conducted during the shutdown confirmed that the vulnerability identification behaviour was not unique to Fable 5. Older and less capable architectures from multiple providers, including Claude Opus 4.8, GPT-5.5, and Kimi K2.7, duplicated the exact results. To resolve the federal directive, engineers trained an automated safety classifier targeting the specific bypass mechanism reported by Amazon. This software layer functions with a wide safety margin, identifying and blocking ambiguous developer prompts that display a statistical probability of malicious intent. Internal validation data indicates the updated classifier prevents the reported exploitation technique in more than 99 percent of trials. When a developer issues a prompt that triggers this boundary, the platform automatically routes the workload to the older Opus 4.8 architecture to maintain continuity. The expanded safety margin introduces a distinct trade-off for engineering teams, as the automated system flags benign requests more frequently during routine application development and software debugging. Active deployments and agentic workflows While frontier models face strict state oversight, the immediate commercial focus targets the newly-deployed Claude Sonnet 5. Engineering teams are transitioning autonomous agents to this model to reduce operational expenditure while maintaining high execution capacity. Performance data validates that the system executes multi-step plans, operates terminal environments, and navigates web browsers without human intervention. Model performance and cost metrics: Model SWE-bench Pro Terminal-Bench 2.1 Base input cost* Base output cost* Sonnet 5 63.2% 80.4% $3.00 $15.00 Sonnet 4.6 58.1% 67.0% $3.00 $15.00 Opus 4.8 69.2% 82.7% $5.00 $25.00 *Cost per million tokens. Sonnet 5 carries introductory rates of $2.00 input / $10.00 output through August 31, 2026. Real-world deployments de...",
+      "url": "https://www.artificialintelligence-news.com/news/anthropic-deploys-claude-sonnet-5-fable-and-mythos-restored/",
+      "sourceName": "AI News",
+      "sourceUrl": "https://www.artificialintelligence-news.com/feed/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-01T08:47:12.000Z",
+      "collectedAt": "2026-07-06T14:01:43.199Z",
+      "language": "en",
+      "authors": [
+        "Ryan Daws"
+      ],
+      "rawTags": [
+        "AI Business Strategy",
+        "AI in Action",
+        "Cybersecurity AI",
+        "Deep Dives",
+        "Featured News",
+        "Features",
+        "Governance, Regulation & Policy",
+        "Government & Public Sector AI",
+        "Infrastructure & Hardware",
+        "Inside AI",
+        "Natural Language Processing (NLP)",
+        "Trust, Bias & Fairness",
+        "World of Work",
+        "agentic ai",
+        "agents",
+        "anthropic",
+        "claude",
+        "compliance",
+        "cybersecurity",
+        "devops",
+        "enterprise",
+        "frontier",
+        "governance",
+        "infosec",
+        "models",
+        "regulation"
+      ]
     },
     {
       "id": "55c84a9aed8b43e4",
@@ -1975,7 +1969,7 @@
       "sourceUrl": "https://www.wired.com/feed/tag/ai/latest/rss",
       "sourceType": "tech_media",
       "publishedAt": "2026-06-30T23:23:04.000Z",
-      "collectedAt": "2026-07-06T09:28:37.113Z",
+      "collectedAt": "2026-07-06T14:01:38.461Z",
       "language": "en",
       "authors": [
         "Hugo Lowell"
@@ -1997,7 +1991,7 @@
       "sourceUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-06-30T21:50:04.000Z",
-      "collectedAt": "2026-07-06T09:29:30.385Z",
+      "collectedAt": "2026-07-06T14:01:56.002Z",
       "language": "en",
       "authors": [
         "Grace Huckins"
@@ -2019,7 +2013,7 @@
       "sourceUrl": "https://www.storagereview.com/feed",
       "sourceType": "tech_media",
       "publishedAt": "2026-06-30T19:34:45.000Z",
-      "collectedAt": "2026-07-06T09:29:58.998Z",
+      "collectedAt": "2026-07-06T14:03:57.749Z",
       "language": "en",
       "authors": [
         "Harold Fritts"
@@ -2039,7 +2033,7 @@
       "sourceUrl": "https://www.databricks.com/feed",
       "sourceType": "official",
       "publishedAt": "2026-06-30T18:05:48.000Z",
-      "collectedAt": "2026-07-06T09:29:30.084Z",
+      "collectedAt": "2026-07-06T14:01:55.574Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -2056,7 +2050,7 @@
       "sourceUrl": "https://developer.nvidia.com/blog/feed/",
       "sourceType": "official",
       "publishedAt": "2026-06-30T17:36:43.000Z",
-      "collectedAt": "2026-07-06T09:29:29.115Z",
+      "collectedAt": "2026-07-06T14:01:53.676Z",
       "language": "en",
       "authors": [
         "Michelle Horton"
@@ -2073,7 +2067,7 @@
       "sourceUrl": "https://www.deepmind.google/blog/rss.xml",
       "sourceType": "official",
       "publishedAt": "2026-06-30T16:02:40.000Z",
-      "collectedAt": "2026-07-06T09:29:27.053Z",
+      "collectedAt": "2026-07-06T14:01:50.214Z",
       "language": "en",
       "authors": [],
       "rawTags": []
@@ -2088,7 +2082,7 @@
       "sourceUrl": "https://developer.nvidia.com/blog/feed/",
       "sourceType": "official",
       "publishedAt": "2026-06-30T16:00:00.000Z",
-      "collectedAt": "2026-07-06T09:29:29.115Z",
+      "collectedAt": "2026-07-06T14:01:53.676Z",
       "language": "en",
       "authors": [
         "Tanya Lenz"
@@ -2105,7 +2099,7 @@
       "sourceUrl": "https://www.storagereview.com/feed",
       "sourceType": "tech_media",
       "publishedAt": "2026-06-30T15:53:48.000Z",
-      "collectedAt": "2026-07-06T09:29:58.998Z",
+      "collectedAt": "2026-07-06T14:03:57.749Z",
       "language": "en",
       "authors": [
         "Harold Fritts"
@@ -2125,7 +2119,7 @@
       "sourceUrl": "https://news.mit.edu/rss/topic/artificial-intelligence2",
       "sourceType": "research",
       "publishedAt": "2026-06-30T15:30:00.000Z",
-      "collectedAt": "2026-07-06T09:29:39.555Z",
+      "collectedAt": "2026-07-06T14:02:26.743Z",
       "language": "en",
       "authors": [
         "Adam Zewe | MIT News"
@@ -2154,7 +2148,7 @@
       "sourceUrl": "https://www.kdnuggets.com/feed",
       "sourceType": "developer",
       "publishedAt": "2026-06-30T14:00:14.000Z",
-      "collectedAt": "2026-07-06T09:29:47.600Z",
+      "collectedAt": "2026-07-06T14:03:02.087Z",
       "language": "en",
       "authors": [
         "Shittu Olumide"
@@ -2171,7 +2165,7 @@
       "sourceUrl": "https://www.servethehome.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-06-30T14:00:10.000Z",
-      "collectedAt": "2026-07-06T09:29:55.680Z",
+      "collectedAt": "2026-07-06T14:03:53.388Z",
       "language": "en",
       "authors": [
         "Ryan Smith"
@@ -2196,7 +2190,7 @@
       "sourceUrl": "https://spectrum.ieee.org/rss/artificial-intelligence/fulltext",
       "sourceType": "tech_media",
       "publishedAt": "2026-06-30T14:00:02.000Z",
-      "collectedAt": "2026-07-06T09:29:31.449Z",
+      "collectedAt": "2026-07-06T14:02:02.489Z",
       "language": "en",
       "authors": [
         "Gwendolyn Rak"
@@ -2218,7 +2212,7 @@
       "sourceUrl": "https://spectrum.ieee.org/rss/artificial-intelligence/fulltext",
       "sourceType": "tech_media",
       "publishedAt": "2026-06-30T12:24:33.000Z",
-      "collectedAt": "2026-07-06T09:29:31.449Z",
+      "collectedAt": "2026-07-06T14:02:02.489Z",
       "language": "en",
       "authors": [
         "Danica Radovanović"
@@ -2241,7 +2235,7 @@
       "sourceUrl": "https://machinelearningmastery.com/feed/",
       "sourceType": "developer",
       "publishedAt": "2026-06-30T12:00:17.000Z",
-      "collectedAt": "2026-07-06T09:29:48.191Z",
+      "collectedAt": "2026-07-06T14:03:03.417Z",
       "language": "en",
       "authors": [
         "Iván Palomares Carrascosa"
@@ -2258,7 +2252,7 @@
       "sourceUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-06-30T12:00:00.000Z",
-      "collectedAt": "2026-07-06T09:29:30.385Z",
+      "collectedAt": "2026-07-06T14:01:56.002Z",
       "language": "en",
       "authors": [
         "Carole Hill, Manish Sood"
@@ -2278,11 +2272,30 @@
       "sourceUrl": "https://www.csoonline.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-06-30T11:40:56.000Z",
-      "collectedAt": "2026-07-06T09:29:33.075Z",
+      "collectedAt": "2026-07-06T14:02:05.934Z",
       "language": "en",
       "authors": [],
       "rawTags": [
         "Browser Security, Endpoint Protection, Security"
+      ]
+    },
+    {
+      "id": "fa9620af747e4b0c",
+      "title": "Bernie Sanders Saw This Coming",
+      "summary": "For decades, the senator has argued that concentrated wealth threatened American democracy. Now he’s betting that frustration with Big Tech, billionaires, and unchecked AI is reaching a tipping point.",
+      "content": "For decades, the senator has argued that concentrated wealth threatened American democracy. Now he’s betting that frustration with Big Tech, billionaires, and unchecked AI is reaching a tipping point.",
+      "url": "https://www.wired.com/story/the-big-interview-podcast-senator-bernie-sanders/",
+      "sourceName": "WIRED AI",
+      "sourceUrl": "https://www.wired.com/feed/tag/ai/latest/rss",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-06-30T10:30:00.000Z",
+      "collectedAt": "2026-07-06T14:01:38.461Z",
+      "language": "en",
+      "authors": [
+        "Katie Drummond"
+      ],
+      "rawTags": [
+        "Politics"
       ]
     },
     {
@@ -2295,7 +2308,7 @@
       "sourceUrl": "https://openai.com/news/rss.xml",
       "sourceType": "official",
       "publishedAt": "2026-06-30T09:00:00.000Z",
-      "collectedAt": "2026-07-06T09:29:43.255Z",
+      "collectedAt": "2026-07-06T14:02:39.321Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -2312,7 +2325,7 @@
       "sourceUrl": "https://openai.com/news/rss.xml",
       "sourceType": "official",
       "publishedAt": "2026-06-30T00:00:00.000Z",
-      "collectedAt": "2026-07-06T09:29:43.255Z",
+      "collectedAt": "2026-07-06T14:02:39.321Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -2329,7 +2342,7 @@
       "sourceUrl": "https://openai.com/news/rss.xml",
       "sourceType": "official",
       "publishedAt": "2026-06-30T00:00:00.000Z",
-      "collectedAt": "2026-07-06T09:29:43.255Z",
+      "collectedAt": "2026-07-06T14:02:39.321Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -2346,7 +2359,7 @@
       "sourceUrl": "https://www.sciencedaily.com/rss/computers_math/artificial_intelligence.xml",
       "sourceType": "research",
       "publishedAt": "2026-06-29T21:57:17.000Z",
-      "collectedAt": "2026-07-06T09:29:40.411Z",
+      "collectedAt": "2026-07-06T14:02:29.166Z",
       "language": "en",
       "authors": [],
       "rawTags": []
@@ -2361,7 +2374,7 @@
       "sourceUrl": "https://news.mit.edu/rss/topic/artificial-intelligence2",
       "sourceType": "research",
       "publishedAt": "2026-06-29T19:00:00.000Z",
-      "collectedAt": "2026-07-06T09:29:39.555Z",
+      "collectedAt": "2026-07-06T14:02:26.743Z",
       "language": "en",
       "authors": [
         "Dan Pecci | MIT Music and Theater Arts"
@@ -2396,7 +2409,7 @@
       "sourceUrl": "https://developer.nvidia.com/blog/feed/",
       "sourceType": "official",
       "publishedAt": "2026-06-29T15:50:13.000Z",
-      "collectedAt": "2026-07-06T09:29:29.115Z",
+      "collectedAt": "2026-07-06T14:01:53.676Z",
       "language": "en",
       "authors": [
         "Michelle Horton"
@@ -2413,7 +2426,7 @@
       "sourceUrl": "https://machinelearningmastery.com/feed/",
       "sourceType": "developer",
       "publishedAt": "2026-06-29T12:00:30.000Z",
-      "collectedAt": "2026-07-06T09:29:48.191Z",
+      "collectedAt": "2026-07-06T14:03:03.417Z",
       "language": "en",
       "authors": [
         "Bala Priya C"
@@ -2430,7 +2443,7 @@
       "sourceUrl": "https://openai.com/news/rss.xml",
       "sourceType": "official",
       "publishedAt": "2026-06-29T07:00:00.000Z",
-      "collectedAt": "2026-07-06T09:29:43.255Z",
+      "collectedAt": "2026-07-06T14:02:39.321Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -2447,7 +2460,7 @@
       "sourceUrl": "https://openai.com/news/rss.xml",
       "sourceType": "official",
       "publishedAt": "2026-06-28T17:00:00.000Z",
-      "collectedAt": "2026-07-06T09:29:43.255Z",
+      "collectedAt": "2026-07-06T14:02:39.321Z",
       "language": "en",
       "authors": [],
       "rawTags": [

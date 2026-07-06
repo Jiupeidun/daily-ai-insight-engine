@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+export const ARTICLE_SCHEMA_VERSION = "article-insight-v2";
+export const REPORT_SCHEMA_VERSION = "daily-report-v2";
+export const SCORING_VERSION = "impact-score-v2";
+
 const IsoDateTimeSchema = z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
   message: "Expected an ISO-compatible datetime string"
 });
@@ -58,6 +62,7 @@ export const ValueChainSchema = z.enum([
 ]);
 
 export const HorizonSchema = z.enum(["today", "weeks", "quarter", "long_term"]);
+export const AiRelevanceTierSchema = z.enum(["core", "adjacent", "noise"]);
 
 export const SentimentSchema = z.enum([
   "positive",
@@ -123,6 +128,8 @@ export const SourceManifestSchema = z.object({
 });
 
 export const ArticleInsightSchema = z.object({
+  schemaVersion: z.string().default(ARTICLE_SCHEMA_VERSION),
+  scoringVersion: z.string().default(SCORING_VERSION),
   id: z.string().min(8),
   rawId: z.string().min(8),
   title: z.string().min(6),
@@ -179,6 +186,11 @@ export const ArticleInsightSchema = z.object({
   sentiment: SentimentSchema,
   importanceScore: z.number().int().min(1).max(5),
   confidenceScore: z.number().min(0).max(1),
+  aiRelevance: z.object({
+    score: z.number().int().min(0).max(100),
+    tier: AiRelevanceTierSchema,
+    rationale: z.string().min(8)
+  }),
   riskSignals: z.array(z.string()),
   opportunitySignals: z.array(z.string()),
   evidence: z.array(
@@ -191,6 +203,8 @@ export const ArticleInsightSchema = z.object({
   extractionMeta: z.object({
     method: z.enum(["ai", "deterministic_fallback"]),
     promptVersion: z.string(),
+    schemaVersion: z.string().default(ARTICLE_SCHEMA_VERSION),
+    scoringVersion: z.string().default(SCORING_VERSION),
     validatedAt: IsoDateTimeSchema,
     warnings: z.array(z.string())
   })
@@ -241,6 +255,8 @@ export const ChartDatumSchema = z.record(
 );
 
 export const DailyReportSchema = z.object({
+  schemaVersion: z.string().default(REPORT_SCHEMA_VERSION),
+  scoringVersion: z.string().default(SCORING_VERSION),
   id: z.string(),
   title: z.string(),
   generatedAt: IsoDateTimeSchema,
@@ -299,6 +315,7 @@ export const DailyReportSchema = z.object({
     topicDistribution: z.array(ChartDatumSchema),
     sourceMix: z.array(ChartDatumSchema),
     impactTimeline: z.array(ChartDatumSchema),
+    momentumSignals: z.array(ChartDatumSchema).default([]),
     signalRadar: z.array(ChartDatumSchema),
     valueChainMap: z.array(ChartDatumSchema)
   }),
@@ -319,6 +336,7 @@ export type Topic = z.infer<typeof TopicSchema>;
 export type ValueChain = z.infer<typeof ValueChainSchema>;
 export type InsightCategory = z.infer<typeof InsightCategorySchema>;
 export type EventType = z.infer<typeof EventTypeSchema>;
+export type AiRelevanceTier = z.infer<typeof AiRelevanceTierSchema>;
 export type RawNewsItem = z.infer<typeof RawNewsItemSchema>;
 export type SourceManifest = z.infer<typeof SourceManifestSchema>;
 export type ArticleInsight = z.infer<typeof ArticleInsightSchema>;

@@ -16,7 +16,8 @@ AI 舆情分析日报系统。系统从官方博客、科技媒体、研究社�
 
 ```txt
 Raw News -> Clean -> Deduplicate -> LLM Structured Extraction
-         -> Zod Validation -> Rule-based Scoring -> Aggregation
+         -> Zod Validation -> AI Relevance Gate -> Rule-based Scoring
+         -> Momentum Aggregation
          -> Dashboard / Markdown / PDF / Agent API
 ```
 
@@ -24,8 +25,10 @@ Raw News -> Clean -> Deduplicate -> LLM Structured Extraction
 
 - LLM 只负责结构化抽取和报告辅助生成，不直接决定最终排序。
 - `Zod` 校验所有模型输出，失败记录进入 `data/processed/failed-records.json`。
-- 重要性排序、趋势聚合、图表数据由程序规则生成，避免“摘要拼接”。
-- 每条结构化新闻保留实体、事件类型、关键事实、影响分析、风险/机会信号、置信分和证据。
+- `aiRelevance` 将新闻分成 `core / adjacent / noise`，Top Events 优先只从 core AI signal 里选，避免 GPU 游戏、折扣、广告等低价值噪声污染日报。
+- 每条结构化新闻保留 `schemaVersion`、`scoringVersion`、实体、事件类型、关键事实、影响分析、风险/机会信号、置信分和证据。
+- 趋势判断不做词云，使用最近 48 小时相对基线窗口的 `momentumSignals`，追踪主题和实体的 rising / stable / cooling。
+- 重要性排序、趋势聚合、图表数据由程序规则生成，避免“摘要拼接”和模型一次性幻觉。
 - GitHub Actions 每 12 小时自动刷新数据、生成报告并部署。
 
 ## Agent Friendly API

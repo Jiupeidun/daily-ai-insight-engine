@@ -57,6 +57,13 @@ function reportToMarkdown(report: DailyReport): string {
   const trends = report.trendRadar
     .map((trend) => `- ${trend.theme}: ${trend.intensity}/100, ${trend.direction}. ${trend.rationale}`)
     .join("\n");
+  const momentum = report.charts.momentumSignals
+    .slice(0, 6)
+    .map(
+      (item) =>
+        `- ${String(item.signal)} (${String(item.type)}): ${Number(item.momentumScore)}/100 ${String(item.direction)} - ${String(item.rationale)}`
+    )
+    .join("\n");
   const risks = report.riskOpportunity
     .map((item) => `- ${item.type.toUpperCase()} ${item.title}: ${item.rationale}`)
     .join("\n");
@@ -86,6 +93,10 @@ ${deepDives}
 ## Trend Radar
 
 ${trends}
+
+## Momentum Signals
+
+${momentum || "- No momentum signal available in the current coverage window."}
 
 ## Risks and Opportunities
 

@@ -2,7 +2,7 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { generateObject, generateText, Output } from "ai";
 import { z } from "zod";
 import type { ArticleInsight, DailyReport, Language, QualityGate, SourceType, Topic } from "./schema";
-import { DailyReportSchema } from "./schema";
+import { DailyReportSchema, REPORT_SCHEMA_VERSION, SCORING_VERSION } from "./schema";
 import { stableId } from "./normalize";
 import { DEFAULT_OPENAI_BASE_URL, DEFAULT_OPENAI_MODEL } from "./extract";
 
@@ -86,6 +86,17 @@ const AiReportSupportSchema = z.object({
         maxImpact: z.number()
       })
     ),
+    momentumSignals: z.array(
+      z.object({
+        signal: z.string(),
+        type: z.string(),
+        recentCount: z.number(),
+        baselineCount: z.number(),
+        momentumScore: z.number(),
+        direction: z.enum(["rising", "stable", "cooling"]),
+        rationale: z.string()
+      })
+    ).default([]),
     signalRadar: z.array(
       z.object({
         signal: z.string(),
@@ -135,6 +146,10 @@ function average(values: number[]): number {
   return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
 }
 
+function clampReportScore(score: number): number {
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
 function getCoverageWindow(articles: ArticleInsight[]): { start: string; end: string } {
   const dates = articles.map((article) => new Date(article.publishedAt).getTime());
   return {
@@ -148,6 +163,9 @@ function buildQualityGates(articles: ArticleInsight[], rawCount: number): Qualit
   const aiValidated = articles.filter((article) => article.extractionMeta.method === "ai").length;
   const mixedLanguage = unique(articles.map((article) => article.language)).length > 1;
   const fallbackCount = articles.length - aiValidated;
+  const coreRelevanceCount = articles.filter((article) => article.aiRelevance.tier === "core").length;
+  const adjacentRelevanceCount = articles.filter((article) => article.aiRelevance.tier === "adjacent").length;
+  const noiseRelevanceCount = articles.filter((article) => article.aiRelevance.tier === "noise").length;
   const averageConfidence = average(
     articles.map((article) => Math.round(article.canonicalEvent.confidence * 100))
   );
@@ -188,6 +206,13 @@ function buildQualityGates(articles: ArticleInsight[], rawCount: number): Qualit
       status: averageConfidence >= 70 ? "pass" : "warn",
       value: `${averageConfidence}/100 average confidence`,
       rationale: "Confidence combines source type and evidence density; low confidence should be visible."
+    },
+    {
+      name: "AI relevance gate",
+      status: coreRelevanceCount >= 10 ? "pass" : coreRelevanceCount >= 5 ? "warn" : "fail",
+      value: `${coreRelevanceCount} core / ${adjacentRelevanceCount} adjacent / ${noiseRelevanceCount} noise`,
+      rationale:
+        "Only core AI signals are eligible for the main Top Events ranking; adjacent and noise items can support context but cannot dominate the report."
     }
   ];
 }
@@ -233,6 +258,71 @@ function buildImpactTimeline(articles: ArticleInsight[]) {
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 
+function buildMomentumSignals(articles: ArticleInsight[]) {
+  const eligible = articles.filter((article) => article.aiRelevance.tier !== "noise");
+  if (eligible.length === 0) {
+    return [];
+  }
+
+  const latestTimestamp = Math.max(...eligible.map((article) => new Date(article.publishedAt).getTime()));
+  const recentWindowMs = 48 * 60 * 60 * 1000;
+  const recentStart = latestTimestamp - recentWindowMs;
+  const rows = new Map<
+    string,
+    {
+      signal: string;
+      type: "topic" | "entity";
+      recent: ArticleInsight[];
+      baseline: ArticleInsight[];
+    }
+  >();
+
+  function addSignal(signal: string, type: "topic" | "entity", article: ArticleInsight) {
+    const key = `${type}:${signal}`;
+    const existing = rows.get(key) ?? { signal, type, recent: [], baseline: [] };
+    const bucket = new Date(article.publishedAt).getTime() >= recentStart ? existing.recent : existing.baseline;
+    bucket.push(article);
+    rows.set(key, existing);
+  }
+
+  for (const article of eligible) {
+    for (const topic of article.taxonomy.topics) {
+      addSignal(topic, "topic", article);
+    }
+    for (const organization of article.entities.organizations.slice(0, 4)) {
+      if (organization !== "AI ecosystem") {
+        addSignal(organization, "entity", article);
+      }
+    }
+  }
+
+  return Array.from(rows.values())
+    .map((row) => {
+      const recentCount = row.recent.length;
+      const baselineCount = row.baseline.length;
+      const recentImpact = average(row.recent.map((article) => article.impact.score));
+      const baselineImpact = average(row.baseline.map((article) => article.impact.score));
+      const slope = recentCount - baselineCount / 3;
+      const momentumScore = clampReportScore(
+        35 + slope * 8 + (recentImpact - baselineImpact) * 0.35 + recentCount * 3
+      );
+      const direction = momentumScore >= 68 ? "rising" : momentumScore <= 42 ? "cooling" : "stable";
+
+      return {
+        signal: row.signal,
+        type: row.type,
+        recentCount,
+        baselineCount,
+        momentumScore,
+        direction,
+        rationale: `${row.signal} has ${recentCount} recent mentions versus ${baselineCount} baseline mentions, with recent average impact ${recentImpact}.`
+      };
+    })
+    .filter((row) => row.recentCount > 0 || row.baselineCount > 1)
+    .sort((a, b) => b.momentumScore - a.momentumScore)
+    .slice(0, 8);
+}
+
 function buildSignalRadar(articles: ArticleInsight[]) {
   return [
     {
@@ -267,7 +357,14 @@ function buildValueChainMap(articles: ArticleInsight[]) {
 
 function buildExecutiveBrief(articles: ArticleInsight[]): string {
   const topTopics = buildTopicDistribution(articles).slice(0, 3);
-  const topTitles = articles
+  const topTitles = [...articles]
+    .sort((a, b) => {
+      if (a.aiRelevance.tier !== b.aiRelevance.tier) {
+        const order = { core: 0, adjacent: 1, noise: 2 };
+        return order[a.aiRelevance.tier] - order[b.aiRelevance.tier];
+      }
+      return b.impact.score - a.impact.score;
+    })
     .slice(0, 3)
     .map((article) => `"${article.title}"`)
     .join(", ");
@@ -277,14 +374,41 @@ function buildExecutiveBrief(articles: ArticleInsight[]): string {
 }
 
 function buildTrendRadar(articles: ArticleInsight[]): DailyReport["trendRadar"] {
+  const momentumByTopic = new Map(
+    buildMomentumSignals(articles)
+      .filter((signal) => signal.type === "topic")
+      .map((signal) => [signal.signal, signal])
+  );
+
   return buildTopicDistribution(articles)
     .slice(0, 6)
-    .map((topic) => ({
-      theme: topic.topic as Topic,
-      intensity: Math.min(100, Number(topic.count) * 16 + Number(topic.avgImpact) / 2),
-      direction: Number(topic.avgImpact) >= 75 ? "up" : Number(topic.avgImpact) >= 60 ? "flat" : "down",
-      rationale: `${topic.label} appears in ${topic.count} validated items with average impact ${topic.avgImpact}.`
-    }));
+    .map((topic) => {
+      const momentum = momentumByTopic.get(topic.topic);
+      const intensity = Math.min(
+        100,
+        Number(topic.count) * 12 + Number(topic.avgImpact) / 2 + (momentum?.momentumScore ?? 50) / 5
+      );
+      const direction = momentum
+        ? momentum.direction === "rising"
+          ? "up"
+          : momentum.direction === "cooling"
+            ? "down"
+            : "flat"
+        : Number(topic.avgImpact) >= 75
+          ? "up"
+          : Number(topic.avgImpact) >= 60
+            ? "flat"
+            : "down";
+
+      return {
+        theme: topic.topic as Topic,
+        intensity: Math.round(intensity),
+        direction,
+        rationale: momentum
+          ? `${topic.label} momentum is ${momentum.direction}: ${momentum.recentCount} recent mentions versus ${momentum.baselineCount} baseline mentions.`
+          : `${topic.label} appears in ${topic.count} validated items with average impact ${topic.avgImpact}.`
+      };
+    });
 }
 
 function buildRiskOpportunity(articles: ArticleInsight[]): DailyReport["riskOpportunity"] {
@@ -321,17 +445,32 @@ export function generateDailyReport(articles: ArticleInsight[], rawCount = artic
 
   const now = new Date().toISOString();
   const reportId = stableId(`report:${now}:${articles.map((article) => article.id).join(":")}`);
+  const insightArticles = articles.filter((article) => article.aiRelevance.tier !== "noise");
+  const aggregationArticles = insightArticles.length >= 5 ? insightArticles : articles;
   const impactRankedArticles = [...articles].sort((a, b) => {
     if (b.impact.score !== a.impact.score) {
       return b.impact.score - a.impact.score;
     }
     return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
   });
+  const coreRankedArticles = impactRankedArticles.filter(
+    (article) => article.aiRelevance.tier === "core"
+  );
+  const adjacentRankedArticles = impactRankedArticles.filter(
+    (article) => article.aiRelevance.tier === "adjacent"
+  );
+  const topEventCandidates = [
+    ...coreRankedArticles,
+    ...adjacentRankedArticles,
+    ...impactRankedArticles.filter((article) => article.aiRelevance.tier === "noise")
+  ];
   const sourceTypes = countBy(articles.map((article) => article.sourceType));
   const languages = countBy(articles.map((article) => article.language));
   const coverageWindow = getCoverageWindow(articles);
 
   const report = {
+    schemaVersion: REPORT_SCHEMA_VERSION,
+    scoringVersion: SCORING_VERSION,
     id: reportId,
     title: "Daily AI Insight Report",
     generatedAt: now,
@@ -361,17 +500,20 @@ export function generateDailyReport(articles: ArticleInsight[], rawCount = artic
       "Extraction metadata records AI/fallback method, prompt version, validation time, and warnings for auditability."
     ],
     qualityGates: buildQualityGates(articles, rawCount),
-    executiveBrief: buildExecutiveBrief(articles),
-    topEvents: impactRankedArticles.slice(0, 5).map((article, index) => ({
+    executiveBrief: buildExecutiveBrief(aggregationArticles),
+    topEvents: topEventCandidates.slice(0, 5).map((article, index) => ({
       rank: index + 1,
       articleId: article.id,
       title: article.title,
       score: article.impact.score,
-      whyImportant: article.canonicalEvent.whyItMatters,
+      whyImportant:
+        article.aiRelevance.tier === "core"
+          ? article.canonicalEvent.whyItMatters
+          : `${article.canonicalEvent.whyItMatters} This item is marked ${article.aiRelevance.tier} by the AI relevance gate.`,
       evidence: article.canonicalEvent.evidence,
       url: article.url
     })),
-    deepDives: impactRankedArticles.slice(0, 3).map((article) => ({
+    deepDives: topEventCandidates.slice(0, 3).map((article) => ({
       articleId: article.id,
       headline: article.title,
       background: article.canonicalEvent.whatHappened,
@@ -379,14 +521,15 @@ export function generateDailyReport(articles: ArticleInsight[], rawCount = artic
       watchNext: `Watch whether ${article.impact.stakeholders.slice(0, 2).join(" and ")} convert this signal into measurable adoption, regulation, or platform shifts over the next ${article.impact.horizon}.`,
       citedUrls: [article.url]
     })),
-    trendRadar: buildTrendRadar(articles),
-    riskOpportunity: buildRiskOpportunity(articles),
+    trendRadar: buildTrendRadar(aggregationArticles),
+    riskOpportunity: buildRiskOpportunity(aggregationArticles),
     charts: {
-      topicDistribution: buildTopicDistribution(articles),
+      topicDistribution: buildTopicDistribution(aggregationArticles),
       sourceMix: buildSourceMix(articles),
-      impactTimeline: buildImpactTimeline(articles),
-      signalRadar: buildSignalRadar(articles),
-      valueChainMap: buildValueChainMap(articles)
+      impactTimeline: buildImpactTimeline(aggregationArticles),
+      momentumSignals: buildMomentumSignals(aggregationArticles),
+      signalRadar: buildSignalRadar(aggregationArticles),
+      valueChainMap: buildValueChainMap(aggregationArticles)
     },
     articles,
     methodology: [
@@ -414,6 +557,11 @@ export function generateDailyReport(articles: ArticleInsight[], rawCount = artic
         step: "Quality gates",
         detail:
           "The output exposes source diversity, extraction coverage, language mix, fallback count, and evidence confidence."
+      },
+      {
+        step: "Relevance and momentum",
+        detail:
+          "Top Events must pass the AI relevance gate where possible; trend radar uses recent-vs-baseline momentum instead of raw keyword frequency."
       }
     ]
   };
@@ -445,7 +593,7 @@ function buildReportSynthesisPrompt(baseline: DailyReport) {
     "Use only the provided article facts and articleIds. Do not invent URLs, sources, entities, dates, or events.",
     "Write executiveBrief, rationale, impact, watchNext, risks, and opportunities in English only.",
     "Generate the entire report support payload: executiveBrief, topEvents, deepDives, trendRadar, riskOpportunity, and charts.",
-    "The charts object must contain topicDistribution, sourceMix, impactTimeline, signalRadar, and valueChainMap arrays. Chart rows may contain string and number fields only.",
+    "The charts object must contain topicDistribution, sourceMix, impactTimeline, momentumSignals, signalRadar, and valueChainMap arrays. Chart rows may contain string and number fields only.",
     "topEvents must use exactly 5 items. deepDives must use exactly 3 items. trendRadar should use 4-6 themes.",
     "Expected JSON shape: {\"executiveBrief\": string, \"topEvents\": [...], \"deepDives\": [...], \"trendRadar\": [...], \"riskOpportunity\": [...], \"charts\": {...}}.",
     JSON.stringify(
@@ -513,6 +661,13 @@ export async function generateDailyReportWithAiSupport(
     return DailyReportSchema.parse({
       ...baseline,
       ...aiSupport,
+      charts: {
+        ...aiSupport.charts,
+        momentumSignals:
+          aiSupport.charts.momentumSignals.length > 0
+            ? aiSupport.charts.momentumSignals
+            : baseline.charts.momentumSignals
+      },
       schemaRationale: [
         ...baseline.schemaRationale,
         "Daily report support data is synthesized by the configured AI provider from validated article-level insights, then revalidated before rendering."

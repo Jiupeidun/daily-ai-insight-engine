@@ -17,6 +17,16 @@ export type TimelineDatum = {
   maxImpact: number;
 };
 
+export type MomentumDatum = {
+  signal: string;
+  type: string;
+  recentCount: number;
+  baselineCount: number;
+  momentumScore: number;
+  direction: string;
+  rationale: string;
+};
+
 export type SignalDatum = {
   signal: string;
   value: number;
@@ -31,6 +41,7 @@ export type DashboardCharts = {
   topicDistribution: TopicDatum[];
   sourceMix: SourceDatum[];
   impactTimeline: TimelineDatum[];
+  momentumSignals: MomentumDatum[];
   signalRadar: SignalDatum[];
   valueChainMap: ValueChainDatum[];
 };

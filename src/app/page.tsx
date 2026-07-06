@@ -48,6 +48,15 @@ function toDashboardCharts(report: DailyReport): DashboardCharts {
       avgImpact: asNumber(item.avgImpact),
       maxImpact: asNumber(item.maxImpact)
     })),
+    momentumSignals: report.charts.momentumSignals.map((item) => ({
+      signal: asString(item.signal),
+      type: asString(item.type),
+      recentCount: asNumber(item.recentCount),
+      baselineCount: asNumber(item.baselineCount),
+      momentumScore: asNumber(item.momentumScore),
+      direction: asString(item.direction),
+      rationale: asString(item.rationale)
+    })),
     signalRadar: report.charts.signalRadar.map((item) => ({
       signal: asString(item.signal),
       value: asNumber(item.value)

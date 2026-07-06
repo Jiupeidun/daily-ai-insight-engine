@@ -2,6 +2,7 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { generateObject, generateText, Output } from "ai";
 import type {
   ArticleInsight,
+  AiRelevanceTier,
   EventType,
   InsightCategory,
   NewsInsight,
@@ -10,7 +11,7 @@ import type {
   Topic,
   ValueChain
 } from "./schema";
-import { ArticleInsightSchema, NewsInsightSchema } from "./schema";
+import { ARTICLE_SCHEMA_VERSION, ArticleInsightSchema, NewsInsightSchema, SCORING_VERSION } from "./schema";
 import { stableId, truncateText } from "./normalize";
 
 export const PROMPT_VERSION = "extract-news-v1";
@@ -92,6 +93,33 @@ const VALUE_CHAIN_RULES: Array<{ value: ValueChain; keywords: string[] }> = [
   { value: "market", keywords: ["funding", "revenue", "valuation", "acquisition", "startup"] }
 ];
 
+const CORE_AI_PATTERNS = [
+  /\b(ai|artificial intelligence|generative ai|llm|llms|large language model)\b/i,
+  /\b(gpt|claude|gemini|llama|mistral|chatgpt|copilot|grok)\b/i,
+  /\b(model release|foundation model|frontier model|reasoning model)\b/i,
+  /\b(agent|agents|inference|training|fine-tuning|benchmark|evals?)\b/i,
+  /人工智能|大模型|生成式|智能体|模型|推理|训练|多模态|算力/
+];
+
+const AI_COMPUTE_PATTERNS = [
+  /\b(gpu|accelerator|hbm|cuda|inference chip|ai chip|datacenter|data center)\b/i,
+  /\b(nvidia|tsmc|broadcom|amd|micron)\b/i,
+  /英伟达|台积电|博通|美光|数据中心|芯片|半导体|算力/
+];
+
+const LOW_VALUE_ADJACENT_PATTERNS = [
+  /\b(gaming|game|laptop deal|discount|coupon|oled gaming|desktop graphics card)\b/i,
+  /\b(review|benchmark).*\b(game|gaming|fps)\b/i,
+  /\bcommercial|advertisement|ad campaign\b/i,
+  /游戏|显卡评测|促销|折扣|广告/
+];
+
+const AI_WORKLOAD_CONTEXT_PATTERNS = [
+  /\b(ai workload|model training|inference|datacenter|data center|cloud capex|ai server)\b/i,
+  /\b(enterprise ai|developer tool|api|sdk|agent|copilot)\b/i,
+  /模型训练|推理|数据中心|AI 服务器|企业 AI|智能体/
+];
+
 const KNOWN_ORGS = [
   "OpenAI",
   "Anthropic",
@@ -116,6 +144,72 @@ const KNOWN_ORGS = [
 function includesAny(text: string, keywords: string[]): boolean {
   const haystack = text.toLowerCase();
   return keywords.some((keyword) => haystack.includes(keyword.toLowerCase()));
+}
+
+function patternHits(text: string, patterns: RegExp[]): number {
+  return patterns.filter((pattern) => pattern.test(text)).length;
+}
+
+function relevanceTier(score: number): AiRelevanceTier {
+  if (score >= 70) return "core";
+  if (score >= 45) return "adjacent";
+  return "noise";
+}
+
+function calculateAiRelevance(input: {
+  text: string;
+  sourceType: SourceType;
+  topics: Topic[];
+  organizations: string[];
+}) {
+  const coreHits = patternHits(input.text, CORE_AI_PATTERNS);
+  const computeHits = patternHits(input.text, AI_COMPUTE_PATTERNS);
+  const lowValueHits = patternHits(input.text, LOW_VALUE_ADJACENT_PATTERNS);
+  const workloadContextHits = patternHits(input.text, AI_WORKLOAD_CONTEXT_PATTERNS);
+  const topicScore = input.topics.reduce((score, topic) => {
+    if (topic === "frontier_model") return score + 28;
+    if (topic === "developer_tools" || topic === "research") return score + 18;
+    if (topic === "enterprise_adoption" || topic === "policy_regulation") return score + 14;
+    if (topic === "ai_infrastructure") return score + 10;
+    if (topic === "capital_market" || topic === "safety_security") return score + 8;
+    return score + 4;
+  }, 0);
+  const sourceScore =
+    input.sourceType === "official"
+      ? 10
+      : input.sourceType === "research"
+        ? 8
+        : input.sourceType === "developer"
+          ? 6
+          : input.sourceType === "tech_media"
+            ? 4
+            : 2;
+  const knownAiOrgScore = input.organizations.some((org) =>
+    ["openai", "anthropic", "google", "deepmind", "microsoft", "meta", "nvidia", "hugging face", "mistral", "xai"].includes(
+      org.toLowerCase()
+    )
+  )
+    ? 12
+    : 0;
+  const lowValuePenalty = lowValueHits > 0 && workloadContextHits === 0 ? 34 : lowValueHits * 10;
+  const score = clampScore(
+    coreHits * 24 +
+      computeHits * (workloadContextHits > 0 ? 12 : 5) +
+      workloadContextHits * 14 +
+      Math.min(30, topicScore) +
+      sourceScore +
+      knownAiOrgScore -
+      lowValuePenalty
+  );
+  const tier = relevanceTier(score);
+  const rationale =
+    tier === "core"
+      ? "Core AI signal: direct model, agent, AI product, research, infrastructure, or governance evidence is present."
+      : tier === "adjacent"
+        ? "Adjacent AI signal: related market, compute, developer, or ecosystem context is present but direct AI evidence is limited."
+        : "Noise: low direct AI evidence or likely consumer hardware, gaming, deal, or commentary item.";
+
+  return { score, tier, rationale };
 }
 
 function inferTopics(text: string): Topic[] {
@@ -301,6 +395,7 @@ export function extractDeterministic(item: RawNewsItem): ArticleInsight {
   const topics = inferTopics(text);
   const valueChain = inferValueChain(text);
   const organizations = inferOrganizations(text);
+  const aiRelevance = calculateAiRelevance({ text, sourceType: item.sourceType, topics, organizations });
   const isOfficial = item.sourceType === "official";
   const isResearch = item.sourceType === "research";
   const isRecent = Date.now() - new Date(item.publishedAt).getTime() < 1000 * 60 * 60 * 24 * 10;
@@ -315,7 +410,7 @@ export function extractDeterministic(item: RawNewsItem): ArticleInsight {
   const capitalIntensity = includesAny(text, ["funding", "valuation", "investment", "gpu", "datacenter"])
     ? 4
     : 1;
-  const score = Math.min(
+  const uncappedScore = Math.min(
     96,
     clampScore(
       30 +
@@ -329,6 +424,12 @@ export function extractDeterministic(item: RawNewsItem): ArticleInsight {
         recencyImpactWeight(item.publishedAt)
     )
   );
+  const score =
+    aiRelevance.tier === "core"
+      ? uncappedScore
+      : aiRelevance.tier === "adjacent"
+        ? Math.min(68, uncappedScore)
+        : Math.min(38, uncappedScore);
   const horizon = regulatoryWeight >= 4 ? "quarter" : adoption >= 4 ? "weeks" : "today";
   const summaryCandidate = item.summary.split(/[.!?。！？]/)[0] ?? item.summary;
   const firstSentence = truncateText(
@@ -345,6 +446,8 @@ export function extractDeterministic(item: RawNewsItem): ArticleInsight {
   const confidence = isOfficial ? 0.86 : isResearch ? 0.78 : 0.7;
 
   return ArticleInsightSchema.parse({
+    schemaVersion: ARTICLE_SCHEMA_VERSION,
+    scoringVersion: SCORING_VERSION,
     id: stableId(`insight:${item.id}`),
     rawId: item.id,
     title: item.title,
@@ -415,6 +518,7 @@ export function extractDeterministic(item: RawNewsItem): ArticleInsight {
       isRecent
     }),
     confidenceScore: confidence,
+    aiRelevance,
     riskSignals: risks,
     opportunitySignals: opportunities,
     evidence: [
@@ -426,8 +530,13 @@ export function extractDeterministic(item: RawNewsItem): ArticleInsight {
     extractionMeta: {
       method: "deterministic_fallback",
       promptVersion: PROMPT_VERSION,
+      schemaVersion: ARTICLE_SCHEMA_VERSION,
+      scoringVersion: SCORING_VERSION,
       validatedAt: new Date().toISOString(),
-      warnings: ["Generated by deterministic extractor because no validated AI response was used."]
+      warnings: [
+        "Generated by deterministic extractor because no validated AI response was used.",
+        ...(aiRelevance.tier === "noise" ? ["AI relevance gate classified this item as noise."] : [])
+      ]
     }
   });
 }
@@ -492,6 +601,7 @@ export function buildExtractionPrompt(batch: RawNewsItem[]): string {
     "Return only valid JSON. Do not summarize the batch as prose.",
     "For each article, extract a deep NewsInsight schema, not a shallow title/summary/source object.",
     "Required insight fields include: source_type, category, entities, event_type, summary, key_facts, impact_analysis, sentiment, importance_score, confidence_score, risk_signals, opportunity_signals, and evidence.",
+    `Use schema_version=${ARTICLE_SCHEMA_VERSION}; the backend will attach schemaVersion, scoringVersion, and aiRelevance after validation.`,
     "importance_score is 1-5. confidence_score is 0-1. evidence must explain which source text or rule supports important fields.",
     "Use the article summary as evidence. Do not invent facts that are not supported by the item.",
     "Expected output shape is an array of NewsInsight-like objects. The SDK will add source identity fields from the original item.",
@@ -649,6 +759,12 @@ function normalizeAiArticles(raw: unknown, batch: RawNewsItem[]): ArticleInsight
     const category = inferCategory(topics);
     const eventType = inferEventType(text, topics);
     const organizations = inferOrganizations(text);
+    const aiRelevance = calculateAiRelevance({
+      text,
+      sourceType: batch[index].sourceType,
+      topics,
+      organizations
+    });
     const confidence = 0.78;
     const sentiment = (articleObject as { sentiment?: ArticleInsight["sentiment"] }).sentiment ?? "neutral";
     const risks = ((articleObject as { riskSignals?: string[] }).riskSignals ?? (articleObject as { impact?: { risks?: string[] } }).impact?.risks ?? buildRisks(topics));
@@ -659,6 +775,8 @@ function normalizeAiArticles(raw: unknown, batch: RawNewsItem[]): ArticleInsight
 
     return ArticleInsightSchema.parse({
       ...articleObject,
+      schemaVersion: ARTICLE_SCHEMA_VERSION,
+      scoringVersion: SCORING_VERSION,
       id: stableId(`insight:${batch[index].id}`),
       rawId: batch[index].id,
       title: batch[index].title,
@@ -696,6 +814,8 @@ function normalizeAiArticles(raw: unknown, batch: RawNewsItem[]): ArticleInsight
           isRecent: Date.now() - new Date(batch[index].publishedAt).getTime() < 1000 * 60 * 60 * 24 * 10
         }),
       confidenceScore: (articleObject as { confidenceScore?: unknown }).confidenceScore ?? confidence,
+      aiRelevance:
+        (articleObject as { aiRelevance?: unknown }).aiRelevance ?? aiRelevance,
       riskSignals: risks,
       opportunitySignals: opportunities,
       evidence:
@@ -707,8 +827,10 @@ function normalizeAiArticles(raw: unknown, batch: RawNewsItem[]): ArticleInsight
       extractionMeta: {
         method: "ai",
         promptVersion: PROMPT_VERSION,
+        schemaVersion: ARTICLE_SCHEMA_VERSION,
+        scoringVersion: SCORING_VERSION,
         validatedAt: new Date().toISOString(),
-        warnings: []
+        warnings: aiRelevance.tier === "noise" ? ["AI relevance gate classified this item as noise."] : []
       }
     });
   });
@@ -730,7 +852,8 @@ function normalizeNewsInsights(rawInsights: Array<Omit<NewsInsight, "id" | "titl
     const products = insight.entities
       .filter((entity) => entity.type === "model" || entity.type === "product" || entity.type === "technology")
       .map((entity) => entity.name);
-    const score = calculateAiImpactScore({
+    const aiRelevance = calculateAiRelevance({ text, sourceType: item.sourceType, topics, organizations });
+    const uncappedScore = calculateAiImpactScore({
       importanceScore: insight.importance_score,
       confidenceScore: insight.confidence_score,
       sourceType: item.sourceType,
@@ -740,9 +863,17 @@ function normalizeNewsInsights(rawInsights: Array<Omit<NewsInsight, "id" | "titl
       riskSignals: insight.risk_signals,
       opportunitySignals: insight.opportunity_signals
     });
+    const score =
+      aiRelevance.tier === "core"
+        ? uncappedScore
+        : aiRelevance.tier === "adjacent"
+          ? Math.min(68, uncappedScore)
+          : Math.min(38, uncappedScore);
     const horizon = insight.category === "policy" || insight.category === "security" ? "quarter" : "weeks";
 
     return ArticleInsightSchema.parse({
+      schemaVersion: ARTICLE_SCHEMA_VERSION,
+      scoringVersion: SCORING_VERSION,
       id: stableId(`insight:${item.id}`),
       rawId: item.id,
       title: item.title,
@@ -794,6 +925,7 @@ function normalizeNewsInsights(rawInsights: Array<Omit<NewsInsight, "id" | "titl
       sentiment: insight.sentiment,
       importanceScore: Math.round(insight.importance_score),
       confidenceScore: insight.confidence_score,
+      aiRelevance,
       riskSignals: insight.risk_signals,
       opportunitySignals: insight.opportunity_signals,
       evidence: insight.evidence.map((item) => ({
@@ -804,8 +936,10 @@ function normalizeNewsInsights(rawInsights: Array<Omit<NewsInsight, "id" | "titl
       extractionMeta: {
         method: "ai",
         promptVersion: PROMPT_VERSION,
+        schemaVersion: ARTICLE_SCHEMA_VERSION,
+        scoringVersion: SCORING_VERSION,
         validatedAt: new Date().toISOString(),
-        warnings: []
+        warnings: aiRelevance.tier === "noise" ? ["AI relevance gate classified this item as noise."] : []
       }
     });
   });

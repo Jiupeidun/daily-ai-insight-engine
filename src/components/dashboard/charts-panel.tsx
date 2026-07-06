@@ -48,6 +48,13 @@ const CHART_COPY = {
       en: "Average and maximum impact score across the coverage window."
     }
   },
+  momentumSignals: {
+    title: { zh: "趋势动量", en: "Momentum Signals" },
+    subtitle: {
+      zh: "最近 48 小时相对基线窗口的主题和实体斜率。",
+      en: "Topic and entity slope over the latest 48 hours versus baseline."
+    }
+  },
   signalRadar: {
     title: { zh: "信号雷达", en: "Signal Radar" },
     subtitle: {
@@ -175,7 +182,11 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
         ...item,
         localizedValueChain: localizedLabel(locale, item.valueChain, VALUE_CHAIN_LABELS_ZH)
       })),
-      impactTimeline: charts.impactTimeline
+      impactTimeline: charts.impactTimeline,
+      momentumSignals: charts.momentumSignals.map((item) => ({
+        ...item,
+        localizedSignal: item.signal.replace(/_/g, " ")
+      }))
     }),
     [charts, locale]
   );
@@ -248,6 +259,42 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
               animationEasing="ease-out"
             />
           </AreaChart>
+        </ResponsiveContainer>
+      </ChartFrame>
+
+      <ChartFrame
+        title={copy.momentumSignals.title[locale]}
+        subtitle={copy.momentumSignals.subtitle[locale]}
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={localizedCharts.momentumSignals.slice(0, 6)}
+            layout="vertical"
+            margin={{ top: 8, right: 8, left: 18, bottom: 0 }}
+          >
+            <CartesianGrid stroke={GRID} horizontal={false} />
+            <XAxis type="number" tick={TICK} domain={[0, 100]} />
+            <YAxis type="category" dataKey="localizedSignal" tick={TICK} width={112} tickFormatter={shortTick} />
+            <Tooltip
+              contentStyle={TOOLTIP_STYLE}
+              itemStyle={TOOLTIP_ITEM_STYLE}
+              labelStyle={TOOLTIP_LABEL_STYLE}
+            />
+            <Bar dataKey="momentumScore" radius={[0, 8, 8, 0]} isAnimationActive animationDuration={720}>
+              {localizedCharts.momentumSignals.slice(0, 6).map((entry) => (
+                <Cell
+                  key={`${entry.type}:${entry.signal}`}
+                  fill={
+                    entry.direction === "rising"
+                      ? "#30d158"
+                      : entry.direction === "cooling"
+                        ? "#ff453a"
+                        : "#64d2ff"
+                  }
+                />
+              ))}
+            </Bar>
+          </BarChart>
         </ResponsiveContainer>
       </ChartFrame>
 

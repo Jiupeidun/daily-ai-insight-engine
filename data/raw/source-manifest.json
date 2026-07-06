@@ -80,14 +80,6 @@
       "rationale": "Developer and enterprise software coverage that surfaces AI tooling and adoption signals."
     },
     {
-      "id": "google-ai",
-      "name": "Google AI Blog",
-      "url": "https://blog.google/technology/ai/rss/",
-      "type": "official",
-      "languageHint": "en",
-      "rationale": "Official Google AI product, research, and ecosystem releases outside the DeepMind research feed."
-    },
-    {
       "id": "google-deepmind",
       "name": "Google DeepMind Blog",
       "url": "https://www.deepmind.google/blog/rss.xml",
@@ -280,14 +272,6 @@
       "rationale": "Applied machine learning source for developer and practitioner education signals."
     },
     {
-      "id": "unite-ai",
-      "name": "Unite.AI",
-      "url": "https://www.unite.ai/feed/",
-      "type": "tech_media",
-      "languageHint": "en",
-      "rationale": "AI-focused media source covering applications, tools, companies, and research."
-    },
-    {
       "id": "towards-data-science",
       "name": "Towards Data Science",
       "url": "https://towardsdatascience.com/feed",
@@ -312,28 +296,12 @@
       "rationale": "Hardware, GPU, memory, and data center component coverage that captures AI infrastructure market signals."
     },
     {
-      "id": "next-platform",
-      "name": "The Next Platform",
-      "url": "https://www.nextplatform.com/feed/",
-      "type": "tech_media",
-      "languageHint": "en",
-      "rationale": "High-performance computing, AI systems, accelerators, and data center economics."
-    },
-    {
       "id": "serve-the-home",
       "name": "ServeTheHome",
       "url": "https://www.servethehome.com/feed/",
       "type": "tech_media",
       "languageHint": "en",
       "rationale": "Server, accelerator, networking, and data center hardware coverage relevant to AI infrastructure."
-    },
-    {
-      "id": "blocks-and-files",
-      "name": "Blocks and Files",
-      "url": "https://blocksandfiles.com/feed/",
-      "type": "tech_media",
-      "languageHint": "en",
-      "rationale": "Storage, memory, and data infrastructure coverage relevant to AI training and inference workloads."
     },
     {
       "id": "storage-review",
@@ -350,14 +318,6 @@
       "type": "tech_media",
       "languageHint": "en",
       "rationale": "Data center capacity, power, cooling, and cloud infrastructure signals driven by AI demand."
-    },
-    {
-      "id": "ai-news-infrastructure",
-      "name": "AI News Infrastructure",
-      "url": "https://www.artificialintelligence-news.com/categories/ai-infrastructure/feed/",
-      "type": "tech_media",
-      "languageHint": "en",
-      "rationale": "AI-specific infrastructure stream for compute, cloud, and deployment signals."
     },
     {
       "id": "wsj-markets",
