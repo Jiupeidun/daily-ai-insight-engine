@@ -8,9 +8,6 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
-  "ai": {
-    "binding": "AI"
-  },
   "placement": {
     "mode": "smart"
   },
@@ -25,7 +22,8 @@
     }
   },
   "vars": {
-    "AI_PROVIDER": "cloudflare_rest",
-    "CLOUDFLARE_AI_MODEL": "@cf/meta/llama-3.1-8b-instruct"
+    "AI_PROVIDER": "openai_compatible",
+    "AI_BASE_URL": "https://api.openai.com/v1",
+    "AI_MODEL": "gpt-5.5"
   }
 }

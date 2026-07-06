@@ -8,6 +8,8 @@ import { ArticleInsightSchema } from "./schema";
 import { stableId, truncateText } from "./normalize";
 
 export const PROMPT_VERSION = "extract-news-v1";
+export const DEFAULT_OPENAI_BASE_URL = "https://api.openai.com/v1";
+export const DEFAULT_OPENAI_MODEL = "gpt-5.5";
 
 type AiProvider = "deterministic" | "openai_compatible" | "cloudflare_rest";
 
@@ -334,18 +336,21 @@ function parseJsonObject(input: string): unknown {
 }
 
 async function callOpenAiCompatible(prompt: string, options: ExtractionOptions): Promise<string> {
-  if (!options.apiKey || !options.baseUrl || !options.model) {
-    throw new Error("AI_BASE_URL, AI_API_KEY, and AI_MODEL are required.");
+  if (!options.apiKey) {
+    throw new Error("AI_API_KEY is required.");
   }
 
-  const response = await fetch(`${options.baseUrl.replace(/\/$/, "")}/chat/completions`, {
+  const baseUrl = (options.baseUrl ?? DEFAULT_OPENAI_BASE_URL).replace(/\/$/, "");
+  const model = options.model ?? DEFAULT_OPENAI_MODEL;
+
+  const response = await fetch(`${baseUrl}/chat/completions`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
       authorization: `Bearer ${options.apiKey}`
     },
     body: JSON.stringify({
-      model: options.model,
+      model,
       temperature: 0.1,
       response_format: { type: "json_object" },
       messages: [
@@ -483,14 +488,18 @@ export async function extractArticles(
 
 export function optionsFromEnv(env: NodeJS.ProcessEnv): ExtractionOptions {
   const provider = env.AI_PROVIDER as AiProvider | undefined;
+  const resolvedProvider =
+    provider === "openai_compatible" || provider === "cloudflare_rest"
+      ? provider
+      : env.AI_API_KEY
+        ? "openai_compatible"
+        : "deterministic";
+
   return {
-    provider:
-      provider === "openai_compatible" || provider === "cloudflare_rest"
-        ? provider
-        : "deterministic",
+    provider: resolvedProvider,
     apiKey: env.AI_API_KEY,
-    baseUrl: env.AI_BASE_URL,
-    model: env.AI_MODEL,
+    baseUrl: env.AI_BASE_URL ?? DEFAULT_OPENAI_BASE_URL,
+    model: env.AI_MODEL ?? DEFAULT_OPENAI_MODEL,
     cloudflareAccountId: env.CLOUDFLARE_ACCOUNT_ID,
     cloudflareApiToken: env.CLOUDFLARE_API_TOKEN,
     cloudflareModel: env.CLOUDFLARE_AI_MODEL
