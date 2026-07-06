@@ -1,114 +1,101 @@
 {
-  "collectedAt": "2026-07-06T03:30:42.199Z",
-  "targetCount": 18,
-  "candidateCount": 87,
-  "failures": [
-    {
-      "source": "anthropic-news",
-      "error": "Request timed out after 12000ms"
-    },
-    {
-      "source": "google-deepmind",
-      "error": "Status code 404"
-    },
-    {
-      "source": "huggingface-blog",
-      "error": "Request timed out after 12000ms"
-    }
-  ],
+  "collectedAt": "2026-07-06T08:06:30.334Z",
+  "targetCount": 24,
+  "candidateCount": 73,
+  "failures": [],
   "items": [
     {
-      "id": "abf7faf0fae0ced5",
-      "title": "How AI Poisons Creativity [video]",
-      "summary": "Article URL: https://www.youtube.com/watch?v=WeCSzEtZcUw Comments URL: https://news.ycombinator.com/item?id=48800326 Points: 1 # Comments: 0",
-      "content": "Article URL: https://www.youtube.com/watch?v=WeCSzEtZcUw Comments URL: https://news.ycombinator.com/item?id=48800326 Points: 1 # Comments: 0",
-      "url": "https://www.youtube.com/watch?v=WeCSzEtZcUw",
-      "sourceName": "Hacker News AI Search",
-      "sourceUrl": "https://hnrss.org/newest?q=AI",
-      "sourceType": "aggregator",
-      "publishedAt": "2026-07-06T03:25:24.000Z",
-      "collectedAt": "2026-07-06T03:30:42.192Z",
-      "language": "en",
-      "authors": [
-        "g-andrade"
-      ],
-      "rawTags": []
-    },
-    {
-      "id": "c512fde2ca518a58",
-      "title": "Cewsco – a multimodal AI assistant powered by Dravik",
-      "summary": "Article URL: https://cewsco.com/ Comments URL: https://news.ycombinator.com/item?id=48800302 Points: 1 # Comments: 0",
-      "content": "Article URL: https://cewsco.com/ Comments URL: https://news.ycombinator.com/item?id=48800302 Points: 1 # Comments: 0",
-      "url": "https://cewsco.com/",
-      "sourceName": "Hacker News AI Search",
-      "sourceUrl": "https://hnrss.org/newest?q=AI",
-      "sourceType": "aggregator",
-      "publishedAt": "2026-07-06T03:20:43.000Z",
-      "collectedAt": "2026-07-06T03:30:42.192Z",
-      "language": "en",
-      "authors": [
-        "kalkalka"
-      ],
-      "rawTags": []
-    },
-    {
-      "id": "074c0a73a3b60655",
-      "title": "日本 TURING 目标最早 2028 年推出基于 AMD 硬件的 Robotaxi 软件",
-      "summary": "IT之家 7 月 6 日消息，日本智驾技术初创企业 TURING 当地时间今日宣布完成 7900 万美元的延展融资，使其 A 轮融资总额达到 1.74 亿美元（现汇率约合 11.81 亿元人民币）。 IT之家注意到，TURING 的 A 轮延展融资由三菱日联提供的 3600 万美元信贷额度和来自 AMD Ventures、三菱商事、三菱日联、Supermicro 等的 4300 万美元股权融资组成。 据彭博社报道，TURING 已于 2025 年在东京郊区进行了时长 30 分钟的首次自动驾驶测试，后续又在日本多个其它拥堵路段重复了实验。该企业的目标是最早在 2028 年将适用于 Robotaxi 的软件推向消费市场。 TURING 的智驾软件堆栈将运行在 AMD 芯片上，该企业表示这样做是为了确保在资本密集型的自动驾驶领域保持价格竞争力。其此前在 AI 训练与推理上一直依赖于 NVIDIA 芯片，但当前已有约一成的训练负载转移到 AMD 的 GPU 上。",
-      "content": "IT之家 7 月 6 日消息，日本智驾技术初创企业 TURING 当地时间今日宣布完成 7900 万美元的延展融资，使其 A 轮融资总额达到 1.74 亿美元（现汇率约合 11.81 亿元人民币）。 IT之家注意到，TURING 的 A 轮延展融资由三菱日联提供的 3600 万美元信贷额度和来自 AMD Ventures、三菱商事、三菱日联、Supermicro 等的 4300 万美元股权融资组成。 据彭博社报道，TURING 已于 2025 年在东京郊区进行了时长 30 分钟的首次自动驾驶测试，后续又在日本多个其它拥堵路段重复了实验。该企业的目标是 最早在 2028 年将适用于 Robotaxi 的软件推向消费市场 。 TURING 的智驾软件堆栈将运行在 AMD 芯片上 ，该企业表示这样做是为了确保在资本密集型的自动驾驶领域保持价格竞争力。其此前在 AI 训练与推理上一直依赖于 NVIDIA 芯片，但当前已有约一成的训练负载转移到 AMD 的 GPU 上。",
-      "url": "https://www.ithome.com/0/972/938.htm",
+      "id": "0bb763e2fd1b15a3",
+      "title": "微软 Teams 加强第三方 AI 智能体权限管理，需会议组织者确认后方可放行",
+      "summary": "IT之家 7 月 6 日消息，微软发文，宣布为 Microsoft Teams 会议应用推出全新的 AI 机器人管理策略，当第三方 AI 机器人尝试加入会议时，必须先获得会议组织者批准后才能进入。 据介绍，目前微软已在 Teams 管理中心新增“Manage external bots and their access to meetings”管理策略，该功能默认启用，管理员可将该策略应用于指定用户或用户组，当 Teams 检测到外部 AI 机器人尝试加入会议时，会先将其置于会议等候室（Lobby），只有在会议组织者确认批准后，机器人才能正式加入会议。当然管理员也可根据企业需求选择关闭这一功能。 随着新机制上线，微软还将逐步淘汰 Teams 此前针对外部 AI 机器人的 CAPTCHA 验证机制，以上述审批流程取而代之，以降低未经授权的 AI 工具加入会议所带来的信息安全风险。",
+      "content": "IT之家 7 月 6 日消息，微软发文，宣布为 Microsoft Teams 会议应用推出全新的 AI 机器人管理策略，当第三方 AI 机器人尝试加入会议时，必须先获得会议组织者批准后才能进入。 据介绍，目前微软已在 Teams 管理中心新增“Manage external bots and their access to meetings”管理策略，该功能默认启用，管理员可将该策略应用于指定用户或用户组， 当 Teams 检测到外部 AI 机器人尝试加入会议时，会先将其置于会议等候室（Lobby），只有在会议组织者确认批准后，机器人才能正式加入会议 。当然管理员也可根据企业需求选择关闭这一功能。 随着新机制上线，微软还将逐步淘汰 Teams 此前针对外部 AI 机器人的 CAPTCHA 验证机制，以上述审批流程取而代之，以降低未经授权的 AI 工具加入会议所带来的信息安全风险。",
+      "url": "https://www.ithome.com/0/973/146.htm",
       "sourceName": "IT之家",
       "sourceUrl": "https://www.ithome.com/rss/",
       "sourceType": "tech_media",
-      "publishedAt": "2026-07-06T02:58:04.000Z",
-      "collectedAt": "2026-07-06T03:26:18.410Z",
+      "publishedAt": "2026-07-06T08:02:11.000Z",
+      "collectedAt": "2026-07-06T08:06:19.061Z",
       "language": "mixed",
       "authors": [],
       "rawTags": []
     },
     {
-      "id": "40fe311b5b2cbb23",
-      "title": "小鹏 MONA L03 汽车官宣 7 月 10 日起开放试驾，预售版本均配备高阶智能辅助驾驶",
-      "summary": "IT之家 7 月 6 日消息，小鹏集团董事长、CEO 何小鹏今日发文宣布，MONA L03 中国首秀刚过去一个周末，首周末门店客流创下 2026 年新高。 何小鹏还提前公布了一则消息：7 月 10 日起，全国门店将陆续开放试驾。他表示，MONA L03 从底盘操控、细节用料到安全标准，都是对标 30 万级车型研发，预售的版本都配备了高阶智能辅助驾驶。 据IT之家此前报道，在 7 月 2 日晚的 MONA L03 中国首秀活动上，小鹏正式公布了 MONA L03 的预售价，14.38 万元起。新车将于 7 月 16 日正式上市。该车定位“年轻人的第一台智能时尚 SUV”，提供纯电 + 增程双动力，搭载 1500TOPS 算力图灵芯片与第二代 VLA 智驾系统。",
-      "content": "IT之家 7 月 6 日消息，小鹏集团董事长、CEO 何小鹏今日发文宣布，MONA L03 中国首秀刚过去一个周末， 首周末门店客流创下 2026 年新高 。 何小鹏还提前公布了一则消息： 7 月 10 日起，全国门店将陆续开放试驾 。他表示，MONA L03 从底盘操控、细节用料到安全标准，都是对标 30 万级车型研发， 预售的版本都配备了高阶智能辅助驾驶 。 据IT之家此前报道，在 7 月 2 日晚的 MONA L03 中国首秀活动上， 小鹏正式公布了 MONA L03 的预售价 ，14.38 万元起。新车将于 7 月 16 日正式上市。该车定位“年轻人的第一台智能时尚 SUV”，提供纯电 + 增程双动力，搭载 1500TOPS 算力图灵芯片与第二代 VLA 智驾系统。",
-      "url": "https://www.ithome.com/0/972/935.htm",
+      "id": "59856cd6c76cd5ad",
+      "title": "英国外交大臣库珀警告：AI 或成未来 10 年最大安全挑战，世界各国必须建立紧急防护措施",
+      "summary": "IT之家 7 月 6 日消息，据《卫报》昨天报道，英国外交大臣伊薇特 · 库珀警告称 AI 或将成为未来 10 年最大安全挑战，如果各国政府不能就人工智能发展制定国际准则，那么 AI 对人类的威胁堪比美国当年核爆日本广岛、长崎。 库珀表示，全球正处在危险之中，美国正寻求退出“世界秩序维护者”角色。并且全球人民都有同样的感受：AI 拥有惊人潜力，同时伴随着巨大的风险。 她指出，目前已经有大量利用先进技术的恶意行为者，这些人有的是犯罪团伙，有的是极端组织，还有国家级犯罪组织。未来，全世界将不会期盼美国扮演过去那样的角色，并且世界各国依然会和美国意见不同。但总体来看，减少单一盟友依赖只会让英国更加强大。 库珀认为，英国应该与欧洲建立长期稳定的合作关系，而不是针对贸易问题不断谈判。并且欧洲需要全新的关系，而不是不断讨价还价。 此外库珀还表示，未来两年内，AI 将成为各国外交最重要的议题。因此，美国和中国等国家应共同制定全球性 AI 监管原则。",
+      "content": "IT之家 7 月 6 日消息，据《卫报》昨天报道，英国外交大臣伊薇特 · 库珀警告称 AI 或将成为未来 10 年最大安全挑战，如果各国政府不能就人工智能发展制定国际准则，那么 AI 对人类的威胁堪比美国当年核爆日本广岛、长崎。 库珀表示，全球正处在危险之中， 美国正寻求退出“世界秩序维护者”角色 。并且全球人民都有同样的感受：AI 拥有惊人潜力，同时伴随着巨大的风险。 她指出，目前已经有大量利用先进技术的恶意行为者，这些人有的是犯罪团伙，有的是极端组织，还有国家级犯罪组织。未来，全世界将不会期盼美国扮演过去那样的角色，并且世界各国依然会和美国意见不同。但总体来看， 减少单一盟友依赖只会让英国更加强大 。 库珀认为，英国应该与欧洲建立长期稳定的合作关系，而不是针对贸易问题不断谈判。并且欧洲需要全新的关系，而不是不断讨价还价。 此外库珀还表示，未来两年内，AI 将成为各国外交最重要的议题。因此， 美国和中国等国家应共同制定全球性 AI 监管原则 。",
+      "url": "https://www.ithome.com/0/973/140.htm",
       "sourceName": "IT之家",
       "sourceUrl": "https://www.ithome.com/rss/",
       "sourceType": "tech_media",
-      "publishedAt": "2026-07-06T02:55:51.000Z",
-      "collectedAt": "2026-07-06T03:26:18.410Z",
-      "language": "mixed",
-      "authors": [],
-      "rawTags": []
-    },
-    {
-      "id": "5cf785277e6fe87a",
-      "title": "上汽名爵 MG 07 官宣 7 月 29 日预售：首搭 Momenta R7 世界模型，定位“年轻人的智能纯血轿跑”",
-      "summary": "IT之家 7 月 6 日消息，上汽 MG 今日宣布，上汽名爵 MG 07 将在 7 月 29 日开启预售，新车定位“年轻人的智能纯血轿跑”。 据介绍，新车尺寸为 4886×1900×1485mm、轴距 2825mm，前脸采用一体冲压蚌式机盖 + 曲面切割悬浮前大灯组设计，尾部采用掀背式溜背造型设计，配备四门无框车门和五档可调电动尾翼，可选 19 英寸星环引力轮毂和 19 英寸银石竞速轮毂。 上汽名爵 MG 07 内饰可选白紫罗兰和皇家蓝两种配色，拥有 168L KK 自动开合前备箱、697L 电动后备厢，以及 109L 下沉空间。新车支持全车通风加热按摩、配备整片式调光全景天幕，同时行业首创“女王多功能美妆台”。 新车还配备副驾零重力座椅，内置 7.1.4 声道 21 扬声器；车机搭载 8295P 芯片，配备 15.6 英寸 2.5K 中控屏，支持 3D Moli 实时交互大世界、全场景手车互联等功能。 IT之家注意到，上汽名爵 MG 07 还首搭 Momenta R7 世界模型 + Xheart X7 大模型专用芯片；配备 mCDC 智能电磁悬架，支持每秒 200 次调整；拥有 AI 预瞄功能，可前瞻探测 15-150 米距离。新车续航可达 840km，采用 800V 高压平台，支持 5C 速率快充、5 秒级零百加速。",
-      "content": "IT之家 7 月 6 日消息，上汽 MG 今日宣布， 上汽名爵 MG 07 将在 7 月 29 日开启预售 ，新车定位“年轻人的智能纯血轿跑”。 据介绍，新车尺寸为 4886×1900×1485mm、轴距 2825mm，前脸采用一体冲压蚌式机盖 + 曲面切割悬浮前大灯组设计，尾部采用掀背式溜背造型设计， 配备四门无框车门和五档可调电动尾翼 ，可选 19 英寸星环引力轮毂和 19 英寸银石竞速轮毂。 上汽名爵 MG 07 内饰可选白紫罗兰和皇家蓝两种配色， 拥有 168L KK 自动开合前备箱、697L 电动后备厢，以及 109L 下沉空间 。新车支持全车通风加热按摩、配备整片式调光全景天幕，同时行业首创“女王多功能美妆台”。 新车还配备副驾零重力座椅， 内置 7.1.4 声道 21 扬声器 ；车机搭载 8295P 芯片，配备 15.6 英寸 2.5K 中控屏，支持 3D Moli 实时交互大世界、全场景手车互联等功能。 IT之家注意到， 上汽名爵 MG 07 还首搭 Momenta R7 世界模型 + Xheart X7 大模型专用芯片 ；配备 mCDC 智能电磁悬架，支持每秒 200 次调整；拥有 AI 预瞄功能，可前瞻探测 15-150 米距离。 新车续航可达 840km ，采用 800V 高压平台，支持 5C 速率快充、5 秒级零百加速。",
-      "url": "https://www.ithome.com/0/972/930.htm",
-      "sourceName": "IT之家",
-      "sourceUrl": "https://www.ithome.com/rss/",
-      "sourceType": "tech_media",
-      "publishedAt": "2026-07-06T02:50:08.000Z",
-      "collectedAt": "2026-07-06T03:26:18.410Z",
+      "publishedAt": "2026-07-06T07:59:09.000Z",
+      "collectedAt": "2026-07-06T08:06:19.061Z",
       "language": "zh",
       "authors": [],
+      "rawTags": []
+    },
+    {
+      "id": "b3a164ce4df397d6",
+      "title": "获DCM Ventures投资数百万美元，APTSell希望成为AI版的首席销售官｜涌现新项目",
+      "summary": "文｜吴思瑾 编辑｜邓咏仪 01 一句话介绍 北京治真治合科技有限公司成立于2024年，旗下产品「APTSell」（AI Power To Sales）希望成为AI版的CSO （Chief Sales Officer，首席销售官）。 简单来说，APTSell是一个组合式Agent，通过整合与可视化销售全流程数据，生成管理决策和执行建议，以期正向促进销售效率和业绩提升，反向降低对传统销售管理经验和岗位的依赖。 近期，APTSell宣布已经完成由DCM Ventures独家投资的数百万美元种子轮融资，该资金将用于产品技术的研发迭代，并积极开展深入的商业化合作。此前，APTSell还曾获得来自Atom Capital的天使轮投资。 02 团队介绍 创始人赵雷曾在Oracle就职10年，从一线销售到北区总经理，他搭建了一套规模化的行业销售体系，实现单一行业3年3亿收入，YoY>150%。此后，赵雷在微步在线任职销售VP，5年时间为公司创收3亿。后续还为PingCAP、百洋医药等50+家公司提供销售顾问服务，并出版《从混乱到规模化》一书，拆解如何构建可复制的增长体系。 联合创始人朱振博曾就职IBM中国研究院、微软企业与云事业部、微软亚洲研究院，管理50+人跨国团队，主攻方向是机器学习的研究与落地。此后创办企业级供应链平台易见天数，担任CEO，后被龙湖集团收购成为龙湖集团合伙人。其它职业经历还包括FlowGPT技术合伙人、PixVerse技术顾问。 03 产品及业务 几乎所有企业都在探索如何利用AI重塑业务流，但企业主最关注的，或许还是离钱最近的销售环节。 过去的销售管理路径是：从CRM上看销售线索和进展，在BI上还原销售过程，销售leader来决定下一步做什么和怎么做。 在这个过程中，销售管理者是被重度依赖且不可复制、不可预测和不可规模化的。 现在，AI可以整合散落在各个IM平台的销售过程数据，替代一线销售完成日报、周报、月报和项目复盘等重复性任务；AI还可以针对全盘数据进行销售过程分析和预测，并给出决策建议，甚至在收到指令后完成一些简单的、标准化的任务执行。 AI没有改变销售流程和企业的销售规则，只是将过程中的任务重新拆分了，一部分由AI完成，一部分仍是人类决策。 APTSell的产品逻辑就是在把这种销售规则和任务结构化、数据化，Agent化。 具体来说，它试图通过四类协同Agent，将销售数据采集、项目诊断、管理复盘与经验沉淀串联成一个可持续优化的销售管理闭环： 行为Agent：负责整合多渠道多模态销售行为数据，包括CRM记录、IM沟通记录、会议纪要等，并对数据完整性和真实性进行自动质检，解决过往销售过程数据分散和不透明的问题。 项目Agent：基于历史和实时数据对单个客户或商机进行持续分析，识别进展、风险及预警，并提供下一步行动预测和建议。 Review Age...",
+      "content": "文｜吴思瑾 编辑｜邓咏仪 01 一句话介绍 北京治真治合科技有限公司成立于2024年，旗下产品「APTSell」（AI Power To Sales）希望成为AI版的CSO （Chief Sales Officer，首席销售官）。 简单来说，APTSell是一个组合式Agent，通过整合与可视化销售全流程数据，生成管理决策和执行建议，以期正向促进销售效率和业绩提升，反向降低对传统销售管理经验和岗位的依赖。 近期，APTSell宣布已经完成由DCM Ventures独家投资的数百万美元种子轮融资，该资金将用于产品技术的研发迭代，并积极开展深入的商业化合作。此前，APTSell还曾获得来自Atom Capital的天使轮投资。 02 团队介绍 创始人赵雷曾在Oracle就职10年，从一线销售到北区总经理，他搭建了一套规模化的行业销售体系，实现单一行业3年3亿收入，YoY>150%。此后，赵雷在微步在线任职销售VP，5年时间为公司创收3亿。后续还为PingCAP、百洋医药等50+家公司提供销售顾问服务，并出版《从混乱到规模化》一书，拆解如何构建可复制的增长体系。 联合创始人朱振博曾就职IBM中国研究院、微软企业与云事业部、微软亚洲研究院，管理50+人跨国团队，主攻方向是机器学习的研究与落地。此后创办企业级供应链平台易见天数，担任CEO，后被龙湖集团收购成为龙湖集团合伙人。其它职业经历还包括FlowGPT技术合伙人、PixVerse技术顾问。 03 产品及业务 几乎所有企业都在探索如何利用AI重塑业务流，但企业主最关注的，或许还是离钱最近的销售环节。 过去的销售管理路径是：从CRM上看销售线索和进展，在BI上还原销售过程，销售leader来决定下一步做什么和怎么做。 在这个过程中，销售管理者是被重度依赖且不可复制、不可预测和不可规模化的。 现在，AI可以整合散落在各个IM平台的销售过程数据，替代一线销售完成日报、周报、月报和项目复盘等重复性任务；AI还可以针对全盘数据进行销售过程分析和预测，并给出决策建议，甚至在收到指令后完成一些简单的、标准化的任务执行。 AI没有改变销售流程和企业的销售规则，只是将过程中的任务重新拆分了，一部分由AI完成，一部分仍是人类决策。 APTSell的产品逻辑就是在把这种销售规则和任务结构化、数据化，Agent化。 具体来说，它试图通过四类协同Agent，将销售数据采集、项目诊断、管理复盘与经验沉淀串联成一个可持续优化的销售管理闭环： 行为Agent：负责整合多渠道多模态销售行为数据，包括CRM记录、IM沟通记录、会议纪要等，并对数据完整性和真实性进行自动质检，解决过往销售过程数据分散和不透明的问题。 项目Agent：基于历史和实时数据对单个客户或商机进行持续分析，识别进展、风险及预警，并提供下一步行动预测和建议。 Review Agent：面向最高销售管理者，自动生成团队报告，识别异常项目、风险、建议及阶段性复盘，在这个环节，替代部分原本依赖人工汇总与经验判断的管理工作。 Best Practice Agent：核心目标是通过分析全量数据，自动学习并提炼高转化路径与最佳实践，反向赋能销售团队，实现打法的自动化演进，再反向指导一线销售执行。 APTSell创始人赵雷告诉36氪，公司已进入PMF验证阶段。 2025年底至今，APTSell共签约客户20+，其中一半来自老客户推荐，一半来自集成商（如飞书）的推荐。目前客户主要集中在医药、高科技（含先进制造）以及企服行业，这些企业销售团队规模在30-50人，年营收在1-2亿，且面临增长瓶颈，对销售过程管理有强需求。 要判断一个产品的真实价值，需要看用户的实际使用反馈。换到APTSell上，假设它是个分析+决策系统，AI给建议（What to do）、AI生成行动（How to do）、AI自动执行（Agent），技术是成立的，但能否完成商业闭环呢？我们要看的是企业敢不敢让AI直接影响成交、责任可不可归因、任链条是否建立。 赵雷用数据回应了这个问题。他介绍，使用了APTSell的客户，平均效果是成交转化率提升10-15%，销售效率提升约30%，管理时间减少约50%。 APTSell基于使用的销售团队规模和消耗的token总量进行综合定价，例如50人销售团队，年度费用约在25-30万人民币。 公司现有团队十余人，90%+代码由AI生成，是典型的AI Native作业方式，目前公司已经接近盈亏平衡，并基本确定年内将实现可观盈利。 APTSell不是一个开箱即用的产品，而是有一个先咨询再部署的过程。当客户下单后，平均上线周期约为10个工作日，在这个过程中，需要对使用团队进行企业销售规则相关的访谈和培训，其中90%的部署工作由Agent 完成。 04 Founder思考 APTSell定位在销售高管的数字分身，旨在将销售管理体系从依赖个人经验转变为依赖系统逻辑，实现从人治向AI Native的迁移。 APTSell核心要打通的是两大增长因子，一是通过Agent提升销售效率（人效），二是通过管理决策闭环提升转化率，从而在销售管理人员减少的情况下实现业绩增长。 APTSell能够帮助企业做销售管理、提高转化率的核心的原因，是Agent在干的两件事，第一件事就是帮助人管理下限（企业的销售规则），用优化思维来代替人思考；第二件事是随着销售数据的持续更新和积累，可以不断的去学习，进而提高管理下限。 全流程闭环管理是指系统具备赋能（How to do）、监管（实时评判进展）及管理闭环（从触达到业绩达成）三大能力，旨在替代中层管理者的重复性劳动。 APTSell制定了人机协作的边界：AI 负责处理结构化思维、数据分析和重复性劳动（如日报、周报），而人与人之间的情感链接、信任建立及战略深度思考仍由人类负责。 05 访谈小记 离钱最近的业务流程，也离预算最近。 在美国，这或许是一个好生意。以Salesforce为核心的CRM体系负责统一销售数据和流程入口，Gong、Clari等独立分析层工具承担销售行为识别分析与收入预测，而AI能力更多作为增强模块嵌入既有系统，整体分工相对明确、边界清晰，这使得专业化工具在各自层级中具备自由生长的空间。 但中国市场有着明显的地域特征：CRM和SaaS市场非常分散、数据质量也差；销售对话数据入口又被IM平台占据，独立创业公司很难构建完整的系统级产品，更多是在既有平台上寻找细分切口或以AI工具形态切入。 更关键的是，中国的企业主们更希望直接为创收结果付费，也就是收入分润的模式，这对企业初创阶段并不友好。 不过，对于APTSell这类产品来说，只要切入的具体业务场景足够广、足够痛且真实存在，就不缺乏商业前景。 AI改变了产品、改变了组织、改变了计费方式，但商业的本质并没变。 06 投资人说 DCM Ventures董事合伙人林欣禾表示：“我们持续关注AI范式变革带来的新机会，看到了APTSell团队深耕AI Native领域的专注与热忱，让技术创新落地为扎实可靠的交付能力。通过多年沉淀的商业化实战经验，为客户和APTSell团队自身持续创造价值，拉动增长引擎。”",
+      "url": "https://36kr.com/p/3883591654895873?f=rss",
+      "sourceName": "36Kr",
+      "sourceUrl": "https://36kr.com/feed",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-06T07:53:03.000Z",
+      "collectedAt": "2026-07-06T08:06:18.892Z",
+      "language": "mixed",
+      "authors": [],
+      "rawTags": []
+    },
+    {
+      "id": "7a35e4f73c3588df",
+      "title": "India's IT industry is shrinking general hiring while AI roles rose 16%",
+      "summary": "Article URL: https://twitter.com/rohanpaul_ai/status/2073314619423174678 Comments URL: https://news.ycombinator.com/item?id=48801813 Points: 1 # Comments: 0",
+      "content": "Article URL: https://twitter.com/rohanpaul_ai/status/2073314619423174678 Comments URL: https://news.ycombinator.com/item?id=48801813 Points: 1 # Comments: 0",
+      "url": "https://twitter.com/rohanpaul_ai/status/2073314619423174678",
+      "sourceName": "Hacker News AI Search",
+      "sourceUrl": "https://hnrss.org/newest?q=AI",
+      "sourceType": "aggregator",
+      "publishedAt": "2026-07-06T07:52:40.000Z",
+      "collectedAt": "2026-07-06T08:06:30.329Z",
+      "language": "en",
+      "authors": [
+        "rustoo"
+      ],
       "rawTags": []
     },
     {
       "id": "f6e849964a0adb25",
       "title": "AI 砍掉的第一批大厂人：高薪，高绩效，高P｜深氪",
       "summary": "访谈｜任彩茹 兰杰 彭倩 文｜任彩茹 编辑｜乔芊 杨轩 “630”减员，AI是祸首还是替罪羊? “现在公司有（减员）名单，你在这里面。”5月中的一天，林越被组长叫进会议室，对方开门见山。 林越的第一反应是平静，他早有预料。早在今年三四月，一些互联网公司内部便传出要裁员的风声。开年以来，中国互联网大公司围绕AI提效激进开展的token竞赛、培训会、隐形考核等，无处不在。当所有人都被卷入一场“all in AI”的运动时，“裁员一定会发生”就是大家心照不宣的共识。 但站在HR门口时，他还是迎来了情绪崩溃的瞬间：手开始发抖，犹豫了很长时间，想着怎么开头，怎么调整自己的举止表情。“我再也不想经历这样的事。” 林越月薪2万5，一年前本科毕业，入职携程当后端工程师——当时看，他是极其幸运的一个。互联网招聘红利不再，携程几千份简历只录取不到500人，但他进入的是公司最赚钱的酒店部门，负责为商业化产品写代码。 但现在看，月薪2万5、只有一年经验的初级程序员，不裁他裁谁呢？一是赔偿成本低，二是比起对业务通盘更熟的老员工，新人使用AI的效率往往更低。“有业务经验打底，想用AI做什么，有什么影响，老员工更清楚。”林越说。 斯坦福大学在一篇名为《Canaries in the Coal Mine?》（《煤矿里的金丝雀？》）的论文中，用“金丝雀”比喻刚踏入职场的年轻人。其研究显示，2022年ChatGPT普及以来，最年轻劳动者的就业大幅下降，到2025年9月，22-25岁软件开发者的就业相比其2022年底的峰值下降了近20%。 最近一年，AI让一切更卷了。携程曾是著名的“互联网养老厂”：程序员岗早上10点半上班，午休两小时，下午7点就能准时下班，主APP两周一个迭代。但林越入职没多久，赶上AI Coding能力大爆发，已经卷成一周一个APP迭代，“每天干到10点半”。 但这种节奏加快，并不是因为业务有爆发式增长，“而是因为不找事做，就会变成边缘部门，边缘部门就会被砍。”林越告诉36氪。但最终，他还是没有避免“被砍”的命运。 不过，“斩杀”也可能是无差别的。 苍述完全没想到，自己会是第一批出现在裁员名单上的人。 5月的一个周五，上班前半小时，“部门突然拉了一个all hands（全员会），HR直接宣布了结果，告诉大家有这个事儿。” 来美团之前，苍述是字节的SSP校招生（Super Special Offer），高薪入职，到最后也是组内同级员工中工资最高的一个。跳槽到美团后，组内的核心项目几乎都被放在他手中，今年本该是苍述的晋升节点。 这场裁员潮中，“绩优”、“高P”的保护屏障都失效了。苍述的隔壁组，裁掉的两名员工都在去年取得了“超预期”的绩效评级。裁到最后，苍述所在的小组几乎被全员“端掉”，“这个组名义上还存在，实际已经没人了。” 林越得知自己被裁时，才发现平时常常对接的两位前端工程...",
-      "content": "访谈｜任彩茹 兰杰 彭倩 文｜任彩茹 编辑｜乔芊 杨轩 “630”减员，AI是祸首还是替罪羊? “现在公司有（减员）名单，你在这里面。”5月中的一天，林越被组长叫进会议室，对方开门见山。 林越的第一反应是平静，他早有预料。早在今年三四月，一些互联网公司内部便传出要裁员的风声。开年以来，中国互联网大公司围绕AI提效激进开展的token竞赛、培训会、隐形考核等，无处不在。当所有人都被卷入一场“all in AI”的运动时，“裁员一定会发生”就是大家心照不宣的共识。 但站在HR门口时，他还是迎来了情绪崩溃的瞬间：手开始发抖，犹豫了很长时间，想着怎么开头，怎么调整自己的举止表情。“我再也不想经历这样的事。” 林越月薪2万5，一年前本科毕业，入职携程当后端工程师——当时看，他是极其幸运的一个。互联网招聘红利不再，携程几千份简历只录取不到500人，但他进入的是公司最赚钱的酒店部门，负责为商业化产品写代码。 但现在看，月薪2万5、只有一年经验的初级程序员，不裁他裁谁呢？一是赔偿成本低，二是比起对业务通盘更熟的老员工，新人使用AI的效率往往更低。“有业务经验打底，想用AI做什么，有什么影响，老员工更清楚。”林越说。 斯坦福大学在一篇名为《Canaries in the Coal Mine?》（《煤矿里的金丝雀？》）的论文中，用“金丝雀”比喻刚踏入职场的年轻人。其研究显示，2022年ChatGPT普及以来，最年轻劳动者的就业大幅下降，到2025年9月，22-25岁软件开发者的就业相比其2022年底的峰值下降了近20%。 最近一年，AI让一切更卷了。携程曾是著名的“互联网养老厂”：程序员岗早上10点半上班，午休两小时，下午7点就能准时下班，主APP两周一个迭代。但林越入职没多久，赶上AI Coding能力大爆发，已经卷成一周一个APP迭代，“每天干到10点半”。 但这种节奏加快，并不是因为业务有爆发式增长，“而是因为不找事做，就会变成边缘部门，边缘部门就会被砍。”林越告诉36氪。但最终，他还是没有避免“被砍”的命运。 不过，“斩杀”也可能是无差别的。 苍述完全没想到，自己会是第一批出现在裁员名单上的人。 5月的一个周五，上班前半小时，“部门突然拉了一个all hands（全员会），HR直接宣布了结果，告诉大家有这个事儿。” 来美团之前，苍述是字节的SSP校招生（Super Special Offer），高薪入职，到最后也是组内同级员工中工资最高的一个。跳槽到美团后，组内的核心项目几乎都被放在他手中，今年本该是苍述的晋升节点。 这场裁员潮中，“绩优”、“高P”的保护屏障都失效了。苍述的隔壁组，裁掉的两名员工都在去年取得了“超预期”的绩效评级。裁到最后，苍述所在的小组几乎被全员“端掉”，“这个组名义上还存在，实际已经没人了。” 林越得知自己被裁时，才发现平时常常对接的两位前端工程师，“头像不知道什么时候已经灰了”；美团的一个用户增长大群，原本的数百位成员如今只剩一半左右；阿里巴巴的高德、飞猪等业务，也处在剧烈震荡中。 “630”成了社交媒体上的热词。它是国内AI真正大规模走进互联网职场的第一个季度末。六月底到七旬中旬，既是许多公司人员汰换的惯例时点，也是这场裁员潮中普遍设定的“last day”。 风向标硅谷已经率先在裁员，特征是成批量、规模大。5月，Meta宣布裁员8000人，7000人转岗AI部门，成为硅谷科技公司里最动荡的一家，高管承认“公司士气近20年来最低”；更早时候，亚马逊宣布裁员1.6万白领岗位，把省下的资金投向AI。 2021年上一轮裁员潮发生前，国内互联网大公司疯狂扩张边界，高密度地成立一个又一个新业务，一批人被快速招募起来，又快速抹去。 但今年裁员潮的内在主线并非这样单一。 AI提效、大而重的老业务增长乏力或深陷竞争泥潭、投资AI新业务带来的现金压力，在这个时段交织并行。 许多被通知离开的人，也很难说得清这些因素孰轻孰重。 《哈萨比斯：谷歌AI之脑》的作者称，如同奥本海默创造了原子弹，却无法控制它的使用，追求真理的科学家们也是“万物的破坏者”：我们的工作、思维方式，甚至生存，都可能被“破坏”。十年前的韩国首尔，AlphaGo带给人类棋手李世石最初的破坏。十年后，从硅谷到北京，这种破坏再次蔓延。 对大公司而言，AI是船票，它指向大模型或AI应用这类新业务。但新业务能不能干成、何时干成，没人说得准。面对不再增长的老业务，大公司不得不在每一个确定的和不确定的方向上，更加坚决地提效、进而裁员。 林越向朋友倾诉裁员遭遇时，被安慰道，“没关系，我们大家都会有这一天，只是你的这天来得更早一些。”但比自我开解更重要的可能是，被AI替代、被大厂裁员后，人们该如何选择、如何行动。 焦虑的高层、加码的中层、发疯的基层 “以前在字节两个月才能做出来的产品demo，我们现在两个星期就能做出来。”一名前字节产品经理、现AI创业公司高管对36氪说，有了Claud Code、Codex这样的工具后，自己团队现在可以3小时做出demo，一周内完成想法验证。 “一个产品（经理）就像一个CEO。”他说，组织结构可以随之大幅压缩，信息传递的损耗比大厂少太多，完美“熵减”。 当创业公司借助AI快速行动之时，互联网大厂回望自身，是否会觉得自己像迟缓的巨兽？ 来自大厂最高层的表态，往往是一个信号。 今年3月，美团CEO王兴在高管沟通会上谈到自己对AI的看法，“AI Agent对我的冲击比ChatGPT更大，AI注定会创造巨大生产力，也一定会对组织、对工作模式带来很大的变化。” 那场沟通会结束不久，美团在全公司范围拉了一场线上大会，核心是宣贯“龙虾”的安装与使用，提倡每位同事安装“龙虾”，以及将日常工作尽可能写成可复用的Skill。 会后，在美团核心本地商业从事商家运营的陈宇佳收到通知，需要在每周的周报里加上一个板块，写明自己利用AI做了哪些提效、有什么Skill可以推广到全组和全部门使用。“然后就感受到大家好像拼命在把AI融入自己的工作中。” 4月的一天，一位阿里算法工程师毫无征兆地收到部门上一个月的token消耗排行榜，他以170亿token消耗量赫然位列第一名，被公开表扬。部门老板表示，以后年度KPI、晋升考核都将参考这一排行。但一个月后，新的token消耗排行榜没能如期而至，“可能老板也发现了这种排名方式不靠谱。” 新的规则接踵而至。部门领导很快又提出，员工需要在工作日的早上11点到下午6点上传每小时的“时报”，由Agent上的插件自动记录代码及对话内容，生成工作总结——这意味着员工无法修改自己的时报内容。就在第二天，hr以近乎争吵的姿态，劝阻了该领导的荒谬制度。 类似这样的事情，已经不再让人意外。来自高层的AI焦虑不断下放，中层们层层加码，努力暗示下属，这是一场隐形的汇报竞赛、军备竞赛、淘汰竞赛。 尽管没有强制每个人一定要写Skill，陈宇佳的部门领导还是会密切关注每个下属的token用量，不时询问具体情况，“他也不清楚AI具体能做什么，但他说他不允许我们团队的每个人在这次AI浪潮中落后”。有时在工作结束后的私下聚餐中，大家也会接收到老板暗暗传达的一种危机感，“一定要把AI用起来，否���到时候我想拉你们一把都拉不了。” 阿里...",
+      "content": "访谈｜任彩茹 兰杰 彭倩 文｜任彩茹 编辑｜乔芊 杨轩 “630”减员，AI是祸首还是替罪羊? “现在公司有（减员）名单，你在这里面。”5月中的一天，林越被组长叫进会议室，对方开门见山。 林越的第一反应是平静，他早有预料。早在今年三四月，一些互联网公司内部便传出要裁员的风声。开年以来，中国互联网大公司围绕AI提效激进开展的token竞赛、培训会、隐形考核等，无处不在。当所有人都被卷入一场“all in AI”的运动时，“裁员一定会发生”就是大家心照不宣的共识。 但站在HR门口时，他还是迎来了情绪崩溃的瞬间：手开始发抖，犹豫了很长时间，想着怎么开头，怎么调整自己的举止表情。“我再也不想经历这样的事。” 林越月薪2万5，一年前本科毕业，入职携程当后端工程师——当时看，他是极其幸运的一个。互联网招聘红利不再，携程几千份简历只录取不到500人，但他进入的是公司最赚钱的酒店部门，负责为商业化产品写代码。 但现在看，月薪2万5、只有一年经验的初级程序员，不裁他裁谁呢？一是赔偿成本低，二是比起对业务通盘更熟的老员工，新人使用AI的效率往往更低。“有业务经验打底，想用AI做什么，有什么影响，老员工更清楚。”林越说。 斯坦福大学在一篇名为《Canaries in the Coal Mine?》（《煤矿里的金丝雀？》）的论文中，用“金丝雀”比喻刚踏入职场的年轻人。其研究显示，2022年ChatGPT普及以来，最年轻劳动者的就业大幅下降，到2025年9月，22-25岁软件开发者的就业相比其2022年底的峰值下降了近20%。 最近一年，AI让一切更卷了。携程曾是著名的“互联网养老厂”：程序员岗早上10点半上班，午休两小时，下午7点就能准时下班，主APP两周一个迭代。但林越入职没多久，赶上AI Coding能力大爆发，已经卷成一周一个APP迭代，“每天干到10点半”。 但这种节奏加快，并不是因为业务有爆发式增长，“而是因为不找事做，就会变成边缘部门，边缘部门就会被砍。”林越告诉36氪。但最终，他还是没有避免“被砍”的命运。 不过，“斩杀”也可能是无差别的。 苍述完全没想到，自己会是第一批出现在裁员名单上的人。 5月的一个周五，上班前半小时，“部门突然拉了一个all hands（全员会），HR直接宣布了结果，告诉大家有这个事儿。” 来美团之前，苍述是字节的SSP校招生（Super Special Offer），高薪入职，到最后也是组内同级员工中工资最高的一个。跳槽到美团后，组内的核心项目几乎都被放在他手中，今年本该是苍述的晋升节点。 这场裁员潮中，“绩优”、“高P”的保护屏障都失效了。苍述的隔壁组，裁掉的两名员工都在去年取得了“超预期”的绩效评级。裁到最后，苍述所在的小组几乎被全员“端掉”，“这个组名义上还存在，实际已经没人了。” 林越得知自己被裁时，才发现平时常常对接的两位前端工程师，“头像不知道什么时候已经灰了”；美团的一个用户增长大群，原本的数百位成员如今只剩一半左右；阿里巴巴的高德、飞猪等业务，也处在剧烈震荡中。 “630”成了社交媒体上的热词。它是国内AI真正大规模走进互联网职场的第一个季度末。六月底到七旬中旬，既是许多公司人员汰换的惯例时点，也是这场裁员潮中普遍设定的“last day”。 风向标硅谷已经率先在裁员，特征是成批量、规模大。5月，Meta宣布裁员8000人，7000人转岗AI部门，成为硅谷科技公司里最动荡的一家，高管承认“公司士气近20年来最低”；更早时候，亚马逊宣布裁员1.6万白领岗位，把省下的资金投向AI。 2021年上一轮裁员潮发生前，国内互联网大公司疯狂扩张边界，高密度地成立一个又一个新业务，一批人被快速招募起来，又快速抹去。 但今年裁员潮的内在主线并非这样单一。 AI提效、大而重的老业务增长乏力或深陷竞争泥潭、投资AI新业务带来的现金压力，在这个时段交织并行。 许多被通知离开的人，也很难说得清这些因素孰轻孰重。 《哈萨比斯：谷歌AI之脑》的作者称，如同奥本海默创造了原子弹，却无法控制它的使用，追求真理的科学家们也是“万物的破坏者”：我们的工作、思维方式，甚至生存，都可能被“破坏”。十年前的韩国首尔，AlphaGo带给人类棋手李世石最初的破坏。十年后，从硅谷到北京，这种破坏再次蔓延。 对大公司而言，AI是船票，它指向大模型或AI应用这类新业务。但新业务能不能干成、何时干成，没人说得准。面对不再增长的老业务，大公司不得不在每一个确定的和不确定的方向上，更加坚决地提效、进而裁员。 林越向朋友倾诉裁员遭遇时，被安慰道，“没关系，我们大家都会有这一天，只是你的这天来得更早一些。”但比自我开解更重要的可能是，被AI替代、被大厂裁员后，人们该如何选择、如何行动。 焦虑的高层、加码的中层、发疯的基层 “以前在字节两个月才能做出来的产品demo，我们现在两个星期就能做出来。”一名前字节产品经理、现AI创业公司高管对36氪说，有了Claud Code、Codex这样的工具后，自己团队现在可以3小时做出demo，一周内完成想法验证。 “一个产品（经理）就像一个CEO。”他说，组织结构可以随之大幅压缩，信息传递的损耗比大厂少太多，完美“熵减”。 当创业公司借助AI快速行动之时，互联网大厂回望自身，是否会觉得自己像迟缓的巨兽？ 来自大厂最高层的表态，往往是一个信号。 今年3月，美团CEO王兴在高管沟通会上谈到自己对AI的看法，“AI Agent对我的冲击比ChatGPT更大，AI注定会创造巨大生产力，也一定会对组织、对工作模式带来很大的变化。” 那场沟通会结束不久，美团在全公司范围拉了一场线上大会，核心是宣贯“龙虾”的安装与使用，提倡每位同事安装“龙虾”，以及将日常工作尽可能写成可复用的Skill。 会后，在美团核心本地商业从事商家运营的陈宇佳收到通知，需要在每周的周报里加上一个板块，写明自己利用AI做了哪些提效、有什么Skill可以推广到全组和全部门使用。“然后就感受到大家好像拼命在把AI融入自己的工作中。” 4月的一天，一位阿里算法工程师毫无征兆地收到部门上一个月的token消耗排行榜，他以170亿token消耗量赫然位列第一名，被公开表扬。部门老板表示，以后年度KPI、晋升考核都将参考这一排行。但一个月后，新的token消耗排行榜没能如期而至，“可能老板也发现了这种排名方式不靠谱。” 新的规则接踵而至。部门领导很快又提出，员工需要在工作日的早上11点到下午6点上传每小时的“时报”，由Agent上的插件自动记录代码及对话内容，生成工作总结——这意味着员工无法修改自己的时报内容。就在第二天，hr以近乎争吵的姿态，劝阻了该领导的荒谬制度。 类似这样的事情，已经不再让人意外。来自高层的AI焦虑不断下放，中层们层层加码，努力暗示下属，这是一场隐形的汇报竞赛、军备竞赛、淘汰竞赛。 尽管没有强制每个人一定要写Skill，陈宇佳的部门领导还是会密切关注每个下属的token用量，不时询问具体情况，“他也不清楚AI具体能做什么，但他说他不允许我们团队的每个人在这次AI浪潮中落后”。有时在工作结束后的��下聚餐中，大家也会接收到老板暗暗传达的一种危机感，“一定要把AI用起来，否则到时候我想拉你们一把都拉不了。” 阿里某...",
       "url": "https://36kr.com/p/3883456791163138?f=rss",
       "sourceName": "36Kr",
       "sourceUrl": "https://36kr.com/feed",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-06T02:26:34.000Z",
-      "collectedAt": "2026-07-06T03:26:18.231Z",
+      "collectedAt": "2026-07-06T08:06:18.892Z",
       "language": "mixed",
       "authors": [],
+      "rawTags": []
+    },
+    {
+      "id": "fc8d9b086a3256af",
+      "title": "Some of the nation’s rich are letting AI teach their kids",
+      "summary": "Most Americans don't trust AI. It's proven that it doesn't know what safe toppings for pizza are. People don't even want to listen to AI music. But none of that matters for some of America's wealthy, who are turning to AI to teach their kids instead of traditional schools. Companies like Forge Prep and Alpha School are charging families tens of thousands of dollars to turn their kids into beta testers for AI tutors and \"interactive project-based workshops.\" Unsurprisingly, Silicon Valley have been major adopters of this new model. Shaun Johnson, a San Francisco-based venture capitalist, told the Wall Street Journal that he plans to send his … Read the full story at The Verge.",
+      "content": "Most Americans don't trust AI . It's proven that it doesn't know what safe toppings for pizza are. People don't even want to listen to AI music . But none of that matters for some of America's wealthy, who are turning to AI to teach their kids instead of traditional schools. Companies like Forge Prep and Alpha School are charging families tens of thousands of dollars to turn their kids into beta testers for AI tutors and \"interactive project-based workshops.\" Unsurprisingly, Silicon Valley have been major adopters of this new model. Shaun Johnson, a San Francisco-based venture capitalist, told the Wall Street Journal that he plans to send his … Read the full story at The Verge.",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/961505/wealthy-ai-schools-alpha-forge-prep",
+      "sourceName": "The Verge AI",
+      "sourceUrl": "https://www.theverge.com/rss/index.xml",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-05T22:30:54.000Z",
+      "collectedAt": "2026-07-06T08:06:19.635Z",
+      "language": "en",
+      "authors": [
+        "Terrence O’Brien"
+      ],
       "rawTags": []
     },
     {
@@ -121,7 +108,7 @@
       "sourceUrl": "https://the-decoder.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-05T15:58:56.000Z",
-      "collectedAt": "2026-07-06T03:26:21.158Z",
+      "collectedAt": "2026-07-06T08:06:26.119Z",
       "language": "en",
       "authors": [
         "Matthias Bastian"
@@ -136,6 +123,23 @@
       ]
     },
     {
+      "id": "80e0d4ed81443b28",
+      "title": "Infuriating Google commercial imagines the founding fathers embracing AI",
+      "summary": "I call BS: the founding fathers definitely would have been Microsoft Teams users. | Image: Google \"Group project, but make it 1776.\" That's how a new commercial for Google Workspace opens. And things only get cringier from there. The clip imagines what it would be like if the founding fathers turned to Google's collaboration tools and Gemini to help them draft the Declaration of Independence. Ben Franklin texts Thomas Jefferson to check on the status of a draft, who takes a photo and uses AI to transcribe it into a Google Doc. Franklin and Adams hop in to make edits in suggestion mode, Gemini finds them a meeting time, takes notes during a Google Meet call, and then Nano Banana whips up a seal for the United States featuring a turkey ( … Read the full story at The Verge.",
+      "content": "I call BS: the founding fathers definitely would have been Microsoft Teams users. | Image: Google \"Group project, but make it 1776.\" That's how a new commercial for Google Workspace opens. And things only get cringier from there. The clip imagines what it would be like if the founding fathers turned to Google's collaboration tools and Gemini to help them draft the Declaration of Independence. Ben Franklin texts Thomas Jefferson to check on the status of a draft, who takes a photo and uses AI to transcribe it into a Google Doc. Franklin and Adams hop in to make edits in suggestion mode, Gemini finds them a meeting time, takes notes during a Google Meet call, and then Nano Banana whips up a seal for the United States featuring a turkey ( … Read the full story at The Verge.",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/961468/google-ai-commercial-founding-fathers-declaration-of-independence",
+      "sourceName": "The Verge AI",
+      "sourceUrl": "https://www.theverge.com/rss/index.xml",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-05T14:23:11.000Z",
+      "collectedAt": "2026-07-06T08:06:19.635Z",
+      "language": "en",
+      "authors": [
+        "Terrence O’Brien"
+      ],
+      "rawTags": []
+    },
+    {
       "id": "e4b5b6a3e8fa51d5",
       "title": "AI private schools sell wealthy US families on personalized learning over traditional education",
       "summary": "Wealthy US families are increasingly sending their kids to AI schools like Alpha School, which combines two hours of AI tutoring with project-based workshops for up to $75,000 a year in tuition. The trend highlights a growing education gap in the AI era, where traditional schools are struggling to adopt the technology, which may do more harm than good if used without the right skills. The article AI private schools sell wealthy US families on personalized learning over traditional education appeared first on The Decoder.",
@@ -145,7 +149,7 @@
       "sourceUrl": "https://the-decoder.com/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-05T10:45:46.000Z",
-      "collectedAt": "2026-07-06T03:26:21.158Z",
+      "collectedAt": "2026-07-06T08:06:26.119Z",
       "language": "en",
       "authors": [
         "Matthias Bastian"
@@ -167,7 +171,7 @@
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-04T20:55:25.000Z",
-      "collectedAt": "2026-07-06T03:26:18.610Z",
+      "collectedAt": "2026-07-06T08:06:19.269Z",
       "language": "en",
       "authors": [
         "Anthony Ha"
@@ -189,7 +193,7 @@
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-04T18:00:05.000Z",
-      "collectedAt": "2026-07-06T03:26:18.610Z",
+      "collectedAt": "2026-07-06T08:06:19.269Z",
       "language": "en",
       "authors": [
         "Anthony Ha"
@@ -204,41 +208,24 @@
       ]
     },
     {
-      "id": "8c409c95695b95d3",
-      "title": "Alibaba reportedly bans employees from using Claude Code",
-      "summary": "Alibaba has reportedly classified Claude Code as high-risk software.",
-      "content": "Alibaba has reportedly classified Claude Code as high-risk software.",
-      "url": "https://techcrunch.com/2026/07/04/alibaba-reportedly-bans-employees-from-using-claude-code/",
-      "sourceName": "TechCrunch AI",
-      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "id": "9f0b29336a93a20d",
+      "title": "Can Cursor Remain a Platform for OpenAI and Anthropic’s Models Inside SpaceX?",
+      "summary": "Cursor hopes to continue offering third-party AI models after it's acquired by SpaceX, testing the relationships between frontier AI labs.",
+      "content": "Cursor hopes to continue offering third-party AI models after it's acquired by SpaceX, testing the relationships between frontier AI labs.",
+      "url": "https://www.wired.com/story/can-cursor-remain-an-open-platform-inside-of-spacex/",
+      "sourceName": "WIRED AI",
+      "sourceUrl": "https://www.wired.com/feed/tag/ai/latest/rss",
       "sourceType": "tech_media",
-      "publishedAt": "2026-07-04T16:32:08.000Z",
-      "collectedAt": "2026-07-06T03:26:18.610Z",
+      "publishedAt": "2026-07-02T18:01:20.000Z",
+      "collectedAt": "2026-07-06T08:06:20.237Z",
       "language": "en",
       "authors": [
-        "Anthony Ha"
+        "Maxwell Zeff"
       ],
       "rawTags": [
-        "AI",
-        "Security",
-        "alibaba",
-        "claude code"
+        "Business",
+        "Business / Artificial Intelligence"
       ]
-    },
-    {
-      "id": "506a46ea0aa91464",
-      "title": "9点1氪｜阿里内部全面禁用Claude Code；FF洛杉矶总部人去楼空？公司回应：不实；微软砸25亿美元组建6000人AI新公司",
-      "summary": "今日热点导览 三部门：调整节能汽车、新能源汽车车船税优惠政策 三星传获Meta超10万亿韩元AI芯片代工订单 茉莉奶白小程序更换彩色Logo Meta打算出售富余算力引发科技股回落 英伟达前光互连技术高管Ashkan Seyedi加入艾迈斯欧司朗 TOP3大新闻 因存在植入后门风险，阿里内部全面禁用Claude Code 36氪从阿里内部人士处获悉，因近期Claude Code被曝存在植入后门的安全风险，阿里经综合评估后已将其列入高风险软件名单。自7月10日起，阿里将全面禁止内部员工在办公环境下使用Claude Code，并推荐使用Qoder作为替代方案。 FF洛杉矶总部人去楼空？公司回应：不实 7月3日，法拉第未来发布声明称，公司日前关注到近部分网络平台流传所谓“FF洛杉矶总部人去楼空”等不实信息。FF位于汉福德的工厂并未关闭，此次系全球总部正常搬迁至洛杉矶硅滩（El Segundo）。网传视频所拍摄地点为FF曾经位于Gardena市的旧总部，今年3月底开始不再由FF使用。所谓“FF洛杉矶总部人去楼空”的说法具有严重误导性，属于对公司正常办公地点搬迁事实的恶意歪曲。（界面新闻） 微软砸25亿美元组建6000人AI新公司 当地时间7月2日，微软宣布成立全新运营实体——微软前沿公司（Microsoft Frontier Company）。该业务依托微软现有人工智能工具，主要为企业客户落地有成效的人工智能部署项目。微软将为该项目投入25亿美元资金，并配备6000名行业专家与工程技术人员。据微软商业业务总裁贾德森·阿尔托夫（Judson Althoff）介绍，这项业务远超所谓前沿部署工程（FDE）的范畴，将打造业内规模最大、综合实力最强、以业务成果为核心导向的工程团队。 该部门将整合微软现有的FDE工程师、技术顾问、支持人员以及具备行业经验的销售团队。新公司将为客户提供AI技术选型与系统集成服务，涵盖微软自有模型及外部模型，并与企业自身的专有数据进行深度结合。客户将保留所有成果与开发成果的所有权，无需将结果回传给微软。（界面新闻） AI最前沿 Github Copilot接入开源模型Kimi K2.7 36氪获悉，月之暗面宣布，Github Copilot接入第一个开源模型Kimi K2.7。 阿里云宣布AI原生数据库服务产品Databridge Agent功能收费 36氪获悉，阿里云官网显示，AI原生数据库服务产品Databridge Agent将于2026年8月1日正式转商业化计费。 大公司/大事件 国家发改委：自7月3日24时起，国内汽、柴油（标准品）价格每吨分别下调950元、915元 36氪获悉，据国家发改委，6月18日国内成品油价格调整以来，国际市场原油价格快速回落后小幅波动运行，本次调价的前10个工作日平均价格低于上次调价前10个工作日平均价格。根据...",
-      "content": "今日热点导览 三部门：调整节能汽车、新能源汽车车船税优惠政策 三星传获Meta超10万亿韩元AI芯片代工订单 茉莉奶白小程序更换彩色Logo Meta打算出售富余算力引发科技股回落 英伟达前光互连技术高管Ashkan Seyedi加入艾迈斯欧司朗 TOP3大新闻 因存在植入后门风险，阿里内部全面禁用Claude Code 36氪从阿里内部人士处获悉，因近期Claude Code被曝存在植入后门的安全风险，阿里经综合评估后已将其列入高风险软件名单。自7月10日起，阿里将全面禁止内部员工在办公环境下使用Claude Code，并推荐使用Qoder作为替代方案。 FF洛杉矶总部人去楼空？公司回应：不实 7月3日，法拉第未来发布声明称，公司日前关注到近部分网络平台流传所谓“FF洛杉矶总部人去楼空”等不实信息。FF位于汉福德的工厂并未关闭，此次系全球总部正常搬迁至洛杉矶硅滩（El Segundo）。网传视频所拍摄地点为FF曾经位于Gardena市的旧总部，今年3月底开始不再由FF使用。所谓“FF洛杉矶总部人去楼空”的说法具有严重误导性，属于对公司正常办公地点搬迁事实的恶意歪曲。（界面新闻） 微软砸25亿美元组建6000人AI新公司 当地时间7月2日，微软宣布成立全新运营实体——微软前沿公司（Microsoft Frontier Company）。该业务依托微软现有人工智能工具，主要为企业客户落地有成效的人工智能部署项目。微软将为该项目投入25亿美元资金，并配备6000名行业专家与工程技术人员。据微软商业业务总裁贾德森·阿尔托夫（Judson Althoff）介绍，这项业务远超所谓前沿部署工程（FDE）的范畴，将打造业内规模最大、综合实力最强、以业务成果为核心导向的工程团队。 该部门将整合微软现有的FDE工程师、技术顾问、支持人员以及具备行业经验的销售团队。新公司将为客户提供AI技术选型与系统集成服务，涵盖微软自有模型及外部模型，并与企业自身的专有数据进行深度结合。客户将保留所有成果与开发成果的所有权，无需将结果回传给微软。（界面新闻） AI最前沿 Github Copilot接入开源模型Kimi K2.7 36氪获悉，月之暗面宣布，Github Copilot接入第一个开源模型Kimi K2.7。 阿里云宣布AI原生数据库服务产品Databridge Agent功能收费 36氪获悉，阿里云官网显示，AI原生数据库服务产品Databridge Agent将于2026年8月1日正式转商业化计费。 大公司/大事件 国家发改委：自7月3日24时起，国内汽、柴油（标准品）价格每吨分别下调950元、915元 36氪获悉，据国家发改委，6月18日国内成品油价格调整以来，国际市场原油价格快速回落后小幅波动运行，本次调价的前10个工作日平均价格低于上次调价前10个工作日平均价格。根据国际市场油价变化情况，自7月3日24时起，国内汽、柴油（标准品）价格每吨分别下调950元、915元。 多家品牌金饰价格大涨，周生生克价1266元 7月3日，国内黄金饰品价格对比显示，多家黄金珠宝品牌公布的境内足金首饰价格较2日有所上调，老凤祥报价1260元/克，较前一日1230元/克涨30元；周生生报价1266元/克，较前一日1236元/克涨30元；周大福报价1262元/克，较前一日1233元涨29元；老庙黄金报价1261元/克，较前一日1235元/克涨26元。（界面新闻） 三星传获Meta超10万亿韩元AI芯片代工订单，2纳米中长期积压订单看涨 7月3日，据报道，三星电子正成为全球大科技公司自研AI芯片（ASIC）的核心生产基地，其中长期积压订单有望逼近50万亿韩元。Meta正推进与三星晶圆代工合作设计并生产价值超10万亿韩元的下一代ASIC。其自研AI加速器“MTIA”已锁定三星为合作伙伴，计划采用2纳米尖端工艺量产数十万组。同时，美国AI巨头Anthropic也在评估使用其2纳米工艺开发芯片。（界面新闻） 国家金融监督管理总局决定对众邦银行实施接管 国家金融监督管理总局、湖北省人民政府关于对武汉众邦银行股份有限公司实施接管的公告。鉴于武汉众邦银行股份有限公司（以下简称众邦银行）出现严重信用风险，为保护存款人和其他客户的合法权益，依照《中华人民共和国银行业监督管理法》和《中华人民共和国商业银行法》有关规定，国家金融监督管理总局决定对众邦银行实施接管。（央视新闻） 三部门：调整节能汽车、新能源汽车车船税优惠政策 36氪获悉，财政部、税务总局、工业和信息化部发布关于调整节能汽车、新能源汽车车船税优惠政策的公告。自2027年1月1日起，取消对节能汽车减半征收车船税政策，取消对纯电动商用车、插电式（含增程式）混合动力汽车、燃料电池商用车免征车船税政策；纳税人新取得及本公告实施前已取得的上述类型车辆，应按照《中华人民共和国车船税法》及其实施条例和其他相关规定征收车船税。 科技板块遭遇深度调整，机构建议聚焦细分龙头 7月2日，A股市场迎来大幅调整。分析人士认为，本轮调整并非基本面逻辑的逆转，而是上半年科技板块极致分化行情下交易拥挤、筹码结构脆弱等风险因素的集中释放。经历半年大幅上涨后，部分高位品种估值与预期透支较为严重，短期回调具有一定的合理性。但从中长期维度来看，AI产业趋势并未改变，机构普遍建议投资者在调整过程中保持定力，关注具备核心竞争力的细分龙头，同时适度配置高股息资产以平滑组合波动。（中证网） 茉莉奶白小程序更换彩色Logo，此前被判赔LV超千万元 因商标侵权纠纷一审被判向LV赔偿1000万元后，茉莉奶白更换头像的消息引发关注。7月2日晚上，茉莉奶白小程序会员中心原本黑色的Logo换成了彩色Logo，相关话题也冲上社交平台热搜。7月3日，记者就“换Logo是否与LV诉讼一事有关”的问题咨询茉莉奶白客服，工作人员对界面新闻表示：“抱歉给您添麻烦了，我司将依法提起上诉，未来我们将持续专注品质与服务，不负信任。”（界面新闻） 腾讯游戏暑期未保行动：每周限玩3小时 36氪获悉，7月3日，腾讯游戏发布“2026年暑期未成年人保护专项行动”，每周限玩3小时，升级“AI双引擎防沉迷”模式：游戏外，成长守护焕新AI版本，接入腾讯混元与DeepSeek双模型，家长可通过对话式交互完成信息查询与账号管控，提升管理便捷度；游戏内，健康系统推出AI巡航功能，内置“AI守卫”，基于玩家行为进行动态风险分级，并在人脸识别基础上，新增声纹检测、年龄识别等多模态验证，实现全链路干预，提高冒用、代过门槛。 关停“杠杆炒金”通道，银行拧紧个人贵金属业务风险阀门 6月以来，包括交通银行、招商银行、工商银行在内的多家国有大行、股份制银行密集“踩刹车”——宣布将于7月停办代理上海黄金交易所个人贵金属交易业务。在业内人士看来，这是银行主动进行风险管理的举措，通过提前压缩高风险投机业务，防范极端行情下的客户违约风险、声誉风险，同时帮助投资者规避贵金属价格波动带来的资金损失。（中证网） Meta打算出售富余算力引发科技股回落，业内人士：算力租赁市场并未降温 科技巨头Meta（脸书）打算出售富余算力的消息，引发AI算力过剩恐慌，全球科技股普遍回落，A股存储、光模块、PCB（印制电路...",
-      "url": "https://36kr.com/p/3880629882679301?f=rss",
-      "sourceName": "36Kr",
-      "sourceUrl": "https://36kr.com/feed",
-      "sourceType": "tech_media",
-      "publishedAt": "2026-07-04T01:03:44.000Z",
-      "collectedAt": "2026-07-06T03:26:18.231Z",
-      "language": "mixed",
-      "authors": [],
-      "rawTags": []
     },
     {
       "id": "423a91d13460f31c",
@@ -250,7 +237,7 @@
       "sourceUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T15:37:08.000Z",
-      "collectedAt": "2026-07-06T03:26:19.441Z",
+      "collectedAt": "2026-07-06T08:06:23.657Z",
       "language": "en",
       "authors": [
         "MIT Technology Review Insights"
@@ -270,7 +257,7 @@
       "sourceUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-07-02T12:51:44.000Z",
-      "collectedAt": "2026-07-06T03:26:19.441Z",
+      "collectedAt": "2026-07-06T08:06:23.657Z",
       "language": "en",
       "authors": [
         "MIT Technology Review Insights"
@@ -282,6 +269,90 @@
       ]
     },
     {
+      "id": "01f3f35ef2f8c652",
+      "title": "The latest AI news we announced in June 2026",
+      "summary": "Here are Google’s latest AI updates from June 2026.",
+      "content": "Here are Google’s latest AI updates from June 2026.",
+      "url": "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-june-2026/",
+      "sourceName": "Google AI Blog",
+      "sourceUrl": "https://blog.google/technology/ai/rss/",
+      "sourceType": "official",
+      "publishedAt": "2026-07-01T18:15:00.000Z",
+      "collectedAt": "2026-07-06T08:06:22.622Z",
+      "language": "en",
+      "authors": [],
+      "rawTags": [
+        "Search",
+        "NotebookLM",
+        "Android",
+        "Arts & Culture",
+        "Google DeepMind",
+        "Developer tools",
+        "Learning & Education",
+        "UK",
+        "AI",
+        "Pixel",
+        "Gemini App",
+        "Gemini models",
+        "Google Research",
+        "Safety & Security",
+        "Google Nest"
+      ]
+    },
+    {
+      "id": "bd23115dadf6209e",
+      "title": "You Can Now Sound the Alarm on AI Behaving Badly",
+      "summary": "Are you worried your AI chatbot is trying to build a bomb or leak personal information about you? There’s a website for that.",
+      "content": "Are you worried your AI chatbot is trying to build a bomb or leak personal information about you? There’s a website for that.",
+      "url": "https://www.wired.com/story/flare-website-ai-flaw-reporting-safety/",
+      "sourceName": "WIRED AI",
+      "sourceUrl": "https://www.wired.com/feed/tag/ai/latest/rss",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-01T18:10:00.000Z",
+      "collectedAt": "2026-07-06T08:06:20.237Z",
+      "language": "en",
+      "authors": [
+        "Will Knight"
+      ],
+      "rawTags": [
+        "Business",
+        "Business / Artificial Intelligence"
+      ]
+    },
+    {
+      "id": "59a6d5d3c78b7861",
+      "title": "New York City educators and industry leaders gathered at Google’s offices to shape the future of AI in classrooms.",
+      "summary": "Google, the New York Jobs CEO Council and Urban Assembly hosted an AI summit for 150 education and industry leaders.",
+      "content": "Google, the New York Jobs CEO Council and Urban Assembly hosted an AI summit for 150 education and industry leaders.",
+      "url": "https://blog.google/products-and-platforms/products/education/nyc-ai-summit/",
+      "sourceName": "Google AI Blog",
+      "sourceUrl": "https://blog.google/technology/ai/rss/",
+      "sourceType": "official",
+      "publishedAt": "2026-07-01T16:00:00.000Z",
+      "collectedAt": "2026-07-06T08:06:22.622Z",
+      "language": "en",
+      "authors": [],
+      "rawTags": [
+        "Learning & Education",
+        "AI"
+      ]
+    },
+    {
+      "id": "d8b40c68252d6532",
+      "title": "2026 BAIR Graduate Showcase",
+      "summary": "Congratulations to the Berkeley Artificial Intelligence Research (BAIR) Lab class of 2026! This year, BAIR celebrates another remarkable group of Ph.D. graduates whose curiosity, creativity, and perseverance have pushed the frontiers of artificial intelligence and machine learning. Their work spans the breadth of modern AI — robotics and embodied intelligence, large language models and reasoning, computer vision, generative modeling, AI safety, human-AI interaction, AI for science and healthcare, and much more. Along the way, they have published influential research, built systems with real-world impact, mentored their peers, and shaped the BAIR community for the better. Now they are headed everywhere ideas travel: to faculty and postdoctoral positions, to industry research labs, and to startups of their own founding — and several are still exploring what comes next and would love to hear from you. Please join us in celebrating the achievements of these wonderful graduates. We are proud of everything they have accomplished at Berkeley, and we can’t wait to see what they do next! Thank you to our friends at the Stanford AI Lab for this idea! Baifeng Shi Email: baifeng_shi@berkeley....",
+      "content": "Congratulations to the Berkeley Artificial Intelligence Research (BAIR) Lab class of 2026! This year, BAIR celebrates another remarkable group of Ph.D. graduates whose curiosity, creativity, and perseverance have pushed the frontiers of artificial intelligence and machine learning. Their work spans the breadth of modern AI — robotics and embodied intelligence, large language models and reasoning, computer vision, generative modeling, AI safety, human-AI interaction, AI for science and healthcare, and much more. Along the way, they have published influential research, built systems with real-world impact, mentored their peers, and shaped the BAIR community for the better. Now they are headed everywhere ideas travel: to faculty and postdoctoral positions, to industry research labs, and to startups of their own founding — and several are still exploring what comes next and would love to hear from you. Please join us in celebrating the achievements of these wonderful graduates. We are proud of everything they have accomplished at Berkeley, and we can’t wait to see what they do next! Thank you to our friends at the Stanford AI Lab for this idea! Baifeng Shi Email: baifeng_shi@berkeley.edu Website: https://bfshi.github.io/ Advisor(s): Trevor Darrell Research Blurb: I work on building generalist vision and robotic models. What's next: Member of Technical Staff at Physical Intelligence Charlie Snell Email: csnell22@berkeley.edu Website: https://sea-snell.github.io Advisor(s): Dan Klein Research Blurb: My work aims to understand when and how the different LLM scaling paradigms can be traded off and interchanged. In particular, test-time scaling treats each prompt independently, drawing long chains of inferences and then forgetting them entirely between prompts. This differs critically from pretraining, which instead learns a compressed representation from a large dataset. I believe bridging the gap between these methods of scaling computation, presents a key open challenge in the field: how can we develop methods which turn the inferences drawn at test-time back into learned representations that the model can hold onto across interactions. Devin Guillory Email: dguillory@berkeley.edu Website: https://devinguillory.com Advisor(s): Trevor Darrell Research Blurb: Accounting for data shifts in computer vision models What's next: Building collaborative AI systems, looking for conspirators. Eve Fleisig Email: efleisig@berkeley.edu Website: https://efleisig.com Advisor(s): Dan Klein Research Blurb: I design language models to work reliably and fairly for the broad range of real LLM users. First, my research leverages disagreement among user preferences as signal, in order to train and evaluate LLMs for entire populations of users. Second, I work on designing rigorous evaluations to extricate challenging LLM harms that diverse users face. Finally, I work on core technical failures of LLMs, like miscalibrated confidence, to reduce downstream risks when models are...",
+      "url": "http://bair.berkeley.edu/blog/2026/07/01/grads-2026/",
+      "sourceName": "Berkeley AI Research",
+      "sourceUrl": "https://bair.berkeley.edu/blog/feed.xml",
+      "sourceType": "research",
+      "publishedAt": "2026-07-01T09:00:00.000Z",
+      "collectedAt": "2026-07-06T08:06:28.907Z",
+      "language": "en",
+      "authors": [],
+      "rawTags": []
+    },
+    {
       "id": "3a8bc694f90308e7",
       "title": "How ChatGPT adoption has expanded",
       "summary": "New OpenAI Signals data shows how ChatGPT adoption is growing globally, with users increasing usage, exploring more capabilities, and driving growth across regions and languages.",
@@ -291,7 +362,7 @@
       "sourceUrl": "https://openai.com/news/rss.xml",
       "sourceType": "official",
       "publishedAt": "2026-06-30T09:00:00.000Z",
-      "collectedAt": "2026-07-06T03:26:22.364Z",
+      "collectedAt": "2026-07-06T08:06:27.099Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -308,7 +379,7 @@
       "sourceUrl": "https://openai.com/news/rss.xml",
       "sourceType": "official",
       "publishedAt": "2026-06-30T00:00:00.000Z",
-      "collectedAt": "2026-07-06T03:26:22.364Z",
+      "collectedAt": "2026-07-06T08:06:27.099Z",
       "language": "en",
       "authors": [],
       "rawTags": [
@@ -325,7 +396,7 @@
       "sourceUrl": "https://venturebeat.com/category/ai/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-05-19T17:45:00.000Z",
-      "collectedAt": "2026-07-06T03:26:19.101Z",
+      "collectedAt": "2026-07-06T08:06:20.646Z",
       "language": "en",
       "authors": [
         "michael.nunez@venturebeat.com (Michael Nuñez)",
@@ -348,7 +419,7 @@
       "sourceUrl": "https://venturebeat.com/category/ai/feed/",
       "sourceType": "tech_media",
       "publishedAt": "2026-01-22T14:00:00.000Z",
-      "collectedAt": "2026-07-06T03:26:19.101Z",
+      "collectedAt": "2026-07-06T08:06:20.646Z",
       "language": "en",
       "authors": [
         "michael.nunez@venturebeat.com (Michael Nuñez)",
@@ -357,6 +428,52 @@
       "rawTags": [
         "Infrastructure",
         "AI"
+      ]
+    },
+    {
+      "id": "b6256e914d0f13c0",
+      "title": "NVIDIA Rubin Platform, Open Models, Autonomous Driving: NVIDIA Presents Blueprint for the Future at CES",
+      "summary": "NVIDIA founder and CEO Jensen Huang took the stage at the Fontainebleau Las Vegas to open CES 2026, declaring that AI is scaling into every domain and every device. “Computing has been fundamentally reshaped as a result of accelerated computing, as a result of artificial intelligence,” Huang said. “What that means is some $10 trillion […]",
+      "content": "NVIDIA founder and CEO Jensen Huang took the stage at the Fontainebleau Las Vegas to open CES 2026, declaring that AI is scaling into every domain and every device. “Computing has been fundamentally reshaped as a result of accelerated computing, as a result of artificial intelligence,” Huang said. “What that means is some $10 trillion or so of the last decade of computing is now being modernized to this new way of doing computing.” Huang unveiled Rubin , NVIDIA’s first extreme-codesigned, six-chip AI platform now in full production, and introduced Alpamayo , an open reasoning model family for autonomous vehicle development — part of a sweeping push to bring AI into every domain. With Rubin, NVIDIA aims to “push AI to the next frontier” while slashing the cost of generating tokens to roughly one-tenth that of the previous platform, Huang said, making large-scale AI far more economical to deploy. Huang also emphasized the role of NVIDIA open models across every domain, trained on NVIDIA supercomputers, forming a global ecosystem of intelligence that developers and enterprises can build on. “Every single six months, a new model is emerging, and these models are getting smarter and smarter,” Huang said. “Because of that, you could see the number of downloads has exploded.” Find all NVIDIA news from CES in this online press kit . A New Engine for Intelligence: The Rubin Platform Introducing the audience to pioneering American astronomer Vera Rubin, after whom NVIDIA named its next-generation computing platform, Huang announced that the NVIDIA Rubin platform , the successor to the record‑breaking NVIDIA Blackwell architecture and the company’s first extreme-codesigned, six‑chip AI platform, is now in full production. Built from the data center outward, Rubin platform components span: Rubin GPUs with 50 petaflops of NVFP4 inference Vera CPUs engineered for data movement and agentic processing NVLink 6 scale‑up networking Spectrum‑X Ethernet Photonics scale‑out networking ConnectX‑9 SuperNICs BlueField‑4 DPUs Extreme codesign — designing all these components together — is essential because scaling AI to gigascale requires tightly integrated innovation across chips, trays, racks, networking, storage and software to eliminate bottlenecks and dramatically reduce the costs of training and inference, Huang explained. He also introduced AI-native storage with NVIDIA Inference Context Memory Storage Platform — an AI‑native KV‑cache tier that boosts long‑context inference with 5x higher tokens per second, 5x better performance per TCO dollar and 5x better power efficiency. Put it all together and the Rubin platform promises to dramatically accelerate AI innovation, delivering AI tokens at one-tenth the cost. “The faster you train AI models, the faster you can get the next frontier out to the world,” Huang said. “This is your time to market. This is technology leadership.” Open Models for All NVIDIA’s open models — trained on NVIDIA’s own supercomputers — are po...",
+      "url": "https://blogs.nvidia.com/blog/2026-ces-special-presentation/",
+      "sourceName": "NVIDIA AI Blog",
+      "sourceUrl": "https://blogs.nvidia.com/blog/category/deep-learning/feed/",
+      "sourceType": "official",
+      "publishedAt": "2026-01-05T23:30:18.000Z",
+      "collectedAt": "2026-07-06T08:06:23.312Z",
+      "language": "en",
+      "authors": [
+        "Brian Caulfield"
+      ],
+      "rawTags": [
+        "Corporate",
+        "Deep Learning",
+        "Driving",
+        "Hardware",
+        "Supercomputing",
+        "CES 2026"
+      ]
+    },
+    {
+      "id": "9c8f13159986164c",
+      "title": "As AI Grows More Complex, Model Builders Rely on NVIDIA",
+      "summary": "Unveiling what it describes as the most capable model series yet for professional knowledge work, OpenAI launched GPT-5.2 in December. The model was trained and deployed on NVIDIA infrastructure, including NVIDIA Hopper and GB200 NVL72 systems. GPT-5.3 Codex — the first OpenAI agentic coding model to help build itself — was released in February and […]",
+      "content": "Unveiling what it describes as the most capable model series yet for professional knowledge work, OpenAI launched GPT-5.2 in December. The model was trained and deployed on NVIDIA infrastructure, including NVIDIA Hopper and GB200 NVL72 systems. GPT-5.3 Codex — the first OpenAI agentic coding model to help build itself — was released in February and trained and served entirely on GB200 NVL72. GPT-5.2 achieves the top reported score for industry benchmarks like GPQA-Diamond, AIME 2025 and Tau2 Telecom. On leading benchmarks targeting the skills required to develop AGI, like ARC-AGI-2 , GPT-5.2 sets a new bar for state-of-the-art performance. GPT 5.3-Codex combines the coding performance of GPT‑5.2-Codex and the reasoning capabilities of GPT‑5.2 together in one model, with 25% faster performance. In four benchmarks used to evaluate coding, agentic and real-world capabilities, GPT 5.3-Codex set a new industry highs on SWE-Bench Pro and Terminal-Bench while also displaying strong performance on OSWorld and GDPval benchmarks,. GPT 5.2 and GPT 5.3-Codex are the latest examples of how leading AI builders train and deploy at scale on NVIDIA’s full-stack AI infrastructure. Pretraining: The Bedrock of Intelligence AI models are getting more capable thanks to three scaling laws : pretraining, post-training and test-time scaling. Reasoning models , which apply compute during inference to tackle complex queries, using multiple networks working together, are now everywhere. But pretraining and post-training remain the bedrock of intelligence. They’re core to making reasoning models smarter and more useful. And getting there takes scale. Training frontier models from scratch isn’t a small job. It takes tens of thousands, even hundreds of thousands, of GPUs working together effectively. That level of scale demands excellence across many dimensions. It requires world-class accelerators, advanced networking across scale-up, scale-out and increasingly scale-across architectures, plus a fully optimized software stack. In short, a purpose-built infrastructure platform built to deliver performance at scale. Compared with the NVIDIA Hopper architecture, NVIDIA GB200 NVL72 systems delivered 3x faster training performance on the largest model tested in the latest MLPerf Training industry benchmarks, and nearly 2x better performance per dollar . And NVIDIA GB300 NVL72 delivers a more than 4x speedup compared with NVIDIA Hopper. These performance gains help AI developers shorten development cycles and deploy new models more quickly. Proof in the Models Across Every Modality The majority of today’s leading large language models were trained on NVIDIA platforms. AI isn’t just about text. NVIDIA supports AI development across multiple modalities, including speech, image and video generation, as well as emerging areas like biology and robotics. For example, models like Evo 2 decode genetic sequences, OpenFold3 predicts 3D protein structures and Boltz-2 simulates drug interacti...",
+      "url": "https://blogs.nvidia.com/blog/leading-models-nvidia/",
+      "sourceName": "NVIDIA AI Blog",
+      "sourceUrl": "https://blogs.nvidia.com/blog/category/deep-learning/feed/",
+      "sourceType": "official",
+      "publishedAt": "2025-12-11T19:19:57.000Z",
+      "collectedAt": "2026-07-06T08:06:23.312Z",
+      "language": "en",
+      "authors": [
+        "Ashraf Eassa"
+      ],
+      "rawTags": [
+        "Cloud",
+        "Corporate",
+        "Deep Learning",
+        "AI Training"
       ]
     }
   ]

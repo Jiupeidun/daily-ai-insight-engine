@@ -1,5 +1,6 @@
 import { createOpenAI } from "@ai-sdk/openai";
 import { generateObject } from "ai";
+import { z } from "zod";
 import type { ArticleInsight, DailyReport, Language, QualityGate, SourceType, Topic } from "./schema";
 import { DailyReportSchema } from "./schema";
 import { stableId } from "./normalize";
@@ -12,13 +13,92 @@ type AiReportOptions = {
   model?: string;
 };
 
-const AiReportSupportSchema = DailyReportSchema.pick({
-  executiveBrief: true,
-  topEvents: true,
-  deepDives: true,
-  trendRadar: true,
-  riskOpportunity: true,
-  charts: true
+const AiReportSupportSchema = z.object({
+  executiveBrief: z.string().min(40),
+  topEvents: z.array(
+    z.object({
+      rank: z.number().int().positive(),
+      articleId: z.string(),
+      title: z.string(),
+      score: z.number().int().min(0).max(100),
+      whyImportant: z.string(),
+      evidence: z.string(),
+      url: z.string()
+    })
+  ),
+  deepDives: z.array(
+    z.object({
+      articleId: z.string(),
+      headline: z.string(),
+      background: z.string(),
+      impact: z.string(),
+      watchNext: z.string(),
+      citedUrls: z.array(z.string())
+    })
+  ),
+  trendRadar: z.array(
+    z.object({
+      theme: z.enum([
+        "frontier_model",
+        "ai_infrastructure",
+        "product_launch",
+        "research",
+        "open_source",
+        "policy_regulation",
+        "capital_market",
+        "safety_security",
+        "enterprise_adoption",
+        "developer_tools"
+      ]),
+      intensity: z.number().int().min(0).max(100),
+      direction: z.enum(["up", "flat", "down"]),
+      rationale: z.string()
+    })
+  ),
+  riskOpportunity: z.array(
+    z.object({
+      type: z.enum(["risk", "opportunity"]),
+      title: z.string(),
+      rationale: z.string(),
+      relatedArticleIds: z.array(z.string())
+    })
+  ),
+  charts: z.object({
+    topicDistribution: z.array(
+      z.object({
+        topic: z.string(),
+        label: z.string(),
+        count: z.number(),
+        avgImpact: z.number()
+      })
+    ),
+    sourceMix: z.array(
+      z.object({
+        type: z.string(),
+        count: z.number()
+      })
+    ),
+    impactTimeline: z.array(
+      z.object({
+        date: z.string(),
+        count: z.number(),
+        avgImpact: z.number(),
+        maxImpact: z.number()
+      })
+    ),
+    signalRadar: z.array(
+      z.object({
+        signal: z.string(),
+        value: z.number()
+      })
+    ),
+    valueChainMap: z.array(
+      z.object({
+        valueChain: z.string(),
+        count: z.number()
+      })
+    )
+  })
 });
 
 const TOPIC_LABELS: Record<Topic, string> = {

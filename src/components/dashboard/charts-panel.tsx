@@ -81,7 +81,14 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
               itemStyle={TOOLTIP_ITEM_STYLE}
               labelStyle={TOOLTIP_LABEL_STYLE}
             />
-            <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="#64d2ff" />
+            <Bar
+              dataKey="count"
+              radius={[8, 8, 0, 0]}
+              fill="#64d2ff"
+              isAnimationActive
+              animationDuration={720}
+              animationEasing="ease-out"
+            />
           </BarChart>
         </ResponsiveContainer>
       </ChartFrame>
@@ -112,6 +119,9 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
               stroke="#30d158"
               strokeWidth={2}
               fill="url(#impactFill)"
+              isAnimationActive
+              animationDuration={820}
+              animationEasing="ease-out"
             />
           </AreaChart>
         </ResponsiveContainer>
@@ -125,7 +135,15 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
           <RadarChart data={charts.signalRadar} outerRadius="72%">
             <PolarGrid stroke={GRID} />
             <PolarAngleAxis dataKey="signal" tick={TICK} />
-            <Radar dataKey="value" stroke="#bf5af2" fill="#bf5af2" fillOpacity={0.24} />
+            <Radar
+              dataKey="value"
+              stroke="#bf5af2"
+              fill="#bf5af2"
+              fillOpacity={0.24}
+              isAnimationActive
+              animationDuration={760}
+              animationEasing="ease-out"
+            />
             <Tooltip
               contentStyle={TOOLTIP_STYLE}
               itemStyle={TOOLTIP_ITEM_STYLE}
@@ -153,7 +171,7 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
               itemStyle={TOOLTIP_ITEM_STYLE}
               labelStyle={TOOLTIP_LABEL_STYLE}
             />
-            <Bar dataKey="count" radius={[0, 6, 6, 0]}>
+            <Bar dataKey="count" radius={[0, 8, 8, 0]} isAnimationActive animationDuration={720}>
               {charts.sourceMix.map((entry, index) => (
                 <Cell key={entry.type} fill={COLORS[index % COLORS.length]} />
               ))}
@@ -184,7 +202,14 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
               itemStyle={TOOLTIP_ITEM_STYLE}
               labelStyle={TOOLTIP_LABEL_STYLE}
             />
-            <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="#ff9f0a" />
+            <Bar
+              dataKey="count"
+              radius={[8, 8, 0, 0]}
+              fill="#ff9f0a"
+              isAnimationActive
+              animationDuration={720}
+              animationEasing="ease-out"
+            />
           </BarChart>
         </ResponsiveContainer>
       </ChartFrame>

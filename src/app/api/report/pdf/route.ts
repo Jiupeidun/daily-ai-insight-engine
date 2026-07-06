@@ -1,10 +1,9 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextResponse } from "next/server";
-import rawNews from "../../../../../data/raw/news-items.json";
-import { extractArticles, optionsFromEnv } from "@/lib/insight/extract";
+import { optionsFromEnv } from "@/lib/insight/extract";
 import { generateDailyReportWithAiSupport } from "@/lib/insight/report";
-import { RawNewsItemSchema } from "@/lib/insight/schema";
 import { renderDailyReportPdf } from "@/lib/pdf/render-report-pdf";
+import { getLatestReport } from "@/lib/report-data";
 
 type RuntimeEnv = NodeJS.ProcessEnv;
 
@@ -48,31 +47,31 @@ export async function POST() {
       );
     }
 
-    const rawItems = RawNewsItemSchema.array().parse((rawNews as { items: unknown }).items);
+    const latestReport = getLatestReport();
     console.log(
       JSON.stringify({
-        event: "report-pdf:raw-loaded",
+        event: "report-pdf:latest-report-loaded",
         requestId,
-        rawItems: rawItems.length
+        articles: latestReport.articles.length,
+        sourceCount: latestReport.sourceStats.sourceCount
       })
     );
-    const failedRecords: unknown[] = [];
-    const articles = await extractArticles(rawItems, {
-      ...options,
-      onFailure: (failure) => failedRecords.push(failure)
-    });
-    const aiItems = articles.filter((article) => article.extractionMeta.method === "ai").length;
+    const sourceAiItems = latestReport.articles.filter(
+      (article) => article.extractionMeta.method === "ai"
+    ).length;
     console.log(
       JSON.stringify({
-        event: "report-pdf:extracted",
+        event: "report-pdf:ai-synthesis-start",
         requestId,
-        articles: articles.length,
-        aiItems,
-        failedRecords: failedRecords.length,
+        sourceAiItems,
         elapsedMs: Date.now() - startedAt
       })
     );
-    const report = await generateDailyReportWithAiSupport(articles, rawItems.length, options);
+    const report = await generateDailyReportWithAiSupport(
+      latestReport.articles,
+      latestReport.sourceStats.rawCount,
+      options
+    );
     const synthesisGate = report.qualityGates.find((gate) => gate.name === "AI report synthesis");
     console.log(
       JSON.stringify({
@@ -83,13 +82,12 @@ export async function POST() {
       })
     );
 
-    if (aiItems === 0 || synthesisGate?.status !== "pass") {
+    if (synthesisGate?.status !== "pass") {
       console.warn(
         JSON.stringify({
           event: "report-pdf:validation-failed",
           requestId,
-          aiItems,
-          failedRecords: failedRecords.length,
+          sourceAiItems,
           synthesisStatus: synthesisGate?.status ?? "missing",
           synthesisRationale: synthesisGate?.rationale
         })
@@ -98,8 +96,7 @@ export async function POST() {
         {
           error: "OpenAI report generation did not pass validation.",
           requestId,
-          aiItems,
-          failedRecords,
+          sourceAiItems,
           synthesisStatus: synthesisGate?.status ?? "missing",
           synthesisRationale: synthesisGate?.rationale
         },
@@ -126,7 +123,8 @@ export async function POST() {
         "x-request-id": requestId,
         "x-ai-provider": options.provider,
         "x-ai-model": options.model ?? "",
-        "x-ai-items": String(aiItems)
+        "x-ai-synthesis": synthesisGate?.status ?? "missing",
+        "x-source-ai-items": String(sourceAiItems)
       }
     });
   } catch (error) {

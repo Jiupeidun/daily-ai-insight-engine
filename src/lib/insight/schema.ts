@@ -3,6 +3,16 @@ import { z } from "zod";
 const IsoDateTimeSchema = z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
   message: "Expected an ISO-compatible datetime string"
 });
+const UrlStringSchema = z.string().refine((value) => {
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+}, {
+  message: "Expected a valid URL"
+});
 
 export const SourceTypeSchema = z.enum([
   "tech_media",
@@ -92,9 +102,9 @@ export const RawNewsItemSchema = z.object({
   title: z.string().min(6),
   summary: z.string().min(16),
   content: z.string().default(""),
-  url: z.string().url(),
+  url: UrlStringSchema,
   sourceName: z.string().min(2),
-  sourceUrl: z.string().url(),
+  sourceUrl: UrlStringSchema,
   sourceType: SourceTypeSchema,
   publishedAt: IsoDateTimeSchema,
   collectedAt: IsoDateTimeSchema,
@@ -106,7 +116,7 @@ export const RawNewsItemSchema = z.object({
 export const SourceManifestSchema = z.object({
   id: z.string(),
   name: z.string(),
-  url: z.string().url(),
+  url: UrlStringSchema,
   type: SourceTypeSchema,
   rationale: z.string(),
   languageHint: LanguageSchema.optional()
@@ -119,7 +129,7 @@ export const ArticleInsightSchema = z.object({
   sourceName: z.string().min(2),
   sourceType: SourceTypeSchema,
   sourceTypeNormalized: InsightSourceTypeSchema,
-  url: z.string().url(),
+  url: UrlStringSchema,
   publishedAt: IsoDateTimeSchema,
   language: LanguageSchema,
   languageNormalized: InsightLanguageSchema,
@@ -191,7 +201,7 @@ export const NewsInsightSchema = z.object({
   title: z.string(),
   source: z.string(),
   source_type: InsightSourceTypeSchema,
-  url: z.string().url().optional(),
+  url: UrlStringSchema.optional(),
   published_at: IsoDateTimeSchema,
   language: InsightLanguageSchema,
   category: InsightCategorySchema,
@@ -256,7 +266,7 @@ export const DailyReportSchema = z.object({
       score: z.number().int().min(0).max(100),
       whyImportant: z.string(),
       evidence: z.string(),
-      url: z.string().url()
+      url: UrlStringSchema
     })
   ),
   deepDives: z.array(
@@ -266,7 +276,7 @@ export const DailyReportSchema = z.object({
       background: z.string(),
       impact: z.string(),
       watchNext: z.string(),
-      citedUrls: z.array(z.string().url())
+      citedUrls: z.array(UrlStringSchema)
     })
   ),
   trendRadar: z.array(

@@ -29,6 +29,24 @@ export const NEWS_SOURCES: SourceManifest[] = [
       "Covers AI startups, platform launches, funding, and product-market signals with fast cadence."
   },
   {
+    id: "the-verge-ai",
+    name: "The Verge AI",
+    url: "https://www.theverge.com/rss/index.xml",
+    type: "tech_media",
+    languageHint: "en",
+    rationale:
+      "Consumer AI, platform strategy, product launches, and policy controversies from a high-signal tech newsroom."
+  },
+  {
+    id: "wired-ai",
+    name: "WIRED AI",
+    url: "https://www.wired.com/feed/tag/ai/latest/rss",
+    type: "tech_media",
+    languageHint: "en",
+    rationale:
+      "Adds investigative and societal AI coverage that complements product and funding feeds."
+  },
+  {
     id: "venturebeat-ai",
     name: "VentureBeat AI",
     url: "https://venturebeat.com/category/ai/feed/",
@@ -36,6 +54,33 @@ export const NEWS_SOURCES: SourceManifest[] = [
     languageHint: "en",
     rationale:
       "Useful for enterprise AI adoption, developer platforms, and go-to-market movements."
+  },
+  {
+    id: "google-ai",
+    name: "Google AI Blog",
+    url: "https://blog.google/technology/ai/rss/",
+    type: "official",
+    languageHint: "en",
+    rationale:
+      "Official Google AI product, research, and ecosystem releases outside the DeepMind research feed."
+  },
+  {
+    id: "microsoft-ai",
+    name: "Microsoft AI Platform Blog",
+    url: "https://techcommunity.microsoft.com/t5/s/gxcuf89792/rss/board?board.id=AIPlatformBlog",
+    type: "official",
+    languageHint: "en",
+    rationale:
+      "Enterprise AI, Copilot, infrastructure, and policy updates from a major platform vendor."
+  },
+  {
+    id: "nvidia-ai",
+    name: "NVIDIA AI Blog",
+    url: "https://blogs.nvidia.com/blog/category/deep-learning/feed/",
+    type: "official",
+    languageHint: "en",
+    rationale:
+      "Compute, infrastructure, model serving, and AI industry adoption signals from NVIDIA."
   },
   {
     id: "mit-tr-ai",
@@ -65,33 +110,6 @@ export const NEWS_SOURCES: SourceManifest[] = [
       "Official release notes and product announcements reduce second-hand interpretation noise."
   },
   {
-    id: "anthropic-news",
-    name: "Anthropic News",
-    url: "https://www.anthropic.com/news/rss.xml",
-    type: "official",
-    languageHint: "en",
-    rationale:
-      "Official source for Claude, safety, enterprise, and policy updates."
-  },
-  {
-    id: "google-deepmind",
-    name: "Google DeepMind Blog",
-    url: "https://deepmind.google/discover/blog/rss.xml",
-    type: "official",
-    languageHint: "en",
-    rationale:
-      "Primary source for Google DeepMind model, research, and scientific AI releases."
-  },
-  {
-    id: "huggingface-blog",
-    name: "Hugging Face Blog",
-    url: "https://huggingface.co/blog/feed.xml",
-    type: "developer",
-    languageHint: "en",
-    rationale:
-      "Developer ecosystem signal for open models, datasets, tooling, and deployment patterns."
-  },
-  {
     id: "arxiv-cs-ai",
     name: "arXiv cs.AI",
     url: "https://export.arxiv.org/rss/cs.AI",
@@ -99,6 +117,15 @@ export const NEWS_SOURCES: SourceManifest[] = [
     languageHint: "en",
     rationale:
       "Research stream for emerging technical ideas before they show up in products."
+  },
+  {
+    id: "bair-blog",
+    name: "Berkeley AI Research",
+    url: "https://bair.berkeley.edu/blog/feed.xml",
+    type: "research",
+    languageHint: "en",
+    rationale:
+      "Academic research commentary that improves coverage of emerging methods and safety questions."
   },
   {
     id: "hn-ai",

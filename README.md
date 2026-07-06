@@ -1,85 +1,21 @@
 # Daily AI Insight Engine
 
-一个面向 AI coding 面试的 **AI 舆情分析日报系统 MVP**。系统每天采集近期 AI 信息，完成清洗、结构化抽取、质量校验、趋势聚合、可视化，并生成可下载的 PDF 日报。
+Daily AI Insight Engine is an AI public-opinion and intelligence report system for the AI application coding assignment. It collects AI-related news from official, media, community, and research feeds, normalizes the raw records, uses the Vercel AI SDK to extract schema-validated insights, aggregates trends, and generates a downloadable daily PDF report.
 
-An **AI daily intelligence report MVP** for an AI coding interview. It collects recent AI signals, normalizes them, extracts schema-validated insights, runs quality gates, renders a one-page dashboard, and generates a downloadable PDF report.
+The product is deployed on Cloudflare Workers through OpenNext. The dashboard is designed as a single-screen terminal workspace: the left side shows the AI processing pipeline and AI-only visual analysis, while the right side keeps a focused AI information stream.
 
-## 产品能力 / Product
+## Product Scope
 
-- 单屏工作台：桌面端首页固定在 one-page dashboard，长内容在卡片内部滚动。
-- One-page dashboard: the desktop view keeps the product inside a single viewport; long content scrolls inside panels.
-- PDF 日报：`public/reports/latest-ai-insight-report.pdf` 可直接下载。
-- PDF report: the current report is generated as `public/reports/latest-ai-insight-report.pdf`.
-- 中英切换与深浅色切换：偏好写入 `localStorage`，刷新后保留。
-- Chinese/English and dark/light mode: preferences persist through `localStorage`.
-- Google Analytics：已默认配置 `G-KD5YSDV426`，也可用 `NEXT_PUBLIC_GA_MEASUREMENT_ID` 覆盖。
-- Google Analytics: defaults to `G-KD5YSDV426`, and can be overridden with `NEXT_PUBLIC_GA_MEASUREMENT_ID`.
-- OpenAI：生产环境默认走官方 API，`AI_API_KEY` 只作为服务端 secret 保存，不进入前端 bundle。
-- OpenAI: production defaults to the official API, with `AI_API_KEY` stored only as a server-side secret.
-- Vercel AI SDK：结构化抽取使用 `generateObject` + `NewsInsightSchema`，避免手写 JSON parsing。
-- Vercel AI SDK: structured extraction uses `generateObject` + `NewsInsightSchema` instead of handwritten JSON parsing.
-- Cloudflare 部署：Next.js App Router + OpenNext + Workers secrets。
-- Cloudflare deployment: Next.js App Router + OpenNext + Workers secrets.
+- On-demand PDF generation: the `Generate PDF` button calls the backend, invokes OpenAI through the Vercel AI SDK, validates the response, and downloads the daily report.
+- Scheduled AI refresh: `.github/workflows/refresh-report.yml` runs every 12 hours, calls OpenAI, regenerates the data artifacts and PDF, commits the result, and deploys the updated site to Cloudflare.
+- Ready-on-arrival dashboard: visitors see the latest pre-generated report immediately; manual PDF generation is an additional action, not the only way to populate the page.
+- Source diversity: feeds include OpenAI, Google AI, Microsoft AI Platform, NVIDIA AI, TechCrunch AI, The Verge AI, WIRED AI, VentureBeat AI, MIT Technology Review AI, The Decoder, arXiv, Berkeley AI Research, Hacker News AI search, 36Kr, and IT Home.
+- Schema-first extraction: `generateObject({ schema: NewsInsightSchema })` turns raw articles into auditable insight objects instead of shallow summaries.
+- Error transparency: PDF generation errors return backend details and a `requestId`; the frontend displays the real message instead of a generic failure.
+- Internationalization and theming: Chinese/English language switching, dark/light/system theme modes, local user clock, and mobile layout support are built into the UI.
+- Observability: Cloudflare Worker logs include request-level stages for PDF generation and AI synthesis.
 
-## Quick Start / 快速开始
-
-```bash
-npm install
-npm run pipeline
-npm run dev
-```
-
-Open `http://localhost:3000`.
-
-常用命令 / Common commands:
-
-```bash
-npm run collect        # RSS collection -> data/raw/news-items.json
-npm run generate       # structured report -> data/reports/latest.json + latest.md
-npm run generate:pdf   # PDF report -> public/reports/latest-ai-insight-report.pdf
-npm run pipeline       # collect + generate + generate:pdf
-npm run validate       # lint + typecheck + test + build
-npm run preview        # OpenNext Cloudflare local preview
-npm run deploy         # deploy to Cloudflare Workers
-```
-
-## Environment / 环境变量
-
-Copy `.env.example` when running locally.
-
-```bash
-AI_PROVIDER=openai_compatible
-AI_BASE_URL=https://api.openai.com/v1
-AI_API_KEY=
-AI_MODEL=gpt-4o-mini
-REPORT_ADMIN_TOKEN=
-CLOUDFLARE_ACCOUNT_ID=
-CLOUDFLARE_API_TOKEN=
-CLOUDFLARE_AI_MODEL=@cf/meta/llama-3.1-8b-instruct
-NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KD5YSDV426
-```
-
-`NEXT_PUBLIC_GA_MEASUREMENT_ID` is optional because the app has a checked-in fallback measurement ID. Set it when deploying a different GA property.
-
-`NEXT_PUBLIC_GA_MEASUREMENT_ID` 可选，因为代码里已经有默认 GA ID。换成其他 GA property 时再覆盖。
-
-## Data Pipeline / 数据链路
-
-数据源定义在 `src/lib/insight/source-config.ts`。输出文件：
-
-Data sources live in `src/lib/insight/source-config.ts`. Generated artifacts:
-
-- `data/raw/source-manifest.json`
-- `data/raw/news-items.json`
-- `data/processed/structured-news.json`
-- `data/processed/failed-records.json`
-- `data/reports/latest.json`
-- `data/reports/latest.md`
-- `public/reports/latest-ai-insight-report.pdf`
-
-采集策略按来源轮询抽样后去重，避免单一高频 feed 占满日报。
-
-The collector samples across sources and deduplicates items so one noisy feed cannot dominate the report.
+## Architecture
 
 ```txt
 Raw News
@@ -99,159 +35,258 @@ Aggregation
 Daily Report Generation
   ↓
 Dashboard Visualization
+  ↓
+PDF Export
 ```
 
-清洗阶段会处理字段缺失、发布时间格式、语言标记和 source_type 标记，例如 OpenAI Blog → official、TechCrunch → media、Hacker News → community、arXiv → research。
+The system intentionally separates model reasoning from deterministic application logic:
 
-Extraction is batched at 3-5 items instead of sending the whole corpus into one prompt. This reduces cross-article contamination in long contexts while still keeping request count manageable.
+- The model extracts entities, categories, event types, key facts, sentiment, risk signals, opportunity signals, and evidence.
+- Zod validates the model response before it can enter the report pipeline.
+- Ranking and chart aggregation are constrained by program logic, so the dashboard is not just a prompt-rendered page.
+- The PDF endpoint performs one AI report-synthesis call on demand, which keeps the Worker request short enough for production use.
 
-AI JSON is validated with Zod. Invalid output is repaired once with a targeted repair prompt. If repair still fails, the item is written to `data/processed/failed-records.json` and skipped from aggregation.
+## Core Schema
 
-Importance is not blindly delegated to the model. The rule-based score combines source weight, key-entity weight, category weight, sentiment/risk weight, and recency weight; model output provides analysis, but ranking is constrained by program logic.
+The main schema lives in `src/lib/insight/schema.ts`.
 
-## Schema / 结构化抽取
+`NewsInsightSchema` captures:
 
-核心 Schema 在 `src/lib/insight/schema.ts`。每条新闻会被抽取为 `ArticleInsight`，同时导出面试讲解用的 `NewsInsightSchema` 视图：
+- identity: `id`, `title`, `source`, `url`, `published_at`, `language`
+- source classification: `source_type`
+- business taxonomy: `category`, `event_type`
+- extracted entities: companies, models, products, people, organizations, and technologies
+- report substance: `summary`, `key_facts`, `impact_analysis`
+- model judgment: `sentiment`, `importance_score`, `confidence_score`
+- action signals: `risk_signals`, `opportunity_signals`
+- audit trail: field-level `evidence`
 
-The core schema is in `src/lib/insight/schema.ts`. Each item becomes an `ArticleInsight`, with a `NewsInsightSchema` view for interview explanation:
+The internal `ArticleInsight` schema extends this with canonical events, value-chain taxonomy, rule-based impact scoring, chart signals, extraction metadata, and normalized entity groups.
 
-- `category`: model release, AI product, infrastructure, research, policy, capital, security, or industry application.
-- `eventType`: launch, upgrade, partnership, funding, regulation, research result, controversy, or market signal.
-- `keyFacts`: extracted factual bullets that support downstream reporting.
-- `impactAnalysis`: why the item matters beyond a plain summary.
-- `canonicalEvent`: what happened, why it matters, affected actors, evidence, confidence.
-- `taxonomy`: topic, value-chain position, maturity.
-- `impact`: score, horizon, stakeholders, risks, opportunities.
-- `entities`: normalized company/model/product/person/organization/technology records plus organizations, products, people, geographies.
-- `signals`: novelty, adoption, technical depth, regulatory weight, capital intensity.
-- `evidence`: field-level quotes or reasoning for auditability.
-- `extractionMeta`: extraction method, prompt version, validation timestamp, warnings.
+## AI Implementation
 
-这样做的目的不是拼摘要，而是把新闻变成可聚合、可审计、可解释的决策信号。
+The project uses the Vercel AI SDK server-side:
 
-The point is not stitched summarization; it is turning news into aggregatable, auditable, explainable decision signals.
+- `src/lib/insight/extract.ts`: structured extraction with `generateObject` and `NewsInsightSchema`
+- `src/lib/insight/report.ts`: report synthesis with `generateObject` and `AiReportSupportSchema`
+- `src/app/api/analyze/route.ts`: analyst Q&A with `generateText`
+- `src/app/api/report/pdf/route.ts`: on-demand AI synthesis followed by PDF rendering
 
-## AI Modes / AI 模式
-
-抽取入口在 `src/lib/insight/extract.ts`。支持：
-
-Extraction starts in `src/lib/insight/extract.ts`. Supported modes:
-
-- `openai_compatible`: default production mode for the official OpenAI API.
-- `deterministic`: reproducible fallback without API keys.
-- `cloudflare_rest`: local scripts call Cloudflare Workers AI REST.
-- deployed `/api/analyze`: uses the server-side OpenAI secret and the same structured report context.
-
-当前仓库里的日报由 `npm run pipeline` 生成：采集新闻、调用 OpenAI 抽取结构化信号、Zod 校验、规则评分、聚合首页图表数据、再生成 PDF。没有 API key 时可以显式使用 `AI_PROVIDER=deterministic` 生成可复现样例；OpenAI 模式下模型响应不合规会先 repair，仍失败则写入 failed records 并跳过。
-
-The committed report is generated by `npm run pipeline`: collect news, call OpenAI for structured extraction, validate with Zod, apply rule-based scoring, aggregate dashboard chart data, then render the PDF. In OpenAI mode, invalid model output is repaired once; failed repair is written to failed records and skipped.
-
-OpenAI local run:
+OpenAI is configured through Cloudflare Worker secrets and environment variables. The API key never enters the client bundle.
 
 ```bash
 AI_PROVIDER=openai_compatible
 AI_BASE_URL=https://api.openai.com/v1
-AI_API_KEY=...
+AI_API_KEY=
 AI_MODEL=gpt-4o-mini
-npm run pipeline
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KD5YSDV426
 ```
 
-On-demand PDF generation:
+## Data Sources
+
+Source definitions live in `src/lib/insight/source-config.ts`.
+
+Generated artifacts:
 
 ```txt
-Generate PDF button
-  → POST /api/report/pdf
-  → OpenAI structured extraction
-  → Zod validation + repair
-  → rule-based scoring and aggregation
-  → PDF response
+data/raw/source-manifest.json
+data/raw/news-items.json
+data/processed/structured-news.json
+data/processed/failed-records.json
+data/reports/latest.json
+data/reports/latest.md
+public/reports/latest-ai-insight-report.pdf
 ```
 
-The PDF endpoint intentionally fails instead of downloading fallback content when OpenAI is not configured or AI validation does not pass.
+The collector samples across sources and deduplicates by canonical URL and title. Chinese high-frequency feeds use stricter AI relevance filtering, while specialized AI feeds can use broader content matching.
 
-Cloudflare Workers AI REST local run:
+## Cloudflare Deployment
 
-```bash
-AI_PROVIDER=cloudflare_rest
-CLOUDFLARE_ACCOUNT_ID=...
-CLOUDFLARE_API_TOKEN=...
-CLOUDFLARE_AI_MODEL=@cf/meta/llama-3.1-8b-instruct
-npm run generate
-```
-
-## Frontend Engineering / 前端工程
-
-参考 / References:
-
-- Vercel Web Interface Guidelines: https://vercel.com/design/guidelines
-- Vercel React best practices skill: https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices
-
-落实点 / Implementation notes:
-
-- 首页数据读取和聚合保留在 Server Component。
-- Report data loading and aggregation stay in Server Components.
-- 交互拆成小 client islands：偏好切换、下载按钮、虚拟列表、图表。
-- Interactivity is isolated into small client islands: preferences, report actions, virtual list, charts.
-- Recharts 通过 `next/dynamic` 懒加载，避免图表库进入主 server surface。
-- Recharts is dynamically loaded with `next/dynamic`.
-- `Structured Extraction` 使用轻量虚拟列表，长结果在卡片内部滚动。
-- `Structured Extraction` uses a lightweight virtual list inside its panel.
-- 桌面端 `100dvh` 单屏布局，移动端切换为垂直响应式布局。
-- Desktop uses a `100dvh` one-page layout; mobile switches to a responsive vertical layout.
-
-## Cloudflare Deployment / Cloudflare 部署
+The app runs on Cloudflare Workers with Next.js App Router and OpenNext.
 
 ```bash
-npm run cf-typegen
+npm install
+npm run pipeline
 npm run deploy
 ```
 
-`wrangler.jsonc` includes:
+`wrangler.jsonc` configures:
 
-- `main: .open-next/worker.js`
-- `assets.directory: .open-next/assets`
-- `compatibility_date: 2026-07-06`
-- `compatibility_flags: ["nodejs_compat"]`
-- `observability.enabled: true`
-- `placement.mode: "smart"`
+- OpenNext Worker entry: `.open-next/worker.js`
+- static assets: `.open-next/assets`
+- `nodejs_compat`
+- smart placement
+- Worker logs and invocation logs
+- trace sampling
 
-## Commit Convention / 提交规范
+## Skills Used
 
-Use Conventional Commits:
+- Cloudflare deployment skill: guided Workers/OpenNext deployment, Worker logging, secrets, and production configuration.
+- Wrangler skill: used for Worker deployment and keeping Cloudflare configuration aligned with the repo.
+- React best practices skill: used as the frontend engineering reference for smaller client islands, server-rendered data loading, and scoped interactivity.
+- PDF skill: used for PDF-generation and render-quality decisions around fonts, layout, and download behavior.
+- L-Observatoire design reference: used as the visual reference for the terminal-style workspace and right-rail intelligence feed.
+- Vercel AI SDK pattern: used for typed model calls with `generateObject` and Zod schemas instead of handwritten OpenAI JSON parsing.
 
-```txt
-feat: build daily AI insight engine MVP
-fix: tighten AI relevance filtering
-docs: document Cloudflare deployment workflow
-```
-
-Spec: https://www.conventionalcommits.org/en/v1.0.0/
-
-## Project Structure / 项目结构
+## Project Structure
 
 ```txt
-src/app/                    Next.js routes, dashboard page, API routes
-src/components/dashboard/   dashboard client islands and chart layer
+src/app/                    Next.js routes and dashboard page
+src/components/dashboard/   client-side controls, charts, and report actions
 src/components/analytics/   Google Analytics integration
-src/lib/insight/            schema, normalization, extraction, report generation
-scripts/                    RSS collection, report generation, PDF generation
+src/lib/insight/            schemas, normalization, extraction, scoring, report generation
+src/lib/pdf/                PDF rendering
+scripts/                    RSS collection and offline report generation
 data/raw/                   source manifest and raw collected items
-data/processed/             validated structured insights
-data/reports/               final report JSON and Markdown sample
-public/reports/             downloadable PDF report
+data/processed/             validated structured insights and failed records
+data/reports/               final report JSON and Markdown output
+public/reports/             downloadable generated PDF
 docs/                       interview explanation notes
 ```
 
-## Validation / 验证
+---
 
-```bash
-npm run validate
+# Daily AI Insight Engine 中文说明
+
+Daily AI Insight Engine 是为 AI 应用笔试题实现的 AI 舆情分析日报系统。系统会从官方、媒体、社区、研究等来源采集 AI 相关新闻，完成清洗、去重、结构化抽取、Schema 校验、趋势聚合，并生成可下载的当日 PDF 日报。
+
+项目通过 OpenNext 部署在 Cloudflare Workers 上。首页是单屏终端工作台：左侧展示 AI 处理链路和只由 AI 抽取结果驱动的可视化分析，右侧保留 AI 信息流。
+
+## 产品范围
+
+- 12 小时定时刷新：`.github/workflows/refresh-report.yml` 每 12 小时运行一次，调用 OpenAI，重新生成数据产物和 PDF，提交结果并部署到 Cloudflare。
+- 打开即有结果：访问者进入页面后直接看到最近一次预生成日报；手动生成 PDF 是额外操作，不是填充首页的唯一方式。
+- 多源信息流：信息源包括 OpenAI、Google AI、Microsoft AI Platform、NVIDIA AI、TechCrunch AI、The Verge AI、WIRED AI、VentureBeat AI、MIT Technology Review AI、The Decoder、arXiv、Berkeley AI Research、Hacker News AI Search、36Kr、IT之家等。
+- Schema-first 抽取：使用 `generateObject({ schema: NewsInsightSchema })` 把新闻变成可审计的洞察对象，而不是简单摘要。
+- 错误透明：PDF 生成失败时，后端返回真实错误和 `requestId`，前端直接展示，不再只显示“生成失败”。
+- 国际化和主题：支持中英文切换、深色/浅色/跟随系统主题、本地时钟和移动端布局。
+- 可观测性：Cloudflare Worker 日志记录 PDF 生成和 AI 合成的关键阶段。
+
+## 系统架构
+
+```txt
+原始新闻
+  ↓
+标准化与清洗
+  ↓
+去重
+  ↓
+LLM 结构化抽取
+  ↓
+Zod Schema 校验
+  ↓
+规则评分
+  ↓
+聚合
+  ↓
+日报生成
+  ↓
+首页可视化
+  ↓
+PDF 导出
 ```
 
-Current sample:
+系统刻意把模型推理和确定性程序逻辑分开：
 
-- 18 raw items
-- 18 structured items
-- 8 sources represented
-- Chinese/mixed + English language mix
-- JSON, Markdown, and PDF report outputs
+- 模型负责抽取实体、分类、事件类型、关键事实、情绪、风险信号、机会信号和证据。
+- Zod 负责在数据进入报告链路前做结构校验。
+- 排序和图表聚合由程序逻辑约束，避免首页只是 prompt 渲染结果。
+- PDF 接口在用户点击时只做一次 AI 报告合成调用，避免 Worker 请求过长导致浏览器报 `Failed to fetch`。
+
+## 核心 Schema
+
+核心 Schema 位于 `src/lib/insight/schema.ts`。
+
+`NewsInsightSchema` 覆盖：
+
+- 身份字段：`id`、`title`、`source`、`url`、`published_at`、`language`
+- 来源分类：`source_type`
+- 业务分类：`category`、`event_type`
+- 实体抽取：公司、模型、产品、人物、组织和技术
+- 报告内容：`summary`、`key_facts`、`impact_analysis`
+- 模型判断：`sentiment`、`importance_score`、`confidence_score`
+- 行动信号：`risk_signals`、`opportunity_signals`
+- 审计证据：字段级 `evidence`
+
+内部 `ArticleInsight` 会继续扩展 canonical event、价值链分类、规则影响评分、图表信号、抽取元数据和标准化实体组。
+
+## AI 实现
+
+项目在服务端使用 Vercel AI SDK：
+
+- `src/lib/insight/extract.ts`：用 `generateObject` 和 `NewsInsightSchema` 做结构化抽取
+- `src/lib/insight/report.ts`：用 `generateObject` 和 `AiReportSupportSchema` 做报告合成
+- `src/app/api/analyze/route.ts`：用 `generateText` 做分析问答
+- `src/app/api/report/pdf/route.ts`：按需 AI 合成日报并渲染 PDF
+
+OpenAI 通过 Cloudflare Worker secret 和环境变量配置，API key 不会进入前端 bundle。
+
+```bash
+AI_PROVIDER=openai_compatible
+AI_BASE_URL=https://api.openai.com/v1
+AI_API_KEY=
+AI_MODEL=gpt-4o-mini
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KD5YSDV426
+```
+
+## 数据源
+
+数据源定义在 `src/lib/insight/source-config.ts`。
+
+生成产物：
+
+```txt
+data/raw/source-manifest.json
+data/raw/news-items.json
+data/processed/structured-news.json
+data/processed/failed-records.json
+data/reports/latest.json
+data/reports/latest.md
+public/reports/latest-ai-insight-report.pdf
+```
+
+采集器会按来源轮询抽样，并通过规范化 URL 和标题去重。中文高频 feed 使用更严格的 AI 相关性过滤；AI 垂直媒体和官方源可以使用更宽的内容匹配。
+
+## Cloudflare 部署
+
+应用使用 Next.js App Router + OpenNext 部署到 Cloudflare Workers。
+
+```bash
+npm install
+npm run pipeline
+npm run deploy
+```
+
+`wrangler.jsonc` 配置了：
+
+- OpenNext Worker 入口：`.open-next/worker.js`
+- 静态资源目录：`.open-next/assets`
+- `nodejs_compat`
+- smart placement
+- Worker logs 与 invocation logs
+- trace sampling
+
+## 使用的 Skills
+
+- Cloudflare deployment skill：用于 Workers/OpenNext 部署、日志、secrets 和生产配置。
+- Wrangler skill：用于 Worker 部署，以及让 Cloudflare 配置和仓库保持一致。
+- React best practices skill：用于前端工程参考，包括小型 client islands、服务端数据读取和交互隔离。
+- PDF skill：用于 PDF 生成、字体、排版和下载行为的实现判断。
+- L-Observatoire 设计参考：用于终端风格工作台和右侧信息流布局。
+- Vercel AI SDK pattern：用于 `generateObject` + Zod schema 的类型化模型调用，替代手写 OpenAI JSON 解析。
+
+## 项目结构
+
+```txt
+src/app/                    Next.js 路由和首页
+src/components/dashboard/   客户端控件、图表和日报操作
+src/components/analytics/   Google Analytics 集成
+src/lib/insight/            Schema、清洗、抽取、评分、报告生成
+src/lib/pdf/                PDF 渲染
+scripts/                    RSS 采集和离线报告生成
+data/raw/                   信息源 manifest 和原始新闻
+data/processed/             结构化洞察和失败记录
+data/reports/               最终 JSON 和 Markdown 日报
+public/reports/             可下载 PDF
+docs/                       面试讲解材料
+```

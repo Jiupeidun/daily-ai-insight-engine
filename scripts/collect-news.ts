@@ -17,8 +17,8 @@ type FeedItem = {
   guid?: string;
   pubDate?: string;
   isoDate?: string;
-  creator?: string;
-  author?: string;
+  creator?: unknown;
+  author?: unknown;
   categories?: string[];
   content?: string;
   contentSnippet?: string;
@@ -32,7 +32,7 @@ const TARGET_COUNT = Number.parseInt(process.env.NEWS_LIMIT ?? "18", 10);
 const PER_SOURCE_LIMIT = Number.parseInt(process.env.NEWS_PER_SOURCE_LIMIT ?? "6", 10);
 
 const parser = new Parser<unknown, FeedItem>({
-  timeout: 12000,
+  timeout: 20000,
   headers: {
     "user-agent":
       "DailyAIInsightEngine/0.1 (+https://github.com/Jiupeidun/daily-ai-insight-engine)"
@@ -77,7 +77,18 @@ function diversifyNewsItems(
 }
 
 function authorsFromItem(item: FeedItem): string[] {
-  return [item.creator, item.author].filter((value): value is string => Boolean(value));
+  return [item.creator, item.author]
+    .flatMap((value) => {
+      if (typeof value === "string") {
+        return [value];
+      }
+      if (value && typeof value === "object" && "name" in value) {
+        const name = (value as { name?: unknown }).name;
+        return typeof name === "string" ? [name] : [];
+      }
+      return [];
+    })
+    .filter((value) => value.trim().length > 0);
 }
 
 function passesSourceQuality(sourceId: string, item: RawNewsItem): boolean {
