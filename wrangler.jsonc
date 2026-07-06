@@ -1,13 +1,22 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "daily-ai-insight-engine",
-  "main": ".open-next/worker.js",
+  "main": "worker.ts",
   "compatibility_date": "2026-07-06",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  "triggers": {
+    "crons": ["0 */12 * * *"]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "REPORT_KV",
+      "id": "7e6686c6f126417499daf9e5f001f6f7"
+    }
+  ],
   "placement": {
     "mode": "smart"
   },

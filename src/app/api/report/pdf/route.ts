@@ -47,7 +47,7 @@ export async function POST() {
       );
     }
 
-    const latestReport = getLatestReport();
+    const latestReport = await getLatestReport(env);
     console.log(
       JSON.stringify({
         event: "report-pdf:latest-report-loaded",

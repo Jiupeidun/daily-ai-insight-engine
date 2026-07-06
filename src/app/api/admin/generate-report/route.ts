@@ -1,10 +1,6 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextResponse, type NextRequest } from "next/server";
-import rawNews from "../../../../../data/raw/news-items.json";
-import { optionsFromEnv } from "@/lib/insight/extract";
-import { extractArticles } from "@/lib/insight/extract";
-import { generateDailyReportWithAiSupport } from "@/lib/insight/report";
-import { RawNewsItemSchema } from "@/lib/insight/schema";
+import { runReportRefresh } from "@/lib/insight/refresh";
 
 type AdminEnv = NodeJS.ProcessEnv & {
   REPORT_ADMIN_TOKEN?: string;
@@ -31,23 +27,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const rawItems = RawNewsItemSchema.array().parse((rawNews as { items: unknown }).items);
-  const options = optionsFromEnv(env);
-  const failedRecords: unknown[] = [];
-  const articles = await extractArticles(rawItems, {
-    ...options,
-    onFailure: (failure) => failedRecords.push(failure)
-  });
-  const report = await generateDailyReportWithAiSupport(articles, rawItems.length, options);
+  const result = await runReportRefresh(env, "admin");
 
   return NextResponse.json({
-    generatedAt: new Date().toISOString(),
-    provider: options.provider,
-    structured: {
-      generatedAt: new Date().toISOString(),
-      articles
-    },
-    failedRecords,
-    report
+    generatedAt: result.generatedAt,
+    provider: result.provider,
+    model: result.model,
+    persisted: result.persisted,
+    rawItems: result.rawItems,
+    structuredItems: result.structuredItems,
+    failedRecordCount: result.failedRecords.failedRecords.length,
+    structured: result.structured,
+    failedRecords: result.failedRecords,
+    report: result.report
   });
 }

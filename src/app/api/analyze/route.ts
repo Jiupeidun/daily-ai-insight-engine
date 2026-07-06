@@ -11,13 +11,17 @@ type RuntimeEnv = {
   AI_API_KEY?: string;
   AI_MODEL?: string;
   CLOUDFLARE_AI_MODEL?: string;
+  REPORT_KV?: {
+    get: (key: string, type: "json") => Promise<unknown>;
+    put: (key: string, value: string) => Promise<unknown>;
+  };
   AI?: {
     run: (model: string, input: unknown) => Promise<unknown>;
   };
 };
 
-function buildContext() {
-  const report = getLatestReport();
+async function buildContext(env: RuntimeEnv) {
+  const report = await getLatestReport(env);
   const topEvents = report.topEvents
     .slice(0, 5)
     .map((event) => `${event.rank}. ${event.title} (${event.score}/100): ${event.whyImportant}`)
@@ -32,8 +36,8 @@ function buildContext() {
   ].join("\n\n");
 }
 
-function fallbackAnswer(question: string) {
-  const report = getLatestReport();
+async function fallbackAnswer(question: string, env: RuntimeEnv) {
+  const report = await getLatestReport(env);
   const leadEvent = report.topEvents[0];
 
   return `本地 fallback 分析：${report.executiveBrief} 你问的是「${question || "今日重点"}」。当前最值得讲的是「${leadEvent.title}」，影响分 ${leadEvent.score}/100；证据来自 ${leadEvent.url}。配置 OpenAI 服务端 API key 后，此接口会切换为模型生成答案。`;
@@ -62,13 +66,13 @@ async function callOpenAi(question: string, env: RuntimeEnv) {
     temperature: 0.2,
     system:
       "You are an AI industry analyst. Answer in concise Chinese using only the provided structured daily report context.",
-    prompt: `Question: ${question}\n\nStructured report context:\n${buildContext()}`
+    prompt: `Question: ${question}\n\nStructured report context:\n${await buildContext(env)}`
   });
 
   return {
     provider: "openai",
     model,
-    answer: result.text || fallbackAnswer(question)
+    answer: result.text || (await fallbackAnswer(question, env))
   };
 }
 
@@ -99,7 +103,7 @@ export async function POST(request: NextRequest) {
           },
           {
             role: "user",
-            content: `Question: ${question}\n\nStructured report context:\n${buildContext()}`
+            content: `Question: ${question}\n\nStructured report context:\n${await buildContext(env)}`
           }
         ],
         temperature: 0.2,
@@ -109,7 +113,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         provider: "cloudflare_workers_ai",
         model,
-        answer: result.response ?? fallbackAnswer(question)
+        answer: result.response ?? (await fallbackAnswer(question, env))
       });
     }
   } catch {
@@ -118,6 +122,6 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     provider: "deterministic",
-    answer: fallbackAnswer(question)
+    answer: await fallbackAnswer(question, resolveRuntimeEnv())
   });
 }
