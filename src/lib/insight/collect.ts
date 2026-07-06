@@ -28,6 +28,7 @@ type CollectOptions = {
   targetCount?: number;
   perSourceLimit?: number;
   timezoneOffsetMinutes?: number;
+  lookbackHours?: number;
   backfillDays?: number;
   feedTimeoutMs?: number;
 };
@@ -50,23 +51,17 @@ export function collectOptionsFromEnv(env: NodeJS.ProcessEnv): Required<CollectO
     targetCount: numberFromEnv(env.NEWS_LIMIT, 120),
     perSourceLimit: numberFromEnv(env.NEWS_PER_SOURCE_LIMIT, 50),
     timezoneOffsetMinutes: numberFromEnv(env.REPORT_TIMEZONE_OFFSET_MINUTES, 480),
+    lookbackHours: numberFromEnv(env.REPORT_LOOKBACK_HOURS, 12),
     backfillDays: numberFromEnv(env.NEWS_BACKFILL_DAYS, 7),
     feedTimeoutMs: numberFromEnv(env.FEED_TIMEOUT_MS, 45_000)
   };
 }
 
-function getPreviousDayWindow(now: Date, timezoneOffsetMinutes: number) {
-  const offsetMs = timezoneOffsetMinutes * 60_000;
-  const localNow = new Date(now.getTime() + offsetMs);
-  const localTodayStartUtc = Date.UTC(
-    localNow.getUTCFullYear(),
-    localNow.getUTCMonth(),
-    localNow.getUTCDate()
-  );
-  const end = new Date(localTodayStartUtc - offsetMs);
-  const start = new Date(end.getTime() - 24 * 60 * 60 * 1000);
-
-  return { start, end };
+function getRecentWindow(now: Date, lookbackHours: number) {
+  return {
+    start: new Date(now.getTime() - lookbackHours * 60 * 60 * 1000),
+    end: now
+  };
 }
 
 function getBackfillWindow(primaryWindow: { start: Date; end: Date }, backfillDays: number) {
@@ -203,7 +198,7 @@ export async function collectRawNewsDataset(
   const collected: RawNewsItem[] = [];
   const collectedBySource: Array<{ sourceId: string; items: RawNewsItem[] }> = [];
   const failures: Array<{ source: string; error: string }> = [];
-  const window = getPreviousDayWindow(now, options.timezoneOffsetMinutes);
+  const window = getRecentWindow(now, options.lookbackHours);
   const backfillWindow = getBackfillWindow(window, options.backfillDays);
 
   for (const source of NEWS_SOURCES) {
@@ -232,7 +227,8 @@ export async function collectRawNewsDataset(
   return {
     collectedAt: new Date().toISOString(),
     window: {
-      mode: "previous_day_with_backfill",
+      mode: "rolling_12h_with_backfill",
+      lookbackHours: options.lookbackHours,
       timezoneOffsetMinutes: options.timezoneOffsetMinutes,
       start: window.start.toISOString(),
       end: window.end.toISOString(),
