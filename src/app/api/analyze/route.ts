@@ -1,3 +1,5 @@
+import { createOpenAI } from "@ai-sdk/openai";
+import { generateText } from "ai";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextResponse, type NextRequest } from "next/server";
 import { DEFAULT_OPENAI_BASE_URL, DEFAULT_OPENAI_MODEL } from "@/lib/insight/extract";
@@ -48,47 +50,25 @@ function resolveRuntimeEnv(): RuntimeEnv {
 async function callOpenAi(question: string, env: RuntimeEnv) {
   const apiKey = env.AI_API_KEY;
   const model = env.AI_MODEL ?? DEFAULT_OPENAI_MODEL;
-  const baseUrl = (env.AI_BASE_URL ?? DEFAULT_OPENAI_BASE_URL).replace(/\/$/, "");
+  const baseURL = env.AI_BASE_URL ?? DEFAULT_OPENAI_BASE_URL;
 
   if (!apiKey) {
     return null;
   }
 
-  const response = await fetch(`${baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      model,
-      temperature: 0.2,
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are an AI industry analyst. Answer in concise Chinese using only the provided structured daily report context."
-        },
-        {
-          role: "user",
-          content: `Question: ${question}\n\nStructured report context:\n${buildContext()}`
-        }
-      ]
-    })
+  const provider = createOpenAI({ apiKey, baseURL });
+  const result = await generateText({
+    model: provider(model),
+    temperature: 0.2,
+    system:
+      "You are an AI industry analyst. Answer in concise Chinese using only the provided structured daily report context.",
+    prompt: `Question: ${question}\n\nStructured report context:\n${buildContext()}`
   });
-
-  if (!response.ok) {
-    throw new Error(`OpenAI API failed: ${response.status} ${await response.text()}`);
-  }
-
-  const data = (await response.json()) as {
-    choices?: Array<{ message?: { content?: string } }>;
-  };
 
   return {
     provider: "openai",
     model,
-    answer: data.choices?.[0]?.message?.content ?? fallbackAnswer(question)
+    answer: result.text || fallbackAnswer(question)
   };
 }
 

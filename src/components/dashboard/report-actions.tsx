@@ -27,6 +27,7 @@ export function ReportActions({
   pdfFileName: string;
 }) {
   const [status, setStatus] = useState<"idle" | "generating" | "failed">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   async function generatePdf() {
     if (status === "generating") {
@@ -34,6 +35,7 @@ export function ReportActions({
     }
 
     setStatus("generating");
+    setErrorMessage("");
     trackAction("generate_report_pdf_start", pdfFileName);
 
     try {
@@ -45,6 +47,20 @@ export function ReportActions({
       });
 
       if (!response.ok) {
+        const contentType = response.headers.get("content-type") ?? "";
+        if (contentType.includes("application/json")) {
+          const payload = (await response.json()) as {
+            error?: string;
+            detail?: string;
+            requestId?: string;
+            synthesisRationale?: string;
+            synthesisStatus?: string;
+          };
+          const reason =
+            payload.detail ?? payload.synthesisRationale ?? payload.error ?? `HTTP ${response.status}`;
+          const request = payload.requestId ? ` requestId=${payload.requestId}` : "";
+          throw new Error(`${reason}${request}`);
+        }
         throw new Error(await response.text());
       }
 
@@ -59,10 +75,12 @@ export function ReportActions({
       window.URL.revokeObjectURL(url);
       trackAction("generate_report_pdf_success", pdfFileName);
       setStatus("idle");
-    } catch {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown PDF generation error";
       trackAction("generate_report_pdf_failed", pdfFileName);
+      setErrorMessage(message.slice(0, 220));
       setStatus("failed");
-      window.setTimeout(() => setStatus("idle"), 3200);
+      window.setTimeout(() => setStatus("idle"), 5200);
     }
   }
 
@@ -86,6 +104,7 @@ export function ReportActions({
           {status === "generating" ? "Generating" : status === "failed" ? "Failed" : "Generate PDF"}
         </span>
       </button>
+      {errorMessage ? <span className="action-error" title={errorMessage}>{errorMessage}</span> : null}
       <a
         className="control-link"
         href={githubHref}

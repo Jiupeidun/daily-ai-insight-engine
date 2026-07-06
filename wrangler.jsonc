@@ -12,9 +12,9 @@
     "mode": "smart"
   },
   "observability": {
-    "enabled": true,
     "logs": {
-      "head_sampling_rate": 1
+      "enabled": true,
+      "invocation_logs": true
     },
     "traces": {
       "enabled": true,

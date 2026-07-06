@@ -16,6 +16,8 @@ An **AI daily intelligence report MVP** for an AI coding interview. It collects 
 - Google Analytics: defaults to `G-KD5YSDV426`, and can be overridden with `NEXT_PUBLIC_GA_MEASUREMENT_ID`.
 - OpenAI：生产环境默认走官方 API，`AI_API_KEY` 只作为服务端 secret 保存，不进入前端 bundle。
 - OpenAI: production defaults to the official API, with `AI_API_KEY` stored only as a server-side secret.
+- Vercel AI SDK：结构化抽取使用 `generateObject` + `NewsInsightSchema`，避免手写 JSON parsing。
+- Vercel AI SDK: structured extraction uses `generateObject` + `NewsInsightSchema` instead of handwritten JSON parsing.
 - Cloudflare 部署：Next.js App Router + OpenNext + Workers secrets。
 - Cloudflare deployment: Next.js App Router + OpenNext + Workers secrets.
 

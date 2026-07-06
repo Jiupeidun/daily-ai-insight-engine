@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+const IsoDateTimeSchema = z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
+  message: "Expected an ISO-compatible datetime string"
+});
+
 export const SourceTypeSchema = z.enum([
   "tech_media",
   "official",
@@ -92,8 +96,8 @@ export const RawNewsItemSchema = z.object({
   sourceName: z.string().min(2),
   sourceUrl: z.string().url(),
   sourceType: SourceTypeSchema,
-  publishedAt: z.string().datetime(),
-  collectedAt: z.string().datetime(),
+  publishedAt: IsoDateTimeSchema,
+  collectedAt: IsoDateTimeSchema,
   language: LanguageSchema,
   authors: z.array(z.string()).default([]),
   rawTags: z.array(z.string()).default([])
@@ -116,7 +120,7 @@ export const ArticleInsightSchema = z.object({
   sourceType: SourceTypeSchema,
   sourceTypeNormalized: InsightSourceTypeSchema,
   url: z.string().url(),
-  publishedAt: z.string().datetime(),
+  publishedAt: IsoDateTimeSchema,
   language: LanguageSchema,
   languageNormalized: InsightLanguageSchema,
   category: InsightCategorySchema,
@@ -177,35 +181,42 @@ export const ArticleInsightSchema = z.object({
   extractionMeta: z.object({
     method: z.enum(["ai", "deterministic_fallback"]),
     promptVersion: z.string(),
-    validatedAt: z.string().datetime(),
+    validatedAt: IsoDateTimeSchema,
     warnings: z.array(z.string())
   })
 });
 
-export const NewsInsightSchema = ArticleInsightSchema.transform((article) => ({
-  id: article.id,
-  title: article.title,
-  source: article.sourceName,
-  source_type: article.sourceTypeNormalized,
-  url: article.url,
-  published_at: article.publishedAt,
-  language: article.languageNormalized,
-  category: article.category,
-  entities: article.entities.extracted,
-  event_type: article.eventType,
-  summary: article.summary,
-  key_facts: article.keyFacts,
-  impact_analysis: article.impactAnalysis,
-  sentiment: article.sentiment,
-  importance_score: article.importanceScore,
-  confidence_score: article.confidenceScore,
-  risk_signals: article.riskSignals,
-  opportunity_signals: article.opportunitySignals,
-  evidence: article.evidence.map((item) => ({
-    field: item.field,
-    quote_or_reason: item.quoteOrReason
-  }))
-}));
+export const NewsInsightSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  source: z.string(),
+  source_type: InsightSourceTypeSchema,
+  url: z.string().url().optional(),
+  published_at: IsoDateTimeSchema,
+  language: InsightLanguageSchema,
+  category: InsightCategorySchema,
+  entities: z.array(
+    z.object({
+      name: z.string(),
+      type: EntityTypeSchema
+    })
+  ),
+  event_type: EventTypeSchema,
+  summary: z.string(),
+  key_facts: z.array(z.string()),
+  impact_analysis: z.string(),
+  sentiment: SentimentSchema,
+  importance_score: z.number().min(1).max(5),
+  confidence_score: z.number().min(0).max(1),
+  risk_signals: z.array(z.string()),
+  opportunity_signals: z.array(z.string()),
+  evidence: z.array(
+    z.object({
+      field: z.string(),
+      quote_or_reason: z.string()
+    })
+  )
+});
 
 export const QualityGateSchema = z.object({
   name: z.string(),
@@ -222,10 +233,10 @@ export const ChartDatumSchema = z.record(
 export const DailyReportSchema = z.object({
   id: z.string(),
   title: z.string(),
-  generatedAt: z.string().datetime(),
+  generatedAt: IsoDateTimeSchema,
   coverageWindow: z.object({
-    start: z.string().datetime(),
-    end: z.string().datetime()
+    start: IsoDateTimeSchema,
+    end: IsoDateTimeSchema
   }),
   sourceStats: z.object({
     rawCount: z.number().int().nonnegative(),

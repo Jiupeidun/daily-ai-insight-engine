@@ -345,6 +345,20 @@ h1 {
   gap: 7px;
 }
 
+.action-error {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+  color: var(--terminal-red);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.35;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .control-link,
 .segment-button,
 .icon-button {

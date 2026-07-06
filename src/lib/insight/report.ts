@@ -1,3 +1,5 @@
+import { createOpenAI } from "@ai-sdk/openai";
+import { generateObject } from "ai";
 import type { ArticleInsight, DailyReport, Language, QualityGate, SourceType, Topic } from "./schema";
 import { DailyReportSchema } from "./schema";
 import { stableId } from "./normalize";
@@ -331,26 +333,6 @@ export function generateDailyReport(articles: ArticleInsight[], rawCount = artic
   return DailyReportSchema.parse(report);
 }
 
-function parseJsonObject(input: string): unknown {
-  const trimmed = input.trim();
-  if (trimmed.startsWith("{")) {
-    return JSON.parse(trimmed);
-  }
-
-  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  if (fenced) {
-    return JSON.parse(fenced[1]);
-  }
-
-  const objectStart = trimmed.indexOf("{");
-  const objectEnd = trimmed.lastIndexOf("}");
-  if (objectStart >= 0 && objectEnd > objectStart) {
-    return JSON.parse(trimmed.slice(objectStart, objectEnd + 1));
-  }
-
-  throw new Error("AI response did not contain a JSON object.");
-}
-
 function buildReportSynthesisPrompt(baseline: DailyReport) {
   const articleBriefs = baseline.articles.slice(0, 18).map((article) => ({
     articleId: article.id,
@@ -390,42 +372,26 @@ function buildReportSynthesisPrompt(baseline: DailyReport) {
   ].join("\n\n");
 }
 
-async function callOpenAiForReport(prompt: string, options: AiReportOptions) {
+async function synthesizeReportWithVercelAiSdk(baseline: DailyReport, options: AiReportOptions) {
   if (!options.apiKey) {
     throw new Error("AI_API_KEY is required for AI report synthesis.");
   }
 
-  const baseUrl = (options.baseUrl ?? DEFAULT_OPENAI_BASE_URL).replace(/\/$/, "");
-  const model = options.model ?? DEFAULT_OPENAI_MODEL;
-  const response = await fetch(`${baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${options.apiKey}`
-    },
-    body: JSON.stringify({
-      model,
-      temperature: 0.2,
-      response_format: { type: "json_object" },
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a strict report synthesis system. Return JSON that matches the requested schema."
-        },
-        { role: "user", content: prompt }
-      ]
-    })
+  const provider = createOpenAI({
+    apiKey: options.apiKey,
+    baseURL: options.baseUrl ?? DEFAULT_OPENAI_BASE_URL
   });
 
-  if (!response.ok) {
-    throw new Error(`OpenAI report synthesis failed: ${response.status} ${await response.text()}`);
-  }
+  const result = await generateObject({
+    model: provider(options.model ?? DEFAULT_OPENAI_MODEL),
+    schema: AiReportSupportSchema,
+    temperature: 0.2,
+    system:
+      "You are a strict daily AI intelligence report synthesis system. Return schema-valid report support data only.",
+    prompt: buildReportSynthesisPrompt(baseline)
+  });
 
-  const data = (await response.json()) as {
-    choices?: Array<{ message?: { content?: string } }>;
-  };
-  return data.choices?.[0]?.message?.content ?? "";
+  return result.object;
 }
 
 export async function generateDailyReportWithAiSupport(
@@ -440,8 +406,7 @@ export async function generateDailyReportWithAiSupport(
   }
 
   try {
-    const content = await callOpenAiForReport(buildReportSynthesisPrompt(baseline), options);
-    const aiSupport = AiReportSupportSchema.parse(parseJsonObject(content));
+    const aiSupport = await synthesizeReportWithVercelAiSdk(baseline, options);
     return DailyReportSchema.parse({
       ...baseline,
       ...aiSupport,

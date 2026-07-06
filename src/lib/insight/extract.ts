@@ -1,13 +1,16 @@
+import { createOpenAI } from "@ai-sdk/openai";
+import { generateObject } from "ai";
 import type {
   ArticleInsight,
   EventType,
   InsightCategory,
+  NewsInsight,
   RawNewsItem,
   SourceType,
   Topic,
   ValueChain
 } from "./schema";
-import { ArticleInsightSchema } from "./schema";
+import { ArticleInsightSchema, NewsInsightSchema } from "./schema";
 import { stableId, truncateText } from "./normalize";
 
 export const PROMPT_VERSION = "extract-news-v1";
@@ -425,17 +428,15 @@ export function buildExtractionPrompt(batch: RawNewsItem[]): string {
   return [
     "You are extracting structured AI industry signals for a daily intelligence report.",
     "Return only valid JSON. Do not summarize the batch as prose.",
-    "For each article, extract a deep insight schema, not a shallow title/summary/source object.",
-    "Required insight fields include: sourceTypeNormalized, languageNormalized, category, eventType, summary, keyFacts, impactAnalysis, canonicalEvent, taxonomy, impact, entities, signals, sentiment, importanceScore, confidenceScore, riskSignals, opportunitySignals, evidence, and keywords.",
-    "importanceScore is 1-5. confidenceScore is 0-1. evidence must explain which source text or rule supports important fields.",
+    "For each article, extract a deep NewsInsight schema, not a shallow title/summary/source object.",
+    "Required insight fields include: source_type, category, entities, event_type, summary, key_facts, impact_analysis, sentiment, importance_score, confidence_score, risk_signals, opportunity_signals, and evidence.",
+    "importance_score is 1-5. confidence_score is 0-1. evidence must explain which source text or rule supports important fields.",
     "Use the article summary as evidence. Do not invent facts that are not supported by the item.",
-    "Expected output shape: {\"articles\": ArticleInsight[]}.",
-    "Allowed topics: frontier_model, ai_infrastructure, product_launch, research, open_source, policy_regulation, capital_market, safety_security, enterprise_adoption, developer_tools.",
-    "Allowed valueChain: model, data, compute, application, tooling, governance, market.",
-    "Allowed sourceTypeNormalized: official, media, community, research, social.",
-    "Allowed languageNormalized: zh, en, other.",
+    "Expected output shape is an array of NewsInsight-like objects. The SDK will add source identity fields from the original item.",
+    "Allowed source_type: official, media, community, research, social.",
     "Allowed category: model_release, ai_product, infrastructure, research, policy, capital, security, industry_application.",
-    "Allowed eventType: launch, upgrade, partnership, funding, regulation, research_result, controversy, market_signal.",
+    "Allowed event_type: launch, upgrade, partnership, funding, regulation, research_result, controversy, market_signal.",
+    "Allowed entity type: company, model, product, person, organization, technology.",
     JSON.stringify({ batch }, null, 2)
   ].join("\n\n");
 }
@@ -473,43 +474,37 @@ function parseJsonObject(input: string): unknown {
   throw new Error("AI response did not contain a JSON object.");
 }
 
-async function callOpenAiCompatible(prompt: string, options: ExtractionOptions): Promise<string> {
+function createOpenAiModel(options: ExtractionOptions) {
   if (!options.apiKey) {
     throw new Error("AI_API_KEY is required.");
   }
 
-  const baseUrl = (options.baseUrl ?? DEFAULT_OPENAI_BASE_URL).replace(/\/$/, "");
-  const model = options.model ?? DEFAULT_OPENAI_MODEL;
-
-  const response = await fetch(`${baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${options.apiKey}`
-    },
-    body: JSON.stringify({
-      model,
-      temperature: 0.1,
-      response_format: { type: "json_object" },
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a strict information extraction system. Return JSON that matches the requested schema."
-        },
-        { role: "user", content: prompt }
-      ]
-    })
+  const provider = createOpenAI({
+    apiKey: options.apiKey,
+    baseURL: options.baseUrl ?? DEFAULT_OPENAI_BASE_URL
   });
 
-  if (!response.ok) {
-    throw new Error(`OpenAI-compatible API failed: ${response.status} ${await response.text()}`);
-  }
+  return provider(options.model ?? DEFAULT_OPENAI_MODEL);
+}
 
-  const data = (await response.json()) as {
-    choices?: Array<{ message?: { content?: string } }>;
-  };
-  return data.choices?.[0]?.message?.content ?? "";
+async function extractWithVercelAiSdk(batch: RawNewsItem[], options: ExtractionOptions) {
+  const result = await generateObject({
+    model: createOpenAiModel(options),
+    schema: NewsInsightSchema.omit({
+      id: true,
+      title: true,
+      source: true,
+      url: true,
+      published_at: true
+    }),
+    output: "array",
+    temperature: 0.1,
+    system:
+      "You are a strict AI industry intelligence extraction system. Return schema-valid structured insight objects only. Do not invent unsupported facts.",
+    prompt: buildExtractionPrompt(batch)
+  });
+
+  return normalizeNewsInsights(result.object, batch);
 }
 
 async function callCloudflareRest(prompt: string, options: ExtractionOptions): Promise<string> {
@@ -631,6 +626,94 @@ function normalizeAiArticles(raw: unknown, batch: RawNewsItem[]): ArticleInsight
   });
 }
 
+function normalizeNewsInsights(rawInsights: Array<Omit<NewsInsight, "id" | "title" | "source" | "url" | "published_at">>, batch: RawNewsItem[]): ArticleInsight[] {
+  if (rawInsights.length !== batch.length) {
+    throw new Error(`AI returned ${rawInsights.length} articles for a batch of ${batch.length}.`);
+  }
+
+  return rawInsights.map((insight, index) => {
+    const item = batch[index];
+    const text = `${item.title}. ${item.summary}. ${item.content}`;
+    const topics = inferTopics(text);
+    const valueChain = inferValueChain(text);
+    const score = clampScore(insight.importance_score * 20);
+    const horizon = insight.category === "policy" || insight.category === "security" ? "quarter" : "weeks";
+    const organizations = insight.entities
+      .filter((entity) => entity.type === "company" || entity.type === "organization")
+      .map((entity) => entity.name);
+    const products = insight.entities
+      .filter((entity) => entity.type === "model" || entity.type === "product" || entity.type === "technology")
+      .map((entity) => entity.name);
+
+    return ArticleInsightSchema.parse({
+      id: stableId(`insight:${item.id}`),
+      rawId: item.id,
+      title: item.title,
+      sourceName: item.sourceName,
+      sourceType: item.sourceType,
+      sourceTypeNormalized: insight.source_type,
+      url: item.url,
+      publishedAt: item.publishedAt,
+      language: item.language,
+      languageNormalized: insight.language,
+      category: insight.category,
+      eventType: insight.event_type,
+      summary: insight.summary,
+      keyFacts: insight.key_facts,
+      impactAnalysis: insight.impact_analysis,
+      canonicalEvent: {
+        whatHappened: insight.summary,
+        whyItMatters: insight.impact_analysis,
+        affectedActors: organizations.length > 0 ? organizations : ["AI ecosystem"],
+        evidence: insight.evidence[0]?.quote_or_reason ?? insight.summary,
+        confidence: insight.confidence_score
+      },
+      taxonomy: {
+        topics,
+        valueChain,
+        maturity: insight.category === "research" ? "emerging" : score >= 80 ? "mainstream" : "signal"
+      },
+      impact: {
+        score,
+        horizon,
+        stakeholders: Array.from(new Set([...organizations, ...products, "AI product teams"])),
+        risks: insight.risk_signals,
+        opportunities: insight.opportunity_signals
+      },
+      entities: {
+        organizations,
+        products,
+        people: insight.entities.filter((entity) => entity.type === "person").map((entity) => entity.name),
+        geographies: inferGeographies(text),
+        extracted: insight.entities
+      },
+      signals: {
+        novelty: insight.event_type === "launch" || insight.event_type === "upgrade" ? 4 : 3,
+        adoption: insight.category === "industry_application" || insight.category === "ai_product" ? 4 : 2,
+        technicalDepth: insight.category === "research" || insight.category === "model_release" ? 4 : 2,
+        regulatoryWeight: insight.category === "policy" || insight.category === "security" ? 4 : 1,
+        capitalIntensity: insight.event_type === "funding" || insight.category === "capital" ? 4 : 1
+      },
+      sentiment: insight.sentiment,
+      importanceScore: Math.round(insight.importance_score),
+      confidenceScore: insight.confidence_score,
+      riskSignals: insight.risk_signals,
+      opportunitySignals: insight.opportunity_signals,
+      evidence: insight.evidence.map((item) => ({
+        field: item.field,
+        quoteOrReason: item.quote_or_reason
+      })),
+      keywords: inferKeywords(text, topics),
+      extractionMeta: {
+        method: "ai",
+        promptVersion: PROMPT_VERSION,
+        validatedAt: new Date().toISOString(),
+        warnings: []
+      }
+    });
+  });
+}
+
 export async function extractArticles(
   items: RawNewsItem[],
   options: ExtractionOptions = {}
@@ -648,20 +731,18 @@ export async function extractArticles(
     }
 
     try {
-      const prompt = buildExtractionPrompt(batch);
-      const content =
-        provider === "cloudflare_rest"
-          ? await callCloudflareRest(prompt, options)
-          : await callOpenAiCompatible(prompt, options);
-      try {
-        insights.push(...normalizeAiArticles(parseJsonObject(content), batch));
-      } catch (validationError) {
-        const error = validationError instanceof Error ? validationError.message : String(validationError);
-        const repaired =
-          provider === "cloudflare_rest"
-            ? await callCloudflareRest(buildRepairPrompt(batch, content, error), options)
-            : await callOpenAiCompatible(buildRepairPrompt(batch, content, error), options);
-        insights.push(...normalizeAiArticles(parseJsonObject(repaired), batch));
+      if (provider === "openai_compatible") {
+        insights.push(...(await extractWithVercelAiSdk(batch, options)));
+      } else {
+        const prompt = buildExtractionPrompt(batch);
+        const content = await callCloudflareRest(prompt, options);
+        try {
+          insights.push(...normalizeAiArticles(parseJsonObject(content), batch));
+        } catch (validationError) {
+          const error = validationError instanceof Error ? validationError.message : String(validationError);
+          const repaired = await callCloudflareRest(buildRepairPrompt(batch, content, error), options);
+          insights.push(...normalizeAiArticles(parseJsonObject(repaired), batch));
+        }
       }
     } catch (error) {
       const warning = error instanceof Error ? error.message : String(error);
