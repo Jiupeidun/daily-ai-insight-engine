@@ -1,5 +1,5 @@
 import { createOpenAI } from "@ai-sdk/openai";
-import { generateObject, generateText, Output } from "ai";
+import { generateObject } from "ai";
 import { z } from "zod";
 import type { ArticleInsight, DailyReport, Language, QualityGate, SourceType, Topic } from "./schema";
 import { DailyReportSchema, REPORT_SCHEMA_VERSION, SCORING_VERSION } from "./schema";
@@ -198,8 +198,9 @@ function buildQualityGates(articles: ArticleInsight[], rawCount: number): Qualit
     {
       name: "AI extraction resilience",
       status: fallbackCount === 0 ? "pass" : "warn",
-      value: fallbackCount === 0 ? "AI path validated" : `${fallbackCount} fallback items`,
-      rationale: "Fallback is intentional: it keeps the pipeline reproducible when model keys or JSON responses fail."
+      value: fallbackCount === 0 ? "AI path validated" : `${fallbackCount} non-AI items`,
+      rationale:
+        "OpenAI-compatible extraction runs in concurrent batches and retries malformed large batches by splitting them before validation."
     },
     {
       name: "Evidence confidence",
@@ -490,6 +491,7 @@ export function generateDailyReport(articles: ArticleInsight[], rawCount = artic
         research: sourceTypes.research ?? 0,
         developer: sourceTypes.developer ?? 0,
         aggregator: sourceTypes.aggregator ?? 0,
+        financial: sourceTypes.financial ?? 0,
         social: sourceTypes.social ?? 0
       } satisfies Record<SourceType, number>
     },
@@ -546,7 +548,7 @@ export function generateDailyReport(articles: ArticleInsight[], rawCount = artic
       {
         step: "Batch extraction",
         detail:
-          "Articles are processed in small batches; AI output must pass Zod validation or the deterministic extractor takes over."
+          "Articles are processed through the configured AI provider in concurrent batches; malformed large responses are split and retried before Zod validation."
       },
       {
         step: "Structured aggregation",
@@ -621,16 +623,39 @@ async function synthesizeReportWithVercelAiSdk(baseline: DailyReport, options: A
   });
 
   if (baseURL.includes("deepseek")) {
-    const result = await generateText({
-      model: provider.chat(options.model ?? DEFAULT_OPENAI_MODEL),
-      output: Output.json(),
-      temperature: 0.2,
-      system:
-        "You are a strict daily AI intelligence report synthesis system. Return only valid JSON that follows the requested shape. Do not include markdown.",
-      prompt: buildReportSynthesisPrompt(baseline)
+    const response = await fetch(`${baseURL}/chat/completions`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${options.apiKey}`
+      },
+      body: JSON.stringify({
+        model: options.model ?? DEFAULT_OPENAI_MODEL,
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a strict daily AI intelligence report synthesis system. Return only valid JSON that follows the requested shape. Do not include markdown."
+          },
+          { role: "user", content: buildReportSynthesisPrompt(baseline) }
+        ],
+        temperature: 0.2,
+        max_tokens: 8192,
+        response_format: { type: "json_object" }
+      }),
+      signal: AbortSignal.timeout(90_000)
     });
+    const text = await response.text();
+    if (!response.ok) {
+      throw new Error(`OpenAI-compatible report synthesis failed: ${response.status} ${text.slice(0, 500)}`);
+    }
+    const data = JSON.parse(text) as { choices?: Array<{ message?: { content?: string } }> };
+    const content = data.choices?.[0]?.message?.content;
+    if (!content) {
+      throw new Error("OpenAI-compatible report synthesis returned an empty message.");
+    }
 
-    return AiReportSupportSchema.parse(result.output);
+    return AiReportSupportSchema.parse(JSON.parse(content));
   }
 
   const result = await generateObject({

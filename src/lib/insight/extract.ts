@@ -1,5 +1,5 @@
 import { createOpenAI } from "@ai-sdk/openai";
-import { generateObject, generateText, Output } from "ai";
+import { generateObject } from "ai";
 import type {
   ArticleInsight,
   AiRelevanceTier,
@@ -23,6 +23,7 @@ type AiProvider = "deterministic" | "openai_compatible" | "cloudflare_rest";
 type ExtractionOptions = {
   provider?: AiProvider;
   batchSize?: number;
+  concurrency?: number;
   apiKey?: string;
   baseUrl?: string;
   model?: string;
@@ -103,7 +104,9 @@ const CORE_AI_PATTERNS = [
 
 const AI_COMPUTE_PATTERNS = [
   /\b(gpu|accelerator|hbm|cuda|inference chip|ai chip|datacenter|data center)\b/i,
-  /\b(nvidia|tsmc|broadcom|amd|micron)\b/i,
+  /\b(nvidia|tsmc|broadcom|amd|micron|asml|super micro|marvell|arm holdings|oracle|dell|western digital|seagate)\b/i,
+  /\b(nvda|tsm|avgo|mu|asml|smci|mrvl|arm|orcl|msft|googl|amzn|dell|wdc|stx)\b/i,
+  /\b(storage stocks?|semiconductor stocks?|chip stocks?|ai stocks?|data center stocks?)\b/i,
   /英伟达|台积电|博通|美光|数据中心|芯片|半导体|算力/
 ];
 
@@ -177,6 +180,8 @@ function calculateAiRelevance(input: {
   const sourceScore =
     input.sourceType === "official"
       ? 10
+      : input.sourceType === "financial"
+        ? 8
       : input.sourceType === "research"
         ? 8
         : input.sourceType === "developer"
@@ -264,6 +269,7 @@ function clampScore(score: number): number {
 
 function sourceImpactWeight(sourceType: SourceType): number {
   if (sourceType === "official") return 8;
+  if (sourceType === "financial") return 7;
   if (sourceType === "research") return 6;
   if (sourceType === "tech_media") return 5;
   if (sourceType === "developer") return 4;
@@ -281,7 +287,27 @@ function recencyImpactWeight(publishedAt: string): number {
 }
 
 function entityImpactWeight(organizations: string[]): number {
-  const majorEntities = ["openai", "google", "nvidia", "anthropic", "meta", "microsoft", "apple", "amazon", "tsmc", "broadcom", "micron", "amd"];
+  const majorEntities = [
+    "openai",
+    "google",
+    "nvidia",
+    "anthropic",
+    "meta",
+    "microsoft",
+    "apple",
+    "amazon",
+    "tsmc",
+    "broadcom",
+    "micron",
+    "amd",
+    "asml",
+    "super micro",
+    "marvell",
+    "oracle",
+    "dell",
+    "western digital",
+    "seagate"
+  ];
   return organizations.some((org) => majorEntities.includes(org.toLowerCase())) ? 8 : Math.min(5, organizations.length * 2);
 }
 
@@ -320,6 +346,7 @@ function normalizeSourceType(sourceType: SourceType) {
   if (sourceType === "official") return "official";
   if (sourceType === "research") return "research";
   if (sourceType === "social") return "social";
+  if (sourceType === "financial") return "media";
   if (sourceType === "aggregator" || sourceType === "developer") return "community";
   return "media";
 }
@@ -378,7 +405,8 @@ function calculateImportanceScore(input: {
   sentiment: ArticleInsight["sentiment"];
   isRecent: boolean;
 }) {
-  const sourceWeight = input.sourceType === "official" ? 1 : input.sourceType === "tech_media" ? 0.5 : 0;
+  const sourceWeight =
+    input.sourceType === "official" ? 1 : input.sourceType === "financial" || input.sourceType === "tech_media" ? 0.5 : 0;
   const entityWeight = input.organizations.some((org) =>
     ["openai", "google", "nvidia", "anthropic", "meta"].includes(org.toLowerCase())
   )
@@ -646,6 +674,160 @@ function parseJsonObject(input: string): unknown {
   throw new Error("AI response did not contain a JSON object.");
 }
 
+function normalizeInsightLanguage(value: unknown, fallback: RawNewsItem["language"]) {
+  if (value === "zh" || value === "en" || value === "other") {
+    return value;
+  }
+  return fallback === "zh" || fallback === "en" ? fallback : "other";
+}
+
+function normalizeInsightSourceType(value: unknown, fallback: SourceType) {
+  if (value === "official" || value === "media" || value === "community" || value === "research" || value === "social") {
+    return value;
+  }
+  return normalizeSourceType(fallback);
+}
+
+function normalizeInsightEvidence(value: unknown, fallback: RawNewsItem) {
+  if (Array.isArray(value)) {
+    return value.map((item) => {
+      if (item && typeof item === "object") {
+        const object = item as { field?: unknown; quote_or_reason?: unknown; quoteOrReason?: unknown };
+        return {
+          field: typeof object.field === "string" ? object.field : "summary",
+          quote_or_reason:
+            typeof object.quote_or_reason === "string"
+              ? object.quote_or_reason
+              : typeof object.quoteOrReason === "string"
+                ? object.quoteOrReason
+                : truncateText(fallback.summary, 180)
+        };
+      }
+      return { field: "summary", quote_or_reason: String(item) };
+    });
+  }
+
+  if (typeof value === "string" && value.trim().length > 0) {
+    return [{ field: "summary", quote_or_reason: value }];
+  }
+
+  return [{ field: "summary", quote_or_reason: truncateText(fallback.summary, 180) }];
+}
+
+function normalizeInsightCategory(value: unknown, text: string) {
+  const allowed = [
+    "model_release",
+    "ai_product",
+    "infrastructure",
+    "research",
+    "policy",
+    "capital",
+    "security",
+    "industry_application"
+  ];
+  if (typeof value === "string" && allowed.includes(value)) {
+    return value;
+  }
+  return inferCategory(inferTopics(text));
+}
+
+function normalizeInsightEventType(value: unknown, text: string) {
+  const allowed = [
+    "launch",
+    "upgrade",
+    "partnership",
+    "funding",
+    "regulation",
+    "research_result",
+    "controversy",
+    "market_signal"
+  ];
+  if (typeof value === "string" && allowed.includes(value)) {
+    return value;
+  }
+  const topics = inferTopics(text);
+  return inferEventType(text, topics);
+}
+
+function normalizeInsightSentiment(value: unknown) {
+  return value === "positive" || value === "neutral" || value === "negative" || value === "mixed"
+    ? value
+    : "neutral";
+}
+
+function normalizeBoundedNumber(value: unknown, fallback: number, min: number, max: number) {
+  const number = typeof value === "number" ? value : typeof value === "string" ? Number(value) : Number.NaN;
+  if (!Number.isFinite(number)) {
+    return fallback;
+  }
+  return Math.max(min, Math.min(max, number));
+}
+
+function normalizeEntityType(value: unknown) {
+  if (
+    value === "company" ||
+    value === "model" ||
+    value === "product" ||
+    value === "person" ||
+    value === "organization" ||
+    value === "technology"
+  ) {
+    return value;
+  }
+
+  const normalized = String(value ?? "").toLowerCase();
+  if (["stock", "ticker", "equity", "vendor", "startup", "company_ticker"].includes(normalized)) {
+    return "company";
+  }
+  if (["institute", "agency", "university", "lab"].includes(normalized)) {
+    return "organization";
+  }
+  if (["software", "platform", "service", "tool"].includes(normalized)) {
+    return "product";
+  }
+  if (["method", "framework", "chip", "hardware"].includes(normalized)) {
+    return "technology";
+  }
+
+  return "organization";
+}
+
+function normalizeEntities(value: unknown) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.flatMap((item) => {
+    if (!item || typeof item !== "object") {
+      return [];
+    }
+    const object = item as { name?: unknown; type?: unknown };
+    if (typeof object.name !== "string" || object.name.trim().length === 0) {
+      return [];
+    }
+    return [{ name: object.name, type: normalizeEntityType(object.type) }];
+  });
+}
+
+function coerceNewsInsightItems(rawItems: unknown[], batch: RawNewsItem[]) {
+  return rawItems.map((item, index) => {
+    const object = item && typeof item === "object" ? (item as Record<string, unknown>) : {};
+    const text = `${batch[index].title}. ${batch[index].summary}. ${batch[index].content}`;
+    return {
+      ...object,
+      source_type: normalizeInsightSourceType(object.source_type, batch[index].sourceType),
+      language: normalizeInsightLanguage(object.language, batch[index].language),
+      category: normalizeInsightCategory(object.category, text),
+      event_type: normalizeInsightEventType(object.event_type, text),
+      entities: normalizeEntities(object.entities),
+      sentiment: normalizeInsightSentiment(object.sentiment),
+      importance_score: normalizeBoundedNumber(object.importance_score, 3, 1, 5),
+      confidence_score: normalizeBoundedNumber(object.confidence_score, 0.72, 0, 1),
+      evidence: normalizeInsightEvidence(object.evidence, batch[index])
+    };
+  });
+}
+
 function createOpenAiModel(options: ExtractionOptions) {
   if (!options.apiKey) {
     throw new Error("AI_API_KEY is required.");
@@ -662,28 +844,75 @@ function createOpenAiModel(options: ExtractionOptions) {
   return baseURL.includes("deepseek") ? provider.chat(model) : provider(model);
 }
 
+async function callOpenAiCompatibleJson(input: {
+  system: string;
+  prompt: string;
+  options: ExtractionOptions;
+  maxTokens?: number;
+}) {
+  if (!input.options.apiKey) {
+    throw new Error("AI_API_KEY is required.");
+  }
+
+  const baseURL = input.options.baseUrl ?? DEFAULT_OPENAI_BASE_URL;
+  const model = input.options.model ?? DEFAULT_OPENAI_MODEL;
+  const response = await fetch(`${baseURL}/chat/completions`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${input.options.apiKey}`
+    },
+    body: JSON.stringify({
+      model,
+      messages: [
+        { role: "system", content: input.system },
+        { role: "user", content: input.prompt }
+      ],
+      temperature: 0.1,
+      max_tokens: input.maxTokens ?? 4096,
+      response_format: { type: "json_object" }
+    }),
+    signal: AbortSignal.timeout(90_000)
+  });
+
+  const text = await response.text();
+  if (!response.ok) {
+    throw new Error(`OpenAI-compatible extraction failed: ${response.status} ${text.slice(0, 500)}`);
+  }
+
+  const data = JSON.parse(text) as { choices?: Array<{ message?: { content?: string } }> };
+  const content = data.choices?.[0]?.message?.content;
+  if (!content) {
+    throw new Error("OpenAI-compatible extraction returned an empty message.");
+  }
+
+  return parseJsonObject(content);
+}
+
 async function extractWithVercelAiSdk(batch: RawNewsItem[], options: ExtractionOptions) {
   if ((options.baseUrl ?? DEFAULT_OPENAI_BASE_URL).includes("deepseek")) {
-    const result = await generateText({
-      model: createOpenAiModel(options),
-      output: Output.json(),
-      temperature: 0.1,
+    const parsed = await callOpenAiCompatibleJson({
+      options,
       system:
         "You are a strict AI industry intelligence extraction system. Return only valid JSON. Do not include markdown.",
       prompt: [
         buildExtractionPrompt(batch),
-        "Return a JSON array. Each item must match the requested NewsInsight-like object shape."
-      ].join("\n\n")
+        "Return a JSON object with shape {\"items\": NewsInsight[]}. Each item must match the requested NewsInsight-like object shape."
+      ].join("\n\n"),
+      maxTokens: 8192
     });
-
-    const parsed = NewsInsightSchema.omit({
+    const items = (parsed as { items?: unknown[] }).items;
+    if (!Array.isArray(items)) {
+      throw new Error("DeepSeek extraction JSON did not contain an items array.");
+    }
+    const insights = NewsInsightSchema.omit({
       id: true,
       title: true,
       source: true,
       url: true,
       published_at: true
-    }).array().parse(result.output);
-    return normalizeNewsInsights(parsed, batch);
+    }).array().parse(coerceNewsInsightItems(items, batch));
+    return normalizeNewsInsights(insights, batch);
   }
 
   const result = await generateObject({
@@ -950,33 +1179,82 @@ export async function extractArticles(
   options: ExtractionOptions = {}
 ): Promise<ArticleInsight[]> {
   const provider = options.provider ?? "deterministic";
-  const batchSize = options.batchSize ?? 5;
-  const insights: ArticleInsight[] = [];
+  const batchSize = options.batchSize ?? (provider === "openai_compatible" ? 20 : 5);
+  const concurrency = Math.max(1, options.concurrency ?? (provider === "openai_compatible" ? 3 : 1));
+  const batches: Array<{ start: number; batch: RawNewsItem[] }> = [];
 
   for (let start = 0; start < items.length; start += batchSize) {
-    const batch = items.slice(start, start + batchSize);
+    batches.push({ start, batch: items.slice(start, start + batchSize) });
+  }
 
+  async function extractBatch(start: number, batch: RawNewsItem[]): Promise<ArticleInsight[]> {
     if (provider === "deterministic") {
-      insights.push(...batch.map(extractDeterministic));
-      continue;
+      return batch.map(extractDeterministic);
     }
 
     try {
       if (provider === "openai_compatible") {
-        insights.push(...(await extractWithVercelAiSdk(batch, options)));
+        console.log(
+          JSON.stringify({
+            message: "ai extraction batch start",
+            provider,
+            model: options.model ?? DEFAULT_OPENAI_MODEL,
+            start,
+            count: batch.length
+          })
+        );
+        const batchInsights = await extractWithVercelAiSdk(batch, options);
+        console.log(
+          JSON.stringify({
+            message: "ai extraction batch complete",
+            provider,
+            model: options.model ?? DEFAULT_OPENAI_MODEL,
+            start,
+            count: batch.length
+          })
+        );
+        return batchInsights;
       } else {
         const prompt = buildExtractionPrompt(batch);
         const content = await callCloudflareRest(prompt, options);
         try {
-          insights.push(...normalizeAiArticles(parseJsonObject(content), batch));
+          return normalizeAiArticles(parseJsonObject(content), batch);
         } catch (validationError) {
           const error = validationError instanceof Error ? validationError.message : String(validationError);
           const repaired = await callCloudflareRest(buildRepairPrompt(batch, content, error), options);
-          insights.push(...normalizeAiArticles(parseJsonObject(repaired), batch));
+          return normalizeAiArticles(parseJsonObject(repaired), batch);
         }
       }
     } catch (error) {
       const warning = error instanceof Error ? error.message : String(error);
+      console.warn(
+        JSON.stringify({
+          message: "ai extraction batch failed",
+          provider,
+          model: options.model ?? DEFAULT_OPENAI_MODEL,
+          start,
+          count: batch.length,
+          error: warning
+        })
+      );
+      if (provider === "openai_compatible" && batch.length > 1) {
+        const splitAt = Math.ceil(batch.length / 2);
+        console.warn(
+          JSON.stringify({
+            message: "ai extraction batch retry split",
+            provider,
+            model: options.model ?? DEFAULT_OPENAI_MODEL,
+            start,
+            count: batch.length,
+            split: [splitAt, batch.length - splitAt]
+          })
+        );
+        const [left, right] = await Promise.all([
+          extractBatch(start, batch.slice(0, splitAt)),
+          extractBatch(start + splitAt, batch.slice(splitAt))
+        ]);
+        return [...left, ...right];
+      }
       for (const item of batch) {
         options.onFailure?.({
           rawId: item.id,
@@ -986,8 +1264,25 @@ export async function extractArticles(
           error: warning
         });
       }
+      return [];
     }
   }
+
+  const results: ArticleInsight[] = [];
+  let nextBatchIndex = 0;
+  const workerCount = Math.min(concurrency, batches.length);
+
+  await Promise.all(
+    Array.from({ length: workerCount }, async () => {
+      while (nextBatchIndex < batches.length) {
+        const batchInfo = batches[nextBatchIndex];
+        nextBatchIndex += 1;
+        results.push(...(await extractBatch(batchInfo.start, batchInfo.batch)));
+      }
+    })
+  );
+
+  const insights = results;
 
   return insights.sort(
     (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
@@ -1008,6 +1303,8 @@ export function optionsFromEnv(env: NodeJS.ProcessEnv): ExtractionOptions {
     apiKey: env.AI_API_KEY,
     baseUrl: env.AI_BASE_URL ?? DEFAULT_OPENAI_BASE_URL,
     model: env.AI_MODEL ?? DEFAULT_OPENAI_MODEL,
+    batchSize: env.AI_EXTRACTION_BATCH_SIZE ? Number.parseInt(env.AI_EXTRACTION_BATCH_SIZE, 10) : undefined,
+    concurrency: env.AI_EXTRACTION_CONCURRENCY ? Number.parseInt(env.AI_EXTRACTION_CONCURRENCY, 10) : undefined,
     cloudflareAccountId: env.CLOUDFLARE_ACCOUNT_ID,
     cloudflareApiToken: env.CLOUDFLARE_API_TOKEN,
     cloudflareModel: env.CLOUDFLARE_AI_MODEL

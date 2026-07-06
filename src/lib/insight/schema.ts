@@ -24,6 +24,7 @@ export const SourceTypeSchema = z.enum([
   "research",
   "developer",
   "aggregator",
+  "financial",
   "social"
 ]);
 

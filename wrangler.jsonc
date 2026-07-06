@@ -24,6 +24,8 @@
   "vars": {
     "AI_PROVIDER": "openai_compatible",
     "AI_BASE_URL": "https://api.deepseek.com/v1",
-    "AI_MODEL": "deepseek-chat"
+    "AI_MODEL": "deepseek-chat",
+    "AI_EXTRACTION_BATCH_SIZE": "20",
+    "AI_EXTRACTION_CONCURRENCY": "3"
   }
 }

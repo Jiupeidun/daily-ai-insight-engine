@@ -356,10 +356,55 @@ export const NEWS_SOURCES: SourceManifest[] = [
     id: "wsj-markets",
     name: "WSJ Markets",
     url: "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
-    type: "tech_media",
+    type: "financial",
     languageHint: "en",
     rationale:
       "Market-moving finance coverage for AI-linked equities, chips, cloud, data centers, and capital allocation."
+  },
+  {
+    id: "marketwatch-top",
+    name: "MarketWatch Top Stories",
+    url: "https://feeds.marketwatch.com/marketwatch/topstories/",
+    type: "financial",
+    languageHint: "en",
+    rationale:
+      "Capital-market news used to validate whether AI infrastructure, semiconductor, cloud, and data-center narratives are reflected in listed equities."
+  },
+  {
+    id: "marketwatch-tech",
+    name: "MarketWatch Technology",
+    url: "https://feeds.marketwatch.com/marketwatch/technology/",
+    type: "financial",
+    languageHint: "en",
+    rationale:
+      "Technology-market coverage for AI-linked public companies, including semiconductors, cloud platforms, storage, and enterprise software."
+  },
+  {
+    id: "cnbc-technology",
+    name: "CNBC Technology",
+    url: "https://www.cnbc.com/id/19854910/device/rss/rss.html",
+    type: "financial",
+    languageHint: "en",
+    rationale:
+      "Public-market technology coverage that connects AI product, chip, cloud, and platform events to investor reaction."
+  },
+  {
+    id: "cnbc-finance",
+    name: "CNBC Finance",
+    url: "https://www.cnbc.com/id/10000664/device/rss/rss.html",
+    type: "financial",
+    languageHint: "en",
+    rationale:
+      "Broader market feed for detecting AI supply-chain risk, rate-sensitive tech moves, and semiconductor or storage stock reactions."
+  },
+  {
+    id: "investing-tech",
+    name: "Investing.com Technology News",
+    url: "https://www.investing.com/rss/news_285.rss",
+    type: "financial",
+    languageHint: "en",
+    rationale:
+      "Market-facing technology feed for AI-linked equities, chip suppliers, cloud vendors, and enterprise software momentum."
   },
   {
     id: "hn-ai",
@@ -376,6 +421,7 @@ export const SOURCE_MANIFEST = {
   generatedFor: "Daily AI Insight Engine",
   selectionLogic: [
     "Blend primary official sources with media and developer-community sources.",
+    "Add financial feeds as capital-market validation signals for AI-linked equities, semiconductors, cloud, storage, and data centers.",
     "Prefer RSS feeds because they are reproducible, timestamped, and easy to audit.",
     "Include research and tooling feeds so the report is not limited to product launch summaries.",
     "Keep source types explicit so the report can separate official claims from third-party interpretation."

@@ -97,6 +97,7 @@ const SOURCE_LABELS_ZH: Record<string, string> = {
   research: "研究机构",
   developer: "开发者",
   aggregator: "聚合源",
+  financial: "金融市场",
   social: "社交来源"
 };
 
