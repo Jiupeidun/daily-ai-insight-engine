@@ -11,6 +11,7 @@ import {
 import { ChartSection } from "@/components/dashboard/chart-section";
 import type { DashboardCharts } from "@/components/dashboard/chart-types";
 import { LocalClock } from "@/components/dashboard/local-clock";
+import { NumberPop } from "@/components/dashboard/number-pop";
 import { PreferenceControls } from "@/components/dashboard/preference-controls";
 import { ReportActions } from "@/components/dashboard/report-actions";
 import { getLatestReport } from "@/lib/report-data";
@@ -118,7 +119,9 @@ function Pipeline() {
             <strong>
               <Bilingual zh={step.zh} en={step.en} />
             </strong>
-            <small>{String(index + 1).padStart(2, "0")}</small>
+            <small>
+              <NumberPop value={String(index + 1).padStart(2, "0")} />
+            </small>
           </div>
         );
       })}
@@ -138,7 +141,9 @@ function Metric({
   return (
     <div className="metric-tile">
       <span>{label}</span>
-      <strong>{value}</strong>
+      <strong>
+        <NumberPop value={value} />
+      </strong>
       <small>{detail}</small>
     </div>
   );
@@ -156,13 +161,16 @@ function AiFeed({ report }: { report: DailyReport }) {
           <div className="feed-item-meta">
             <span className="feed-kind">{article.sourceTypeNormalized}</span>
             <span>{article.sourceName}</span>
-            <time>{article.publishedAt.slice(5, 16).replace("T", " ")}</time>
+            <time>
+              <NumberPop value={article.publishedAt.slice(5, 16).replace("T", " ")} />
+            </time>
           </div>
           <h2>{article.title}</h2>
           <p>{article.summary}</p>
           <div className="feed-item-footer">
             <span>
-              <Bilingual zh="影响分" en="Impact" /> {article.impact.score}
+              <Bilingual zh="影响分" en="Impact" />{" "}
+              <NumberPop value={article.impact.score} className="feed-score-number" />
             </span>
             <a href={article.url} target="_blank" rel="noreferrer">
               <Bilingual zh="原文" en="Source" />

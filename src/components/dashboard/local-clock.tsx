@@ -3,6 +3,7 @@
 import dayjs from "dayjs";
 import { Clock3 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { NumberPop } from "./number-pop";
 
 function getTimezoneLabel() {
   return Intl.DateTimeFormat().resolvedOptions().timeZone || "Local";
@@ -27,7 +28,7 @@ export function LocalClock() {
   return (
     <span className="status-pill status-pill-blue local-clock" title={clock.time ? clock.timezone : undefined}>
       <Clock3 aria-hidden="true" size={14} />
-      {clock.time || "----/--/-- --:--:--"}
+      <NumberPop value={clock.time || "----/--/-- --:--:--"} />
     </span>
   );
 }

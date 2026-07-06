@@ -5,7 +5,7 @@ import type { DailyReport } from "../src/lib/insight/schema";
 
 const ROOT = process.cwd();
 const REPORT_PATH = path.join(ROOT, "data/reports/latest.json");
-const OUTPUT_DIR = path.join(ROOT, "public/reports");
+const OUTPUT_DIR = path.join(ROOT, "data/reports");
 const OUTPUT_PATH = path.join(OUTPUT_DIR, "latest-ai-insight-report.pdf");
 
 function readReport(): DailyReport {
