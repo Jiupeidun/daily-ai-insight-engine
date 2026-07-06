@@ -1,5 +1,5 @@
 import { createOpenAI } from "@ai-sdk/openai";
-import { generateObject } from "ai";
+import { generateObject, generateText, Output } from "ai";
 import { z } from "zod";
 import type { ArticleInsight, DailyReport, Language, QualityGate, SourceType, Topic } from "./schema";
 import { DailyReportSchema } from "./schema";
@@ -462,6 +462,19 @@ async function synthesizeReportWithVercelAiSdk(baseline: DailyReport, options: A
     baseURL: options.baseUrl ?? DEFAULT_OPENAI_BASE_URL
   });
 
+  if ((options.baseUrl ?? DEFAULT_OPENAI_BASE_URL).includes("deepseek")) {
+    const result = await generateText({
+      model: provider(options.model ?? DEFAULT_OPENAI_MODEL),
+      output: Output.json(),
+      temperature: 0.2,
+      system:
+        "You are a strict daily AI intelligence report synthesis system. Return only valid JSON that follows the requested shape. Do not include markdown.",
+      prompt: buildReportSynthesisPrompt(baseline)
+    });
+
+    return AiReportSupportSchema.parse(result.output);
+  }
+
   const result = await generateObject({
     model: provider(options.model ?? DEFAULT_OPENAI_MODEL),
     schema: AiReportSupportSchema,
@@ -492,7 +505,7 @@ export async function generateDailyReportWithAiSupport(
       ...aiSupport,
       schemaRationale: [
         ...baseline.schemaRationale,
-        "Daily report support data is synthesized by OpenAI from validated article-level insights, then revalidated before rendering."
+        "Daily report support data is synthesized by the configured AI provider from validated article-level insights, then revalidated before rendering."
       ],
       qualityGates: [
         ...baseline.qualityGates,
@@ -510,7 +523,7 @@ export async function generateDailyReportWithAiSupport(
           ? {
               ...item,
               detail:
-                "OpenAI synthesizes final dashboard and PDF support data from validated schema fields; code then revalidates and renders it."
+                "The configured AI provider synthesizes final dashboard and PDF support data from validated schema fields; code then revalidates and renders it."
             }
           : item
       )

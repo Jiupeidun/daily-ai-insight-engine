@@ -23,7 +23,7 @@
   },
   "vars": {
     "AI_PROVIDER": "openai_compatible",
-    "AI_BASE_URL": "https://api.openai.com/v1",
-    "AI_MODEL": "gpt-4o-mini"
+    "AI_BASE_URL": "https://api.deepseek.com",
+    "AI_MODEL": "deepseek-chat"
   }
 }

@@ -6,10 +6,10 @@ The product is deployed on Cloudflare Workers through OpenNext. The dashboard is
 
 ## Product Scope
 
-- On-demand PDF generation: the `Generate PDF` button calls the backend, invokes OpenAI through the Vercel AI SDK, validates the response, and downloads the daily report.
-- Scheduled AI refresh: `.github/workflows/refresh-report.yml` runs every 12 hours, calls OpenAI, regenerates the data artifacts and PDF, commits the result, and deploys the updated site to Cloudflare.
+- On-demand PDF generation: the `Generate PDF` button calls the backend, invokes DeepSeek through the Vercel AI SDK, validates the response, and downloads the daily report.
+- Scheduled AI refresh: `.github/workflows/refresh-report.yml` runs every 12 hours, calls DeepSeek, regenerates the data artifacts and PDF, commits the result, and deploys the updated site to Cloudflare.
 - Ready-on-arrival dashboard: visitors see the latest pre-generated report immediately; manual PDF generation is an additional action, not the only way to populate the page.
-- Source diversity: feeds include OpenAI, Google AI, Microsoft AI Platform, NVIDIA AI, TechCrunch AI, The Verge AI, WIRED AI, VentureBeat AI, MIT Technology Review AI, The Decoder, arXiv, Berkeley AI Research, Hacker News AI search, 36Kr, and IT Home.
+- Source diversity: feeds include OpenAI News, Google AI, Microsoft AI Platform, NVIDIA AI, TechCrunch AI, The Verge AI, WIRED AI, VentureBeat AI, MIT Technology Review AI, The Decoder, arXiv, Berkeley AI Research, Hacker News AI search, 36Kr, and IT Home.
 - Schema-first extraction: `generateObject({ schema: NewsInsightSchema })` turns raw articles into auditable insight objects instead of shallow summaries.
 - Error transparency: PDF generation errors return backend details and a `requestId`; the frontend displays the real message instead of a generic failure.
 - Internationalization and theming: Chinese/English language switching, dark/light/system theme modes, local user clock, and mobile layout support are built into the UI.
@@ -72,13 +72,13 @@ The project uses the Vercel AI SDK server-side:
 - `src/app/api/analyze/route.ts`: analyst Q&A with `generateText`
 - `src/app/api/report/pdf/route.ts`: on-demand AI synthesis followed by PDF rendering
 
-OpenAI is configured through Cloudflare Worker secrets and environment variables. The API key never enters the client bundle.
+DeepSeek is configured through Cloudflare Worker secrets and environment variables. The API key never enters the client bundle.
 
 ```bash
 AI_PROVIDER=openai_compatible
-AI_BASE_URL=https://api.openai.com/v1
+AI_BASE_URL=https://api.deepseek.com
 AI_API_KEY=
-AI_MODEL=gpt-4o-mini
+AI_MODEL=deepseek-chat
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KD5YSDV426
 ```
 
@@ -126,7 +126,7 @@ npm run deploy
 - React best practices skill: used as the frontend engineering reference for smaller client islands, server-rendered data loading, and scoped interactivity.
 - PDF skill: used for PDF-generation and render-quality decisions around fonts, layout, and download behavior.
 - L-Observatoire design reference: used as the visual reference for the terminal-style workspace and right-rail intelligence feed.
-- Vercel AI SDK pattern: used for typed model calls with `generateObject` and Zod schemas instead of handwritten OpenAI JSON parsing.
+- Vercel AI SDK pattern: used for typed model calls with `generateObject` and Zod schemas instead of handwritten provider JSON parsing.
 
 ## Project Structure
 
@@ -154,9 +154,9 @@ Daily AI Insight Engine 是为 AI 应用笔试题实现的 AI 舆情分析日报
 
 ## 产品范围
 
-- 12 小时定时刷新：`.github/workflows/refresh-report.yml` 每 12 小时运行一次，调用 OpenAI，重新生成数据产物和 PDF，提交结果并部署到 Cloudflare。
+- 12 小时定时刷新：`.github/workflows/refresh-report.yml` 每 12 小时运行一次，调用 DeepSeek，重新生成数据产物和 PDF，提交结果并部署到 Cloudflare。
 - 打开即有结果：访问者进入页面后直接看到最近一次预生成日报；手动生成 PDF 是额外操作，不是填充首页的唯一方式。
-- 多源信息流：信息源包括 OpenAI、Google AI、Microsoft AI Platform、NVIDIA AI、TechCrunch AI、The Verge AI、WIRED AI、VentureBeat AI、MIT Technology Review AI、The Decoder、arXiv、Berkeley AI Research、Hacker News AI Search、36Kr、IT之家等。
+- 多源信息流：信息源包括 OpenAI News、Google AI、Microsoft AI Platform、NVIDIA AI、TechCrunch AI、The Verge AI、WIRED AI、VentureBeat AI、MIT Technology Review AI、The Decoder、arXiv、Berkeley AI Research、Hacker News AI Search、36Kr、IT之家等。
 - Schema-first 抽取：使用 `generateObject({ schema: NewsInsightSchema })` 把新闻变成可审计的洞察对象，而不是简单摘要。
 - 错误透明：PDF 生成失败时，后端返回真实错误和 `requestId`，前端直接展示，不再只显示“生成失败”。
 - 国际化和主题：支持中英文切换、深色/浅色/跟随系统主题、本地时钟和移动端布局。
@@ -219,13 +219,13 @@ PDF 导出
 - `src/app/api/analyze/route.ts`：用 `generateText` 做分析问答
 - `src/app/api/report/pdf/route.ts`：按需 AI 合成日报并渲染 PDF
 
-OpenAI 通过 Cloudflare Worker secret 和环境变量配置，API key 不会进入前端 bundle。
+DeepSeek 通过 Cloudflare Worker secret 和环境变量配置，API key 不会进入前端 bundle。
 
 ```bash
 AI_PROVIDER=openai_compatible
-AI_BASE_URL=https://api.openai.com/v1
+AI_BASE_URL=https://api.deepseek.com
 AI_API_KEY=
-AI_MODEL=gpt-4o-mini
+AI_MODEL=deepseek-chat
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KD5YSDV426
 ```
 
@@ -273,7 +273,7 @@ npm run deploy
 - React best practices skill：用于前端工程参考，包括小型 client islands、服务端数据读取和交互隔离。
 - PDF skill：用于 PDF 生成、字体、排版和下载行为的实现判断。
 - L-Observatoire 设计参考：用于终端风格工作台和右侧信息流布局。
-- Vercel AI SDK pattern：用于 `generateObject` + Zod schema 的类型化模型调用，替代手写 OpenAI JSON 解析。
+- Vercel AI SDK pattern：用于 `generateObject` + Zod schema 的类型化模型调用，替代手写 provider JSON 解析。
 
 ## 项目结构
 

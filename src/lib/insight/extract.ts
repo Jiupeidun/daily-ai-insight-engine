@@ -1,5 +1,5 @@
 import { createOpenAI } from "@ai-sdk/openai";
-import { generateObject } from "ai";
+import { generateObject, generateText, Output } from "ai";
 import type {
   ArticleInsight,
   EventType,
@@ -14,8 +14,8 @@ import { ArticleInsightSchema, NewsInsightSchema } from "./schema";
 import { stableId, truncateText } from "./normalize";
 
 export const PROMPT_VERSION = "extract-news-v1";
-export const DEFAULT_OPENAI_BASE_URL = "https://api.openai.com/v1";
-export const DEFAULT_OPENAI_MODEL = "gpt-4o-mini";
+export const DEFAULT_OPENAI_BASE_URL = "https://api.deepseek.com";
+export const DEFAULT_OPENAI_MODEL = "deepseek-chat";
 
 type AiProvider = "deterministic" | "openai_compatible" | "cloudflare_rest";
 
@@ -488,6 +488,29 @@ function createOpenAiModel(options: ExtractionOptions) {
 }
 
 async function extractWithVercelAiSdk(batch: RawNewsItem[], options: ExtractionOptions) {
+  if ((options.baseUrl ?? DEFAULT_OPENAI_BASE_URL).includes("deepseek")) {
+    const result = await generateText({
+      model: createOpenAiModel(options),
+      output: Output.json(),
+      temperature: 0.1,
+      system:
+        "You are a strict AI industry intelligence extraction system. Return only valid JSON. Do not include markdown.",
+      prompt: [
+        buildExtractionPrompt(batch),
+        "Return a JSON array. Each item must match the requested NewsInsight-like object shape."
+      ].join("\n\n")
+    });
+
+    const parsed = NewsInsightSchema.omit({
+      id: true,
+      title: true,
+      source: true,
+      url: true,
+      published_at: true
+    }).array().parse(result.output);
+    return normalizeNewsInsights(parsed, batch);
+  }
+
   const result = await generateObject({
     model: createOpenAiModel(options),
     schema: NewsInsightSchema.omit({
