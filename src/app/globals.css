@@ -618,8 +618,8 @@ h1 {
   overflow: hidden;
 }
 
-.metric-tile span,
-.metric-tile small {
+.metric-tile > span,
+.metric-tile > small {
   display: block;
   grid-area: label;
   color: var(--terminal-muted);
@@ -634,7 +634,9 @@ h1 {
 }
 
 .metric-tile strong {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   grid-area: value;
   max-width: 116px;
   color: var(--terminal-text);
@@ -648,7 +650,17 @@ h1 {
   white-space: nowrap;
 }
 
-.metric-tile small {
+.metric-tile strong .t-digit-group {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.metric-tile strong .t-digit {
+  display: inline-block;
+}
+
+.metric-tile > small {
   grid-area: detail;
   color: var(--terminal-dim);
   text-transform: none;
@@ -893,7 +905,7 @@ h1 {
 }
 
 .charts-grid {
-  grid-template-rows: minmax(0, 1fr) minmax(0, 0.86fr);
+  grid-template-rows: repeat(3, minmax(190px, 1fr));
 }
 
 .chart-frame {
@@ -903,12 +915,6 @@ h1 {
   grid-column: span 3;
   overflow: hidden;
   padding: 10px;
-}
-
-.chart-frame:nth-child(3),
-.chart-frame:nth-child(4),
-.chart-frame:nth-child(5) {
-  grid-column: span 2;
 }
 
 .chart-heading {
@@ -1754,13 +1760,14 @@ h1 {
   .chart-frame,
   .chart-frame:nth-child(3),
   .chart-frame:nth-child(4),
-  .chart-frame:nth-child(5) {
+  .chart-frame:nth-child(5),
+  .chart-frame:nth-child(6) {
     grid-column: auto;
     min-height: 260px;
   }
 
   .chart-terminal-body {
-    min-height: 1360px;
+    min-height: 1640px;
   }
 
   .quality-card,
