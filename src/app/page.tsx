@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import {
   Activity,
   ArrowUpRight,
@@ -5,18 +6,25 @@ import {
   CircleAlert,
   Cloud,
   Database,
-  FileJson2,
-  GitBranch,
   ShieldCheck,
   Sparkles
 } from "lucide-react";
 import { ChartSection } from "@/components/dashboard/chart-section";
 import type { DashboardCharts } from "@/components/dashboard/chart-types";
+import { PreferenceControls } from "@/components/dashboard/preference-controls";
+import { ReportActions } from "@/components/dashboard/report-actions";
+import {
+  StructuredExtractionList,
+  type ExtractionListRow
+} from "@/components/dashboard/structured-extraction-list";
 import { TOPIC_LABELS } from "@/lib/insight/report";
 import { getLatestReport } from "@/lib/report-data";
 import type { DailyReport } from "@/lib/insight/schema";
 
 export const dynamic = "force-static";
+
+const GITHUB_URL = "https://github.com/Jiupeidun/daily-ai-insight-engine";
+const PDF_HREF = "/reports/latest-ai-insight-report.pdf";
 
 const STATUS_LABEL = {
   pass: "PASS",
@@ -61,6 +69,18 @@ function toDashboardCharts(report: DailyReport): DashboardCharts {
   };
 }
 
+function toExtractionRows(report: DailyReport): ExtractionListRow[] {
+  return report.articles.map((article) => ({
+    id: article.id,
+    title: article.title,
+    event: article.canonicalEvent.whatHappened,
+    source: article.sourceName,
+    topics: article.taxonomy.topics.map((topic) => TOPIC_LABELS[topic]).join(", "),
+    impact: article.impact.score,
+    method: article.extractionMeta.method
+  }));
+}
+
 function formatDateTime(value: string) {
   return new Intl.DateTimeFormat("zh-CN", {
     month: "2-digit",
@@ -77,14 +97,52 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
+function TerminalCard({
+  title,
+  right,
+  children,
+  className = "",
+  bodyClassName = ""
+}: {
+  title: ReactNode;
+  right?: ReactNode;
+  children: ReactNode;
+  className?: string;
+  bodyClassName?: string;
+}) {
+  return (
+    <section className={`terminal-card ${className}`}>
+      <header className="terminal-titlebar">
+        <div className="terminal-title-left">
+          <span className="terminal-dot dot-red" aria-hidden="true" />
+          <span className="terminal-dot dot-yellow" aria-hidden="true" />
+          <span className="terminal-dot dot-green" aria-hidden="true" />
+          <span className="terminal-title">{title}</span>
+        </div>
+        {right == null ? null : <div className="terminal-title-right">{right}</div>}
+      </header>
+      <div className={`terminal-card-body ${bodyClassName}`}>{children}</div>
+    </section>
+  );
+}
+
+function Bilingual({ zh, en }: { zh: string; en: string }) {
+  return (
+    <>
+      <span className="lang-zh">{zh}</span>
+      <span className="lang-en">{en}</span>
+    </>
+  );
+}
+
 function MetricTile({
   label,
   value,
   detail
 }: {
-  label: string;
+  label: ReactNode;
   value: string;
-  detail: string;
+  detail: ReactNode;
 }) {
   return (
     <div className="metric-tile">
@@ -103,12 +161,14 @@ function QualityGateList({ report }: { report: DailyReport }) {
         return (
           <div className={`quality-card ${gate.status}`} key={gate.name}>
             <div className="quality-card-top">
-              <Icon aria-hidden="true" size={18} />
+              <Icon aria-hidden="true" size={16} />
               <span>{STATUS_LABEL[gate.status]}</span>
             </div>
-            <h3>{gate.name}</h3>
-            <strong>{gate.value}</strong>
-            <p>{gate.rationale}</p>
+            <div>
+              <h3>{gate.name}</h3>
+              <strong>{gate.value}</strong>
+              <p>{gate.rationale}</p>
+            </div>
           </div>
         );
       })}
@@ -122,7 +182,7 @@ function TopEvents({ report }: { report: DailyReport }) {
       {report.topEvents.map((event) => (
         <article className="event-row" key={event.articleId}>
           <div className="event-rank">{event.rank}</div>
-          <div>
+          <div className="event-body">
             <div className="event-title-line">
               <h3>{event.title}</h3>
               <span>{event.score}</span>
@@ -130,7 +190,7 @@ function TopEvents({ report }: { report: DailyReport }) {
             <p>{event.whyImportant}</p>
             <p className="evidence">{event.evidence}</p>
             <a href={event.url} target="_blank" rel="noreferrer">
-              Source <ArrowUpRight aria-hidden="true" size={14} />
+              <Bilingual zh="来源" en="Source" /> <ArrowUpRight aria-hidden="true" size={14} />
             </a>
           </div>
         </article>
@@ -178,46 +238,16 @@ function TrendRadar({ report }: { report: DailyReport }) {
   );
 }
 
-function StructuredTable({ report }: { report: DailyReport }) {
-  return (
-    <div className="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Event</th>
-            <th>Topics</th>
-            <th>Source</th>
-            <th>Impact</th>
-            <th>Method</th>
-          </tr>
-        </thead>
-        <tbody>
-          {report.articles.map((article) => (
-            <tr key={article.id}>
-              <td>
-                <strong>{article.title}</strong>
-                <span>{article.canonicalEvent.whatHappened}</span>
-              </td>
-              <td>{article.taxonomy.topics.map((topic) => TOPIC_LABELS[topic]).join(", ")}</td>
-              <td>{article.sourceName}</td>
-              <td>{article.impact.score}</td>
-              <td>{article.extractionMeta.method}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
 function Methodology({ report }: { report: DailyReport }) {
   return (
     <div className="method-grid">
       {report.methodology.map((item, index) => (
         <div className="method-step" key={item.step}>
           <span>{index + 1}</span>
-          <h3>{item.step}</h3>
-          <p>{item.detail}</p>
+          <div>
+            <h3>{item.step}</h3>
+            <p>{item.detail}</p>
+          </div>
         </div>
       ))}
     </div>
@@ -227,151 +257,154 @@ function Methodology({ report }: { report: DailyReport }) {
 export default function Home() {
   const report = getLatestReport();
   const charts = toDashboardCharts(report);
+  const extractionRows = toExtractionRows(report);
   const fallbackItems = report.articles.filter(
     (article) => article.extractionMeta.method === "deterministic_fallback"
   ).length;
+  const pdfFileName = `AI舆情分析日报-${report.generatedAt.slice(0, 10)}.pdf`;
 
   return (
-    <main>
-      <section className="overview-band">
-        <div className="page-shell overview-grid">
-          <div className="overview-copy">
+    <main className="site-shell">
+      <div className="terminal-workspace">
+        <TerminalCard
+          title="Daily AI Insight Engine"
+          className="command-card"
+          bodyClassName="command-body"
+          right={
+            <div className="command-toolbar">
+              <PreferenceControls />
+              <span className="status-pill">
+                <ShieldCheck aria-hidden="true" size={14} />
+                <Bilingual zh="Schema 已验证" en="Schema verified" />
+              </span>
+              <span className="status-pill status-pill-blue">
+                {formatDateTime(report.generatedAt)}
+              </span>
+            </div>
+          }
+        >
+          <div className="command-copy">
             <div className="eyebrow">
               <Sparkles aria-hidden="true" size={16} />
-              Daily AI Insight Engine
+              <Bilingual zh="AI 应用情报" en="AI Application Intelligence" />
             </div>
-            <h1>AI 舆情分析日报</h1>
-            <p>{report.executiveBrief}</p>
-            <div className="overview-actions" aria-label="Repository actions">
-              <a className="button-link primary" href="/api/report">
-                <FileJson2 aria-hidden="true" size={16} />
-                Report JSON
-              </a>
-              <a className="button-link" href="https://github.com/Jiupeidun/daily-ai-insight-engine">
-                <GitBranch aria-hidden="true" size={16} />
-                GitHub
-              </a>
-            </div>
+            <h1>
+              <Bilingual zh="AI 舆情分析日报" en="Daily AI Insight Report" />
+            </h1>
+            <p>
+              <span className="lang-zh">{report.executiveBrief}</span>
+              <span className="lang-en">
+                A reproducible daily AI intelligence dashboard with validated sources, schema-first
+                extraction, trend scoring, and a downloadable PDF report for the current run.
+              </span>
+            </p>
           </div>
+          <ReportActions
+            pdfHref={PDF_HREF}
+            jsonHref="/api/report"
+            githubHref={GITHUB_URL}
+            pdfFileName={pdfFileName}
+          />
+        </TerminalCard>
 
-          <div className="metric-panel" aria-label="Report coverage summary">
-            <MetricTile
-              label="Structured Items"
-              value={String(report.sourceStats.structuredCount)}
-              detail={`${report.sourceStats.sourceCount} sources`}
-            />
-            <MetricTile
-              label="Coverage"
-              value={`${formatDate(report.coverageWindow.start)}-${formatDate(report.coverageWindow.end)}`}
-              detail={`generated ${formatDateTime(report.generatedAt)}`}
-            />
-            <MetricTile
-              label="Language Mix"
-              value={`${report.sourceStats.languageMix.zh + report.sourceStats.languageMix.mixed}/${report.sourceStats.structuredCount}`}
-              detail="Chinese or mixed-language items"
-            />
-            <MetricTile
-              label="Fallbacks"
-              value={String(fallbackItems)}
-              detail="validated deterministic extraction"
-            />
-          </div>
-        </div>
-      </section>
+        <div className="terminal-grid">
+          <aside className="panel-column panel-column-left">
+            <TerminalCard
+              title={<Bilingual zh="覆盖范围" en="Coverage" />}
+              bodyClassName="metric-panel"
+            >
+              <MetricTile
+                label={<Bilingual zh="结构化" en="Structured" />}
+                value={String(report.sourceStats.structuredCount)}
+                detail={`${report.sourceStats.sourceCount} sources`}
+              />
+              <MetricTile
+                label={<Bilingual zh="窗口" en="Window" />}
+                value={`${formatDate(report.coverageWindow.start)}-${formatDate(report.coverageWindow.end)}`}
+                detail={<Bilingual zh="覆盖区间" en="coverage range" />}
+              />
+              <MetricTile
+                label={<Bilingual zh="中/混合" en="ZH / Mixed" />}
+                value={`${report.sourceStats.languageMix.zh + report.sourceStats.languageMix.mixed}/${report.sourceStats.structuredCount}`}
+                detail={<Bilingual zh="语言组合" en="language mix" />}
+              />
+              <MetricTile
+                label={<Bilingual zh="兜底" en="Fallbacks" />}
+                value={String(fallbackItems)}
+                detail={<Bilingual zh="规则抽取" en="deterministic extraction" />}
+              />
+            </TerminalCard>
 
-      <section className="section-band">
-        <div className="page-shell section-heading">
-          <div>
-            <span className="section-kicker">
-              <ShieldCheck aria-hidden="true" size={16} />
-              Quality Gates
-            </span>
-            <h2>先看数据是否值得信任</h2>
-          </div>
-          <p>
-            The report exposes volume, diversity, validation coverage, language mix, fallback usage, and evidence confidence before making claims.
-          </p>
-        </div>
-        <div className="page-shell">
-          <QualityGateList report={report} />
-        </div>
-      </section>
+            <TerminalCard title={<Bilingual zh="质量门" en="Quality Gates" />} bodyClassName="scroll-panel">
+              <QualityGateList report={report} />
+            </TerminalCard>
 
-      <section className="section-band tinted">
-        <div className="page-shell section-heading">
-          <div>
-            <span className="section-kicker">
-              <Activity aria-hidden="true" size={16} />
-              Visual Analysis
-            </span>
-            <h2>从结构化字段生成可视化</h2>
-          </div>
-          <p>
-            Charts are rendered from validated schema fields only; raw text never drives the visualization layer directly.
-          </p>
-        </div>
-        <div className="page-shell">
-          <ChartSection charts={charts} />
-        </div>
-      </section>
+            <TerminalCard title={<Bilingual zh="处理流程" en="Pipeline" />} bodyClassName="scroll-panel compact-scroll">
+              <Methodology report={report} />
+            </TerminalCard>
+          </aside>
 
-      <section className="section-band">
-        <div className="page-shell content-grid">
-          <div>
-            <span className="section-kicker">
-              <Cloud aria-hidden="true" size={16} />
-              Top Events
-            </span>
-            <h2>今日主要热点</h2>
-            <TopEvents report={report} />
-          </div>
-          <aside>
-            <span className="section-kicker">
-              <Database aria-hidden="true" size={16} />
-              Trend Radar
-            </span>
-            <h2>趋势判断</h2>
-            <TrendRadar report={report} />
+          <section className="panel-column panel-column-main">
+            <TerminalCard
+              title={<Bilingual zh="可视化分析" en="Visual Analysis" />}
+              bodyClassName="chart-terminal-body"
+              right={
+                <span className="mini-label">
+                  <Activity aria-hidden="true" size={13} />
+                  <Bilingual zh="仅使用结构化字段" en="structured fields only" />
+                </span>
+              }
+            >
+              <ChartSection charts={charts} />
+            </TerminalCard>
+
+            <TerminalCard
+              title={<Bilingual zh="结构化抽取" en="Structured Extraction" />}
+              bodyClassName="virtual-card-body"
+            >
+              <StructuredExtractionList rows={extractionRows} />
+            </TerminalCard>
+          </section>
+
+          <aside className="panel-column panel-column-right">
+            <TerminalCard
+              title={<Bilingual zh="今日热点" en="Top Events" />}
+              bodyClassName="scroll-panel"
+              right={
+                <span className="mini-label">
+                  <Cloud aria-hidden="true" size={13} />
+                  <Bilingual zh="按影响排序" en="ranked by impact" />
+                </span>
+              }
+            >
+              <TopEvents report={report} />
+            </TerminalCard>
+
+            <TerminalCard
+              title={<Bilingual zh="趋势雷达" en="Trend Radar" />}
+              bodyClassName="scroll-panel"
+              right={
+                <span className="mini-label">
+                  <Database aria-hidden="true" size={13} />
+                  <Bilingual zh="信号强度" en="signal strength" />
+                </span>
+              }
+            >
+              <TrendRadar report={report} />
+            </TerminalCard>
+
+            <TerminalCard title={<Bilingual zh="深度分析" en="Deep Dives" />} bodyClassName="scroll-panel compact-scroll">
+              <DeepDives report={report} />
+            </TerminalCard>
           </aside>
         </div>
-      </section>
 
-      <section className="section-band tinted">
-        <div className="page-shell section-heading">
-          <div>
-            <span className="section-kicker">Deep Dives</span>
-            <h2>重要事件深度总结</h2>
-          </div>
-        </div>
-        <div className="page-shell">
-          <DeepDives report={report} />
-        </div>
-      </section>
-
-      <section className="section-band">
-        <div className="page-shell section-heading">
-          <div>
-            <span className="section-kicker">Schema</span>
-            <h2>结构化抽取结果</h2>
-          </div>
-          <p>{report.schemaRationale.join(" ")}</p>
-        </div>
-        <div className="page-shell">
-          <StructuredTable report={report} />
-        </div>
-      </section>
-
-      <section className="section-band final-band">
-        <div className="page-shell section-heading">
-          <div>
-            <span className="section-kicker">Pipeline</span>
-            <h2>处理流程与设计决策</h2>
-          </div>
-        </div>
-        <div className="page-shell">
-          <Methodology report={report} />
-        </div>
-      </section>
+        <footer className="site-footer">
+          <span>Daily AI Insight Engine</span>
+          <span>Cloudflare Workers + OpenNext</span>
+          <span>{report.schemaRationale.join(" ")}</span>
+        </footer>
+      </div>
     </main>
   );
 }

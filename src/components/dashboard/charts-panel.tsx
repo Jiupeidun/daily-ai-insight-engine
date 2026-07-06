@@ -18,7 +18,23 @@ import {
 } from "recharts";
 import type { DashboardCharts } from "./chart-types";
 
-const COLORS = ["#2563eb", "#0f766e", "#b45309", "#9333ea", "#dc2626", "#4f46e5"];
+const COLORS = ["#64d2ff", "#30d158", "#ff9f0a", "#bf5af2", "#ff453a", "#ffd60a"];
+const GRID = "rgba(255, 255, 255, 0.08)";
+const TICK = { fill: "#9b9ba1", fontSize: 11 };
+const TOOLTIP_STYLE = {
+  border: "1px solid rgba(255, 255, 255, 0.16)",
+  borderRadius: 8,
+  background: "#1b1b1f",
+  color: "#f5f5f7",
+  boxShadow: "0 18px 42px rgba(0, 0, 0, 0.28)"
+};
+const TOOLTIP_LABEL_STYLE = { color: "#f5f5f7", fontWeight: 700 };
+const TOOLTIP_ITEM_STYLE = { color: "#d8d8de" };
+
+function shortTick(value: string | number) {
+  const label = String(value);
+  return label.length > 12 ? `${label.slice(0, 11)}.` : label;
+}
 
 function ChartFrame({
   title,
@@ -49,11 +65,23 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
       >
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={charts.topicDistribution} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
-            <CartesianGrid stroke="#e5e7eb" vertical={false} />
-            <XAxis dataKey="label" tick={{ fontSize: 11 }} interval={0} height={52} />
-            <YAxis tick={{ fontSize: 11 }} />
-            <Tooltip />
-            <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="#2563eb" />
+            <CartesianGrid stroke={GRID} vertical={false} />
+            <XAxis
+              dataKey="label"
+              tick={TICK}
+              tickFormatter={shortTick}
+              interval={0}
+              angle={-24}
+              textAnchor="end"
+              height={72}
+            />
+            <YAxis tick={TICK} />
+            <Tooltip
+              contentStyle={TOOLTIP_STYLE}
+              itemStyle={TOOLTIP_ITEM_STYLE}
+              labelStyle={TOOLTIP_LABEL_STYLE}
+            />
+            <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="#64d2ff" />
           </BarChart>
         </ResponsiveContainer>
       </ChartFrame>
@@ -66,18 +94,22 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
           <AreaChart data={charts.impactTimeline} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
             <defs>
               <linearGradient id="impactFill" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="5%" stopColor="#0f766e" stopOpacity={0.36} />
-                <stop offset="95%" stopColor="#0f766e" stopOpacity={0.02} />
+                <stop offset="5%" stopColor="#30d158" stopOpacity={0.36} />
+                <stop offset="95%" stopColor="#30d158" stopOpacity={0.02} />
               </linearGradient>
             </defs>
-            <CartesianGrid stroke="#e5e7eb" vertical={false} />
-            <XAxis dataKey="date" tick={{ fontSize: 11 }} />
-            <YAxis tick={{ fontSize: 11 }} domain={[0, 100]} />
-            <Tooltip />
+            <CartesianGrid stroke={GRID} vertical={false} />
+            <XAxis dataKey="date" tick={TICK} />
+            <YAxis tick={TICK} domain={[0, 100]} />
+            <Tooltip
+              contentStyle={TOOLTIP_STYLE}
+              itemStyle={TOOLTIP_ITEM_STYLE}
+              labelStyle={TOOLTIP_LABEL_STYLE}
+            />
             <Area
               type="monotone"
               dataKey="avgImpact"
-              stroke="#0f766e"
+              stroke="#30d158"
               strokeWidth={2}
               fill="url(#impactFill)"
             />
@@ -91,10 +123,14 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
       >
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart data={charts.signalRadar} outerRadius="72%">
-            <PolarGrid stroke="#e5e7eb" />
-            <PolarAngleAxis dataKey="signal" tick={{ fontSize: 11 }} />
-            <Radar dataKey="value" stroke="#9333ea" fill="#9333ea" fillOpacity={0.2} />
-            <Tooltip />
+            <PolarGrid stroke={GRID} />
+            <PolarAngleAxis dataKey="signal" tick={TICK} />
+            <Radar dataKey="value" stroke="#bf5af2" fill="#bf5af2" fillOpacity={0.24} />
+            <Tooltip
+              contentStyle={TOOLTIP_STYLE}
+              itemStyle={TOOLTIP_ITEM_STYLE}
+              labelStyle={TOOLTIP_LABEL_STYLE}
+            />
           </RadarChart>
         </ResponsiveContainer>
       </ChartFrame>
@@ -109,10 +145,14 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
             layout="vertical"
             margin={{ top: 8, right: 8, left: 18, bottom: 0 }}
           >
-            <CartesianGrid stroke="#e5e7eb" horizontal={false} />
-            <XAxis type="number" tick={{ fontSize: 11 }} />
-            <YAxis type="category" dataKey="type" tick={{ fontSize: 11 }} width={92} />
-            <Tooltip />
+            <CartesianGrid stroke={GRID} horizontal={false} />
+            <XAxis type="number" tick={TICK} />
+            <YAxis type="category" dataKey="type" tick={TICK} width={92} />
+            <Tooltip
+              contentStyle={TOOLTIP_STYLE}
+              itemStyle={TOOLTIP_ITEM_STYLE}
+              labelStyle={TOOLTIP_LABEL_STYLE}
+            />
             <Bar dataKey="count" radius={[0, 6, 6, 0]}>
               {charts.sourceMix.map((entry, index) => (
                 <Cell key={entry.type} fill={COLORS[index % COLORS.length]} />
@@ -128,11 +168,23 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
       >
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={charts.valueChainMap} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
-            <CartesianGrid stroke="#e5e7eb" vertical={false} />
-            <XAxis dataKey="valueChain" tick={{ fontSize: 11 }} />
-            <YAxis tick={{ fontSize: 11 }} />
-            <Tooltip />
-            <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="#b45309" />
+            <CartesianGrid stroke={GRID} vertical={false} />
+            <XAxis
+              dataKey="valueChain"
+              tick={TICK}
+              tickFormatter={shortTick}
+              interval={0}
+              angle={-18}
+              textAnchor="end"
+              height={58}
+            />
+            <YAxis tick={TICK} />
+            <Tooltip
+              contentStyle={TOOLTIP_STYLE}
+              itemStyle={TOOLTIP_ITEM_STYLE}
+              labelStyle={TOOLTIP_LABEL_STYLE}
+            />
+            <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="#ff9f0a" />
           </BarChart>
         </ResponsiveContainer>
       </ChartFrame>

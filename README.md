@@ -1,19 +1,23 @@
 # Daily AI Insight Engine
 
-一个面向 AI coding 面试的 **AI 舆情分析日报系统 MVP**。它不是把新闻一次性丢给模型生成摘要，而是把数据获取、清洗、Schema 抽取、校验、聚合分析、可视化和部署路径都做成可复现工程链路。
+一个面向 AI coding 面试的 **AI 舆情分析日报系统 MVP**。系统每天采集近期 AI 信息，完成清洗、结构化抽取、质量校验、趋势聚合、可视化，并生成可下载的 PDF 日报。
 
-## Demo Scope
+An **AI daily intelligence report MVP** for an AI coding interview. It collects recent AI signals, normalizes them, extracts schema-validated insights, runs quality gates, renders a one-page dashboard, and generates a downloadable PDF report.
 
-- 前端：Next.js App Router 仪表盘，展示日报、质量门、趋势图、Top events、深度分析和结构化表。
-- 后端/部署：Cloudflare Workers + OpenNext，`wrangler.jsonc` 已配置 Workers AI binding、`nodejs_compat`、observability 和 smart placement。
-- 数据：RSS 自动采集 10-20 条近期 AI 信息，保留原始数据与 source manifest。
-- AI：支持三种模式：
-  - `deterministic`：无 key 可复现的规则抽取，CI 和面试现场兜底。
-  - `openai_compatible`：任意 OpenAI-compatible API。
-  - `cloudflare_rest`：本地脚本调用 Cloudflare Workers AI REST。
-  - 部署后 `/api/analyze` 可直接使用 Cloudflare Workers AI binding。
+## 产品能力 / Product
 
-## Quick Start
+- 单屏工作台：桌面端首页固定在 one-page dashboard，长内容在卡片内部滚动。
+- One-page dashboard: the desktop view keeps the product inside a single viewport; long content scrolls inside panels.
+- PDF 日报：`public/reports/latest-ai-insight-report.pdf` 可直接下载。
+- PDF report: the current report is generated as `public/reports/latest-ai-insight-report.pdf`.
+- 中英切换与深浅色切换：偏好写入 `localStorage`，刷新后保留。
+- Chinese/English and dark/light mode: preferences persist through `localStorage`.
+- Google Analytics：设置 `NEXT_PUBLIC_GA_MEASUREMENT_ID` 后启用 pageview 和下载/偏好事件埋点。
+- Google Analytics: set `NEXT_PUBLIC_GA_MEASUREMENT_ID` to enable page views plus download/preference events.
+- Cloudflare 部署：Next.js App Router + OpenNext + Cloudflare Workers AI binding。
+- Cloudflare deployment: Next.js App Router + OpenNext + Cloudflare Workers AI binding.
+
+## Quick Start / 快速开始
 
 ```bash
 npm install
@@ -21,62 +25,85 @@ npm run pipeline
 npm run dev
 ```
 
-打开 `http://localhost:3000`。
+Open `http://localhost:3000`.
 
-常用命令：
+常用命令 / Common commands:
 
 ```bash
-npm run collect      # RSS 采集，写入 data/raw/news-items.json
-npm run generate     # 结构化抽取并生成 data/reports/latest.json + latest.md
-npm run validate     # lint + typecheck + test + build
-npm run preview      # OpenNext Cloudflare 本地预览
-npm run deploy       # 部署到 Cloudflare Workers
+npm run collect        # RSS collection -> data/raw/news-items.json
+npm run generate       # structured report -> data/reports/latest.json + latest.md
+npm run generate:pdf   # PDF report -> public/reports/latest-ai-insight-report.pdf
+npm run pipeline       # collect + generate + generate:pdf
+npm run validate       # lint + typecheck + test + build
+npm run preview        # OpenNext Cloudflare local preview
+npm run deploy         # deploy to Cloudflare Workers
 ```
 
-## Data Sources
+## Environment / 环境变量
 
-数据源定义在 `src/lib/insight/source-config.ts`，当前样例输出在：
+Copy `.env.example` when running locally.
+
+```bash
+AI_PROVIDER=deterministic
+AI_BASE_URL=
+AI_API_KEY=
+AI_MODEL=
+CLOUDFLARE_ACCOUNT_ID=
+CLOUDFLARE_API_TOKEN=
+CLOUDFLARE_AI_MODEL=@cf/meta/llama-3.1-8b-instruct
+NEXT_PUBLIC_GA_MEASUREMENT_ID=
+```
+
+`NEXT_PUBLIC_GA_MEASUREMENT_ID` is optional. When empty, no Google Analytics scripts are rendered.
+
+`NEXT_PUBLIC_GA_MEASUREMENT_ID` 可选；留空时不会加载 GA 脚本。
+
+## Data Pipeline / 数据链路
+
+数据源定义在 `src/lib/insight/source-config.ts`。输出文件：
+
+Data sources live in `src/lib/insight/source-config.ts`. Generated artifacts:
 
 - `data/raw/source-manifest.json`
 - `data/raw/news-items.json`
 - `data/processed/structured-news.json`
 - `data/reports/latest.json`
 - `data/reports/latest.md`
+- `public/reports/latest-ai-insight-report.pdf`
 
-选择逻辑：
+采集策略按来源轮询抽样后去重，避免单一高频 feed 占满日报。
 
-- 官方源用于降低二手解读噪音，例如 OpenAI News。
-- 科技媒体用于捕捉产品、资本、企业采用和争议信号。
-- 中文源用于补充本地 AI 应用和产业信息。
-- Hacker News 用作开发者社区早期讨论代理。
-- RSS 优先，因为它可复现、带时间戳、便于审计。
+The collector samples across sources and deduplicates items so one noisy feed cannot dominate the report.
 
-采集策略不是简单按时间截断，而是按来源轮询抽样后去重，避免一个高频 feed 占满 18 条。
+## Schema / 结构化抽取
 
-## Schema Design
+核心 Schema 在 `src/lib/insight/schema.ts`。每条新闻会被抽取为 `ArticleInsight`：
 
-核心 Schema 在 `src/lib/insight/schema.ts`。每篇新闻会被抽取为 `ArticleInsight`：
+The core schema is in `src/lib/insight/schema.ts`. Each item becomes an `ArticleInsight`:
 
-- `canonicalEvent`：发生了什么、为什么重要、影响主体、证据片段、置信度。
-- `taxonomy`：主题、价值链位置、成熟度。
-- `impact`：影响分、时间范围、利益相关方、风险、机会。
-- `entities`：组织、产品、人物、地区。
-- `signals`：新颖性、采用度、技术深度、监管权重、资本强度。
-- `extractionMeta`：抽取方法、prompt 版本、校验时间、warning。
+- `canonicalEvent`: what happened, why it matters, affected actors, evidence, confidence.
+- `taxonomy`: topic, value-chain position, maturity.
+- `impact`: score, horizon, stakeholders, risks, opportunities.
+- `entities`: organizations, products, people, geographies.
+- `signals`: novelty, adoption, technical depth, regulatory weight, capital intensity.
+- `extractionMeta`: extraction method, prompt version, validation timestamp, warnings.
 
-这样设计的原因：日报不是摘要拼接，而是把每条信息变成可聚合、可验证、可解释的决策信号。图表和 Top events 都来自结构化字段，不直接从原文拼文本。
+这样做的目的不是拼摘要，而是把新闻变成可聚合、可审计、可解释的决策信号。
 
-## AI Usage
+The point is not stitched summarization; it is turning news into aggregatable, auditable, explainable decision signals.
 
-抽取入口在 `src/lib/insight/extract.ts`：
+## AI Modes / AI 模式
 
-1. 原始文章分批处理，默认 batch size 为 4。
-2. AI prompt 要求只返回 JSON，不允许整批自由发挥写报告。
-3. 每批输出必须通过 Zod 校验。
-4. 校验失败、API 不可用或无 key 时，自动进入 deterministic fallback。
-5. 日报生成只读取 `ArticleInsight[]`，不读取原始全文。
+抽取入口在 `src/lib/insight/extract.ts`。支持：
 
-本地接入 OpenAI-compatible API：
+Extraction starts in `src/lib/insight/extract.ts`. Supported modes:
+
+- `deterministic`: reproducible fallback without API keys.
+- `openai_compatible`: any OpenAI-compatible API.
+- `cloudflare_rest`: local scripts call Cloudflare Workers AI REST.
+- deployed `/api/analyze`: uses the Cloudflare Workers AI binding via `env.AI.run(...)`.
+
+OpenAI-compatible local run:
 
 ```bash
 AI_PROVIDER=openai_compatible
@@ -86,7 +113,7 @@ AI_MODEL=...
 npm run generate
 ```
 
-本地接入 Cloudflare Workers AI REST：
+Cloudflare Workers AI REST local run:
 
 ```bash
 AI_PROVIDER=cloudflare_rest
@@ -96,34 +123,34 @@ CLOUDFLARE_AI_MODEL=@cf/meta/llama-3.1-8b-instruct
 npm run generate
 ```
 
-Cloudflare 部署后，`/api/analyze` 使用 `env.AI.run(...)`；本地 `next dev` 没有 binding 时会返回可复现的 deterministic answer。
+## Frontend Engineering / 前端工程
 
-## Frontend Engineering
-
-前端实现参考：
+参考 / References:
 
 - Vercel Web Interface Guidelines: https://vercel.com/design/guidelines
 - Vercel React best practices skill: https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices
 
-落实点：
+落实点 / Implementation notes:
 
-- 页面主体是 Server Component，读取本地日报 JSON 并完成数据裁剪。
-- Recharts 在 client component 中通过 `next/dynamic` 懒加载，避免把重图表库放进首屏主 bundle。
-- Client boundary 只传图表需要的最小数据，避免 RSC 序列化整份 report。
-- 长列表、表格行、质量门卡片使用 `content-visibility: auto`。
-- 不在组件内部定义子组件，避免每次 render 重新 mount。
-- 首屏是工作台，不做营销 landing page。
+- 首页数据读取和聚合保留在 Server Component。
+- Report data loading and aggregation stay in Server Components.
+- 交互拆成小 client islands：偏好切换、下载按钮、虚拟列表、图表。
+- Interactivity is isolated into small client islands: preferences, report actions, virtual list, charts.
+- Recharts 通过 `next/dynamic` 懒加载，避免图表库进入主 server surface。
+- Recharts is dynamically loaded with `next/dynamic`.
+- `Structured Extraction` 使用轻量虚拟列表，长结果在卡片内部滚动。
+- `Structured Extraction` uses a lightweight virtual list inside its panel.
+- 桌面端 `100dvh` 单屏布局，移动端切换为垂直响应式布局。
+- Desktop uses a `100dvh` one-page layout; mobile switches to a responsive vertical layout.
 
-## Cloudflare Deployment
-
-部署使用 OpenNext for Cloudflare Workers：
+## Cloudflare Deployment / Cloudflare 部署
 
 ```bash
 npm run cf-typegen
 npm run deploy
 ```
 
-`wrangler.jsonc` 包含：
+`wrangler.jsonc` includes:
 
 - `main: .open-next/worker.js`
 - `assets.directory: .open-next/assets`
@@ -133,15 +160,9 @@ npm run deploy
 - `observability.enabled: true`
 - `placement.mode: "smart"`
 
-本地更贴近生产的预览：
+## Commit Convention / 提交规范
 
-```bash
-npm run preview
-```
-
-## Commit Convention
-
-提交信息按 Conventional Commits：
+Use Conventional Commits:
 
 ```txt
 feat: build daily AI insight engine MVP
@@ -149,34 +170,33 @@ fix: tighten AI relevance filtering
 docs: document Cloudflare deployment workflow
 ```
 
-规范来源：https://www.conventionalcommits.org/en/v1.0.0/
+Spec: https://www.conventionalcommits.org/en/v1.0.0/
 
-## Project Structure
+## Project Structure / 项目结构
 
 ```txt
 src/app/                    Next.js routes, dashboard page, API routes
-src/components/dashboard/   Client-only chart layer
-src/lib/insight/            Schema, normalization, extraction, report generation
-scripts/                    RSS collection and report generation CLI
-data/raw/                   Source manifest and raw collected items
-data/processed/             Validated structured insights
-data/reports/               Final report JSON and Markdown sample
-docs/                       Interview explanation notes
+src/components/dashboard/   dashboard client islands and chart layer
+src/components/analytics/   Google Analytics integration
+src/lib/insight/            schema, normalization, extraction, report generation
+scripts/                    RSS collection, report generation, PDF generation
+data/raw/                   source manifest and raw collected items
+data/processed/             validated structured insights
+data/reports/               final report JSON and Markdown sample
+public/reports/             downloadable PDF report
+docs/                       interview explanation notes
 ```
 
-## Validation
+## Validation / 验证
 
 ```bash
-npm run lint
-npm run typecheck
-npm run test
-npm run build
+npm run validate
 ```
 
 Current sample:
 
 - 18 raw items
 - 18 structured items
-- 8 sources represented in final sample
+- 8 sources represented
 - Chinese/mixed + English language mix
-- Report JSON and Markdown output committed for review
+- JSON, Markdown, and PDF report outputs
