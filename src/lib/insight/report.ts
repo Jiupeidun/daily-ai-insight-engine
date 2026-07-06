@@ -288,7 +288,9 @@ function buildTrendRadar(articles: ArticleInsight[]): DailyReport["trendRadar"] 
 }
 
 function buildRiskOpportunity(articles: ArticleInsight[]): DailyReport["riskOpportunity"] {
-  const top = articles.slice(0, 8);
+  const top = [...articles]
+    .sort((a, b) => b.impact.score - a.impact.score)
+    .slice(0, 8);
   const riskArticles = top.filter((article) => article.impact.risks.length > 0);
   const opportunityArticles = top.filter((article) => article.impact.opportunities.length > 0);
 
@@ -319,6 +321,12 @@ export function generateDailyReport(articles: ArticleInsight[], rawCount = artic
 
   const now = new Date().toISOString();
   const reportId = stableId(`report:${now}:${articles.map((article) => article.id).join(":")}`);
+  const impactRankedArticles = [...articles].sort((a, b) => {
+    if (b.impact.score !== a.impact.score) {
+      return b.impact.score - a.impact.score;
+    }
+    return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+  });
   const sourceTypes = countBy(articles.map((article) => article.sourceType));
   const languages = countBy(articles.map((article) => article.language));
   const coverageWindow = getCoverageWindow(articles);
@@ -354,7 +362,7 @@ export function generateDailyReport(articles: ArticleInsight[], rawCount = artic
     ],
     qualityGates: buildQualityGates(articles, rawCount),
     executiveBrief: buildExecutiveBrief(articles),
-    topEvents: articles.slice(0, 5).map((article, index) => ({
+    topEvents: impactRankedArticles.slice(0, 5).map((article, index) => ({
       rank: index + 1,
       articleId: article.id,
       title: article.title,
@@ -363,7 +371,7 @@ export function generateDailyReport(articles: ArticleInsight[], rawCount = artic
       evidence: article.canonicalEvent.evidence,
       url: article.url
     })),
-    deepDives: articles.slice(0, 3).map((article) => ({
+    deepDives: impactRankedArticles.slice(0, 3).map((article) => ({
       articleId: article.id,
       headline: article.title,
       background: article.canonicalEvent.whatHappened,

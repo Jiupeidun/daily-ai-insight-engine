@@ -145,9 +145,13 @@ function Metric({
 }
 
 function AiFeed({ report }: { report: DailyReport }) {
+  const articles = [...report.articles].sort(
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
+
   return (
     <div className="feed-panel">
-      {report.articles.map((article) => (
+      {articles.map((article) => (
         <article className="feed-item" key={article.id}>
           <div className="feed-item-meta">
             <span className="feed-kind">{article.sourceTypeNormalized}</span>

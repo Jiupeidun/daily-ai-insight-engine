@@ -168,6 +168,60 @@ function clampScore(score: number): number {
   return Math.max(0, Math.min(100, Math.round(score)));
 }
 
+function sourceImpactWeight(sourceType: SourceType): number {
+  if (sourceType === "official") return 8;
+  if (sourceType === "research") return 6;
+  if (sourceType === "tech_media") return 5;
+  if (sourceType === "developer") return 4;
+  if (sourceType === "aggregator") return 2;
+  return 1;
+}
+
+function recencyImpactWeight(publishedAt: string): number {
+  const ageHours = Math.max(0, (Date.now() - new Date(publishedAt).getTime()) / 36e5);
+  if (ageHours <= 12) return 10;
+  if (ageHours <= 24) return 8;
+  if (ageHours <= 72) return 6;
+  if (ageHours <= 168) return 4;
+  return 1;
+}
+
+function entityImpactWeight(organizations: string[]): number {
+  const majorEntities = ["openai", "google", "nvidia", "anthropic", "meta", "microsoft", "apple", "amazon", "tsmc", "broadcom", "micron", "amd"];
+  return organizations.some((org) => majorEntities.includes(org.toLowerCase())) ? 8 : Math.min(5, organizations.length * 2);
+}
+
+function eventImpactWeight(eventType: EventType): number {
+  if (eventType === "regulation" || eventType === "funding") return 9;
+  if (eventType === "launch" || eventType === "research_result") return 8;
+  if (eventType === "partnership" || eventType === "controversy") return 7;
+  if (eventType === "upgrade") return 6;
+  return 4;
+}
+
+function calculateAiImpactScore(input: {
+  importanceScore: number;
+  confidenceScore: number;
+  sourceType: SourceType;
+  eventType: EventType;
+  organizations: string[];
+  publishedAt: string;
+  riskSignals: string[];
+  opportunitySignals: string[];
+}) {
+  const score =
+    24 +
+    input.importanceScore * 7 +
+    sourceImpactWeight(input.sourceType) +
+    eventImpactWeight(input.eventType) +
+    entityImpactWeight(input.organizations) +
+    recencyImpactWeight(input.publishedAt) +
+    input.confidenceScore * 8 +
+    Math.min(6, input.riskSignals.length + input.opportunitySignals.length);
+
+  return Math.min(97, clampScore(score));
+}
+
 function normalizeSourceType(sourceType: SourceType) {
   if (sourceType === "official") return "official";
   if (sourceType === "research") return "research";
@@ -261,18 +315,26 @@ export function extractDeterministic(item: RawNewsItem): ArticleInsight {
   const capitalIntensity = includesAny(text, ["funding", "valuation", "investment", "gpu", "datacenter"])
     ? 4
     : 1;
-  const score = clampScore(
-    38 +
-      novelty * 6 +
-      adoption * 5 +
-      technicalDepth * 4 +
-      regulatoryWeight * 3 +
-      capitalIntensity * 3 +
-      (isOfficial ? 6 : 0) +
-      (isRecent ? 4 : 0)
+  const score = Math.min(
+    96,
+    clampScore(
+      30 +
+        novelty * 5 +
+        adoption * 4 +
+        technicalDepth * 4 +
+        regulatoryWeight * 3 +
+        capitalIntensity * 3 +
+        sourceImpactWeight(item.sourceType) +
+        entityImpactWeight(organizations) +
+        recencyImpactWeight(item.publishedAt)
+    )
   );
   const horizon = regulatoryWeight >= 4 ? "quarter" : adoption >= 4 ? "weeks" : "today";
-  const firstSentence = truncateText(item.summary.split(/[.!?。！？]/)[0] ?? item.summary, 220);
+  const summaryCandidate = item.summary.split(/[.!?。！？]/)[0] ?? item.summary;
+  const firstSentence = truncateText(
+    summaryCandidate.trim().length >= 12 ? summaryCandidate : `${item.title}: ${item.summary}`,
+    220
+  );
   const sentiment = topics.includes("safety_security") || topics.includes("policy_regulation")
     ? "mixed"
     : "neutral";
@@ -662,14 +724,23 @@ function normalizeNewsInsights(rawInsights: Array<Omit<NewsInsight, "id" | "titl
     const text = `${item.title}. ${item.summary}. ${item.content}`;
     const topics = inferTopics(text);
     const valueChain = inferValueChain(text);
-    const score = clampScore(insight.importance_score * 20);
-    const horizon = insight.category === "policy" || insight.category === "security" ? "quarter" : "weeks";
     const organizations = insight.entities
       .filter((entity) => entity.type === "company" || entity.type === "organization")
       .map((entity) => entity.name);
     const products = insight.entities
       .filter((entity) => entity.type === "model" || entity.type === "product" || entity.type === "technology")
       .map((entity) => entity.name);
+    const score = calculateAiImpactScore({
+      importanceScore: insight.importance_score,
+      confidenceScore: insight.confidence_score,
+      sourceType: item.sourceType,
+      eventType: insight.event_type,
+      organizations,
+      publishedAt: item.publishedAt,
+      riskSignals: insight.risk_signals,
+      opportunitySignals: insight.opportunity_signals
+    });
+    const horizon = insight.category === "policy" || insight.category === "security" ? "quarter" : "weeks";
 
     return ArticleInsightSchema.parse({
       id: stableId(`insight:${item.id}`),
@@ -784,7 +855,9 @@ export async function extractArticles(
     }
   }
 
-  return insights.sort((a, b) => b.impact.score - a.impact.score);
+  return insights.sort(
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
 }
 
 export function optionsFromEnv(env: NodeJS.ProcessEnv): ExtractionOptions {

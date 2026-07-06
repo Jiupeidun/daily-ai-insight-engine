@@ -19,7 +19,7 @@ type FeedItem = {
   isoDate?: string;
   creator?: unknown;
   author?: unknown;
-  categories?: string[];
+  categories?: unknown[];
   content?: string;
   contentSnippet?: string;
   summary?: string;
@@ -28,11 +28,17 @@ type FeedItem = {
 
 const ROOT = process.cwd();
 const RAW_DIR = path.join(ROOT, "data/raw");
-const TARGET_COUNT = Number.parseInt(process.env.NEWS_LIMIT ?? "18", 10);
-const PER_SOURCE_LIMIT = Number.parseInt(process.env.NEWS_PER_SOURCE_LIMIT ?? "6", 10);
+const TARGET_COUNT = Number.parseInt(process.env.NEWS_LIMIT ?? "120", 10);
+const PER_SOURCE_LIMIT = Number.parseInt(process.env.NEWS_PER_SOURCE_LIMIT ?? "50", 10);
+const REPORT_TIMEZONE_OFFSET_MINUTES = Number.parseInt(
+  process.env.REPORT_TIMEZONE_OFFSET_MINUTES ?? "480",
+  10
+);
+const BACKFILL_DAYS = Number.parseInt(process.env.NEWS_BACKFILL_DAYS ?? "7", 10);
+const FEED_TIMEOUT_MS = Number.parseInt(process.env.FEED_TIMEOUT_MS ?? "45000", 10);
 
 const parser = new Parser<unknown, FeedItem>({
-  timeout: 20000,
+  timeout: FEED_TIMEOUT_MS,
   headers: {
     "user-agent":
       "DailyAIInsightEngine/0.1 (+https://github.com/Jiupeidun/daily-ai-insight-engine)"
@@ -76,6 +82,32 @@ function diversifyNewsItems(
   );
 }
 
+function getPreviousDayWindow(now = new Date()) {
+  const offsetMs = REPORT_TIMEZONE_OFFSET_MINUTES * 60_000;
+  const localNow = new Date(now.getTime() + offsetMs);
+  const localTodayStartUtc = Date.UTC(
+    localNow.getUTCFullYear(),
+    localNow.getUTCMonth(),
+    localNow.getUTCDate()
+  );
+  const end = new Date(localTodayStartUtc - offsetMs);
+  const start = new Date(end.getTime() - 24 * 60 * 60 * 1000);
+
+  return { start, end };
+}
+
+function isInsideWindow(item: RawNewsItem, window: { start: Date; end: Date }) {
+  const publishedAt = new Date(item.publishedAt).getTime();
+  return publishedAt >= window.start.getTime() && publishedAt < window.end.getTime();
+}
+
+function getBackfillWindow(primaryWindow: { start: Date; end: Date }) {
+  return {
+    start: new Date(primaryWindow.end.getTime() - BACKFILL_DAYS * 24 * 60 * 60 * 1000),
+    end: primaryWindow.end
+  };
+}
+
 function authorsFromItem(item: FeedItem): string[] {
   return [item.creator, item.author]
     .flatMap((value) => {
@@ -91,6 +123,21 @@ function authorsFromItem(item: FeedItem): string[] {
     .filter((value) => value.trim().length > 0);
 }
 
+function tagsFromItem(item: FeedItem): string[] {
+  return (item.categories ?? [])
+    .flatMap((category) => {
+      if (typeof category === "string") {
+        return [category];
+      }
+      if (category && typeof category === "object") {
+        return Object.values(category)
+          .filter((value): value is string => typeof value === "string");
+      }
+      return [];
+    })
+    .filter((value) => value.trim().length > 0);
+}
+
 function passesSourceQuality(sourceId: string, item: RawNewsItem): boolean {
   const titleStrictSources = new Set(["36kr-feed", "ithome-feed"]);
   if (titleStrictSources.has(sourceId)) {
@@ -100,7 +147,11 @@ function passesSourceQuality(sourceId: string, item: RawNewsItem): boolean {
   return looksAiRelated(item);
 }
 
-async function collectSource(source: (typeof NEWS_SOURCES)[number]): Promise<RawNewsItem[]> {
+async function collectSource(
+  source: (typeof NEWS_SOURCES)[number],
+  primaryWindow: { start: Date; end: Date },
+  backfillWindow: { start: Date; end: Date }
+): Promise<RawNewsItem[]> {
   const feed = await parser.parseURL(source.url);
   const collectedAt = new Date().toISOString();
 
@@ -120,11 +171,11 @@ async function collectSource(source: (typeof NEWS_SOURCES)[number]): Promise<Raw
           source,
           publishedAt: item.isoDate ?? item.pubDate,
           authors: authorsFromItem(item),
-          rawTags: item.categories ?? [],
+          rawTags: tagsFromItem(item),
           collectedAt
         });
 
-        return passesSourceQuality(source.id, raw) ? [raw] : [];
+        return passesSourceQuality(source.id, raw) && isInsideWindow(raw, backfillWindow) ? [raw] : [];
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         console.warn(JSON.stringify({ message: "skip invalid feed item", source: source.id, error: message }));
@@ -137,10 +188,12 @@ async function main() {
   const collected: RawNewsItem[] = [];
   const collectedBySource: Array<{ sourceId: string; items: RawNewsItem[] }> = [];
   const failures: Array<{ source: string; error: string }> = [];
+  const window = getPreviousDayWindow();
+  const backfillWindow = getBackfillWindow(window);
 
   for (const source of NEWS_SOURCES) {
     try {
-      const items = await collectSource(source);
+      const items = await collectSource(source, window, backfillWindow);
       collected.push(...items);
       collectedBySource.push({ sourceId: source.id, items: dedupeNewsItems(items) });
       console.log(
@@ -158,7 +211,10 @@ async function main() {
   }
 
   const deduped = dedupeNewsItems(collected);
-  const items = diversifyNewsItems(collectedBySource, TARGET_COUNT);
+  const primaryItems = deduped.filter((item) => isInsideWindow(item, window));
+  const items = diversifyNewsItems(collectedBySource, TARGET_COUNT).sort(
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
 
   if (items.length < 10) {
     throw new Error(
@@ -172,6 +228,16 @@ async function main() {
     `${JSON.stringify(
       {
         collectedAt: new Date().toISOString(),
+        window: {
+          mode: "previous_day_with_backfill",
+          timezoneOffsetMinutes: REPORT_TIMEZONE_OFFSET_MINUTES,
+          start: window.start.toISOString(),
+          end: window.end.toISOString(),
+          backfillStart: backfillWindow.start.toISOString(),
+          backfillDays: BACKFILL_DAYS,
+          primaryItemCount: primaryItems.length,
+          backfillItemCount: Math.max(0, items.length - primaryItems.length)
+        },
         targetCount: TARGET_COUNT,
         candidateCount: deduped.length,
         failures,

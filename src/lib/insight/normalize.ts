@@ -15,6 +15,23 @@ const AI_PATTERNS = [
   /\bagents?\b/i,
   /\bcopilot\b/i,
   /\bGPU(s)?\b/i,
+  /\baccelerators?\b/i,
+  /\bsemiconductors?\b/i,
+  /\bchips?\b/i,
+  /\bHBM\b/i,
+  /\bDRAM\b/i,
+  /\bmemory\b/i,
+  /\bstorage\b/i,
+  /\bdata centers?\b/i,
+  /\bdatacenters?\b/i,
+  /\bcloud capex\b/i,
+  /\bAI capex\b/i,
+  /\bNVDA\b/i,
+  /\bAMD\b/i,
+  /\bTSMC\b/i,
+  /\bBroadcom\b/i,
+  /\bMicron\b/i,
+  /\bSuper Micro\b/i,
   /\bOpenAI\b/i,
   /\bAnthropic\b/i,
   /\bChatGPT\b/i,
@@ -31,7 +48,17 @@ const AI_PATTERNS = [
   /深度学习/,
   /神经网络/,
   /算力/,
+  /芯片/,
+  /半导体/,
+  /数据中心/,
+  /存储/,
+  /内存/,
+  /云计算/,
+  /资本开支/,
   /英伟达/,
+  /台积电/,
+  /博通/,
+  /美光/,
   /Robotaxi/i,
   /世界模型/,
   /自动驾驶/,
@@ -131,8 +158,9 @@ export function buildRawNewsItem(input: {
   collectedAt?: string;
 }): RawNewsItem {
   const title = stripHtml(input.title);
+  const summarySource = stripHtml(input.summary ?? input.content ?? title);
   const summary = truncateText(
-    stripHtml(input.summary ?? input.content ?? title),
+    summarySource.length >= 16 ? summarySource : `${title} from ${input.source.name}`,
     1200
   );
   const content = truncateText(stripHtml(input.content ?? input.summary ?? ""), 3000);

@@ -56,12 +56,44 @@
       "rationale": "Useful for enterprise AI adoption, developer platforms, and go-to-market movements."
     },
     {
+      "id": "ai-news",
+      "name": "AI News",
+      "url": "https://www.artificialintelligence-news.com/feed/",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "AI-specialized media source for product, enterprise adoption, governance, and infrastructure coverage."
+    },
+    {
+      "id": "marktechpost",
+      "name": "MarkTechPost",
+      "url": "https://www.marktechpost.com/feed/",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "High-cadence AI research and model release coverage useful for expanding the daily signal set."
+    },
+    {
+      "id": "infoworld",
+      "name": "InfoWorld",
+      "url": "https://www.infoworld.com/feed/",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Developer and enterprise software coverage that surfaces AI tooling and adoption signals."
+    },
+    {
       "id": "google-ai",
       "name": "Google AI Blog",
       "url": "https://blog.google/technology/ai/rss/",
       "type": "official",
       "languageHint": "en",
       "rationale": "Official Google AI product, research, and ecosystem releases outside the DeepMind research feed."
+    },
+    {
+      "id": "google-deepmind",
+      "name": "Google DeepMind Blog",
+      "url": "https://www.deepmind.google/blog/rss.xml",
+      "type": "official",
+      "languageHint": "en",
+      "rationale": "Official research and model capability updates from Google DeepMind."
     },
     {
       "id": "microsoft-ai",
@@ -72,6 +104,14 @@
       "rationale": "Enterprise AI, Copilot, infrastructure, and policy updates from a major platform vendor."
     },
     {
+      "id": "aws-ml",
+      "name": "AWS Machine Learning Blog",
+      "url": "https://aws.amazon.com/blogs/machine-learning/feed/",
+      "type": "official",
+      "languageHint": "en",
+      "rationale": "Cloud AI deployment, enterprise machine learning, model operations, and infrastructure signals from AWS."
+    },
+    {
       "id": "nvidia-ai",
       "name": "NVIDIA AI Blog",
       "url": "https://blogs.nvidia.com/blog/category/deep-learning/feed/",
@@ -80,12 +120,100 @@
       "rationale": "Compute, infrastructure, model serving, and AI industry adoption signals from NVIDIA."
     },
     {
+      "id": "nvidia-developer",
+      "name": "NVIDIA Developer Blog",
+      "url": "https://developer.nvidia.com/blog/feed/",
+      "type": "official",
+      "languageHint": "en",
+      "rationale": "Technical AI infrastructure, GPU software, CUDA, inference, and developer platform signals from NVIDIA."
+    },
+    {
+      "id": "meta-engineering",
+      "name": "Meta Engineering",
+      "url": "https://engineering.fb.com/feed/",
+      "type": "official",
+      "languageHint": "en",
+      "rationale": "Official engineering updates covering AI infrastructure, open models, recommendation systems, and production platforms."
+    },
+    {
+      "id": "databricks",
+      "name": "Databricks Blog",
+      "url": "https://www.databricks.com/feed",
+      "type": "official",
+      "languageHint": "en",
+      "rationale": "Enterprise data and AI platform updates relevant to AI infrastructure, lakehouse, and model operations."
+    },
+    {
       "id": "mit-tr-ai",
       "name": "MIT Technology Review AI",
       "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
       "type": "tech_media",
       "languageHint": "en",
       "rationale": "Adds slower but higher-signal context for technical, policy, and societal impact analysis."
+    },
+    {
+      "id": "ieee-spectrum-ai",
+      "name": "IEEE Spectrum AI",
+      "url": "https://spectrum.ieee.org/rss/artificial-intelligence/fulltext",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Engineering-heavy AI coverage that adds robotics, chips, systems, and applied research signals."
+    },
+    {
+      "id": "dark-reading",
+      "name": "Dark Reading",
+      "url": "https://www.darkreading.com/rss.xml",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Security-focused feed for AI risk, cyber misuse, identity, and enterprise defense signals."
+    },
+    {
+      "id": "cso-online",
+      "name": "CSO Online",
+      "url": "https://www.csoonline.com/feed/",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Enterprise security and governance source for AI risk and compliance-related signals."
+    },
+    {
+      "id": "computerworld",
+      "name": "Computerworld",
+      "url": "https://www.computerworld.com/feed/",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Enterprise IT source for AI productivity, workplace, and platform adoption signals."
+    },
+    {
+      "id": "zdnet-ai",
+      "name": "ZDNET AI",
+      "url": "https://www.zdnet.com/topic/artificial-intelligence/rss.xml",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Enterprise AI products, productivity tooling, security, and buyer-facing technology coverage."
+    },
+    {
+      "id": "techradar-ai",
+      "name": "TechRadar AI",
+      "url": "https://www.techradar.com/rss/news/computing/artificial-intelligence",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Consumer and productivity AI product coverage with fast cadence."
+    },
+    {
+      "id": "mit-news-ai",
+      "name": "MIT News AI",
+      "url": "https://news.mit.edu/rss/topic/artificial-intelligence2",
+      "type": "research",
+      "languageHint": "en",
+      "rationale": "Research and institutional AI coverage from MIT for academic and applied signals."
+    },
+    {
+      "id": "science-daily-ai",
+      "name": "ScienceDaily AI",
+      "url": "https://www.sciencedaily.com/rss/computers_math/artificial_intelligence.xml",
+      "type": "research",
+      "languageHint": "en",
+      "rationale": "Broad academic AI research stream useful for early technical and scientific application signals."
     },
     {
       "id": "the-decoder",
@@ -118,6 +246,126 @@
       "type": "research",
       "languageHint": "en",
       "rationale": "Academic research commentary that improves coverage of emerging methods and safety questions."
+    },
+    {
+      "id": "simon-willison",
+      "name": "Simon Willison",
+      "url": "https://simonwillison.net/atom/everything/",
+      "type": "developer",
+      "languageHint": "en",
+      "rationale": "Developer-focused LLM tooling, model behavior, and practical AI engineering analysis."
+    },
+    {
+      "id": "latent-space",
+      "name": "Latent Space",
+      "url": "https://www.latent.space/feed",
+      "type": "developer",
+      "languageHint": "en",
+      "rationale": "AI engineer and founder ecosystem signal for models, agents, infrastructure, and developer workflows."
+    },
+    {
+      "id": "kdnuggets",
+      "name": "KDnuggets",
+      "url": "https://www.kdnuggets.com/feed",
+      "type": "developer",
+      "languageHint": "en",
+      "rationale": "Data science and machine learning practitioner source for applied AI and tooling signals."
+    },
+    {
+      "id": "machine-learning-mastery",
+      "name": "Machine Learning Mastery",
+      "url": "https://machinelearningmastery.com/feed/",
+      "type": "developer",
+      "languageHint": "en",
+      "rationale": "Applied machine learning source for developer and practitioner education signals."
+    },
+    {
+      "id": "unite-ai",
+      "name": "Unite.AI",
+      "url": "https://www.unite.ai/feed/",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "AI-focused media source covering applications, tools, companies, and research."
+    },
+    {
+      "id": "towards-data-science",
+      "name": "Towards Data Science",
+      "url": "https://towardsdatascience.com/feed",
+      "type": "developer",
+      "languageHint": "en",
+      "rationale": "Practitioner essays and technical posts for AI engineering, data science, and model operations."
+    },
+    {
+      "id": "semi-analysis",
+      "name": "SemiAnalysis",
+      "url": "https://www.semianalysis.com/feed",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "AI semiconductor, GPU cluster, data center, and capital expenditure analysis relevant to AI market structure."
+    },
+    {
+      "id": "tomshardware",
+      "name": "Tom's Hardware",
+      "url": "https://www.tomshardware.com/feeds/all",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Hardware, GPU, memory, and data center component coverage that captures AI infrastructure market signals."
+    },
+    {
+      "id": "next-platform",
+      "name": "The Next Platform",
+      "url": "https://www.nextplatform.com/feed/",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "High-performance computing, AI systems, accelerators, and data center economics."
+    },
+    {
+      "id": "serve-the-home",
+      "name": "ServeTheHome",
+      "url": "https://www.servethehome.com/feed/",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Server, accelerator, networking, and data center hardware coverage relevant to AI infrastructure."
+    },
+    {
+      "id": "blocks-and-files",
+      "name": "Blocks and Files",
+      "url": "https://blocksandfiles.com/feed/",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Storage, memory, and data infrastructure coverage relevant to AI training and inference workloads."
+    },
+    {
+      "id": "storage-review",
+      "name": "StorageReview",
+      "url": "https://www.storagereview.com/feed",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Storage and infrastructure benchmarks that capture AI workload hardware signals."
+    },
+    {
+      "id": "datacenter-knowledge",
+      "name": "Data Center Knowledge",
+      "url": "https://www.datacenterknowledge.com/rss.xml",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Data center capacity, power, cooling, and cloud infrastructure signals driven by AI demand."
+    },
+    {
+      "id": "ai-news-infrastructure",
+      "name": "AI News Infrastructure",
+      "url": "https://www.artificialintelligence-news.com/categories/ai-infrastructure/feed/",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "AI-specific infrastructure stream for compute, cloud, and deployment signals."
+    },
+    {
+      "id": "wsj-markets",
+      "name": "WSJ Markets",
+      "url": "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
+      "type": "tech_media",
+      "languageHint": "en",
+      "rationale": "Market-moving finance coverage for AI-linked equities, chips, cloud, data centers, and capital allocation."
     },
     {
       "id": "hn-ai",

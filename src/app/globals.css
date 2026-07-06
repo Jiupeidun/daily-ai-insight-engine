@@ -1457,7 +1457,7 @@ h1 {
 
 .panel-column-right .metric-tile {
   display: grid;
-  grid-template-columns: minmax(190px, 1fr) minmax(110px, 0.7fr);
+  grid-template-columns: minmax(190px, 1fr) minmax(128px, 0.7fr);
   grid-template-areas:
     "label detail"
     "value detail";
@@ -1466,7 +1466,7 @@ h1 {
   width: 100%;
   height: 82px;
   min-height: 82px;
-  padding: 14px 18px;
+  padding: 14px 26px 14px 18px;
 }
 
 .panel-column-right .metric-tile span,
@@ -1497,6 +1497,7 @@ h1 {
   grid-area: detail;
   justify-self: end;
   margin-top: 0;
+  margin-right: 4px;
   max-width: 100%;
   line-height: 1.25;
   text-align: right;
