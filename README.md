@@ -76,7 +76,7 @@ DeepSeek is configured through Cloudflare Worker secrets and environment variabl
 
 ```bash
 AI_PROVIDER=openai_compatible
-AI_BASE_URL=https://api.deepseek.com
+AI_BASE_URL=https://api.deepseek.com/v1
 AI_API_KEY=
 AI_MODEL=deepseek-chat
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KD5YSDV426
@@ -223,7 +223,7 @@ DeepSeek 通过 Cloudflare Worker secret 和环境变量配置，API key 不会�
 
 ```bash
 AI_PROVIDER=openai_compatible
-AI_BASE_URL=https://api.deepseek.com
+AI_BASE_URL=https://api.deepseek.com/v1
 AI_API_KEY=
 AI_MODEL=deepseek-chat
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KD5YSDV426

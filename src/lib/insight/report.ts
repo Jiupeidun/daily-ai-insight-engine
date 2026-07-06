@@ -457,14 +457,16 @@ async function synthesizeReportWithVercelAiSdk(baseline: DailyReport, options: A
     throw new Error("AI_API_KEY is required for AI report synthesis.");
   }
 
+  const baseURL = options.baseUrl ?? DEFAULT_OPENAI_BASE_URL;
   const provider = createOpenAI({
     apiKey: options.apiKey,
-    baseURL: options.baseUrl ?? DEFAULT_OPENAI_BASE_URL
+    baseURL,
+    name: baseURL.includes("deepseek") ? "deepseek" : "openai"
   });
 
-  if ((options.baseUrl ?? DEFAULT_OPENAI_BASE_URL).includes("deepseek")) {
+  if (baseURL.includes("deepseek")) {
     const result = await generateText({
-      model: provider(options.model ?? DEFAULT_OPENAI_MODEL),
+      model: provider.chat(options.model ?? DEFAULT_OPENAI_MODEL),
       output: Output.json(),
       temperature: 0.2,
       system:

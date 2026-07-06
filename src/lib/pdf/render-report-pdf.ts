@@ -1,9 +1,5 @@
-import PDFDocument from "pdfkit";
+import PDFDocument from "pdfkit/js/pdfkit.standalone.js";
 import type { DailyReport } from "../insight/schema";
-
-type PdfOptions = {
-  fontBuffer?: Buffer;
-};
 
 function formatDateTime(value: string) {
   return new Intl.DateTimeFormat("zh-CN", {
@@ -15,7 +11,7 @@ function formatDateTime(value: string) {
 function section(doc: PDFKit.PDFDocument, title: string) {
   doc.moveDown(0.8);
   doc.x = doc.page.margins.left;
-  doc.font("Report").fontSize(14).fillColor("#111827").text(title);
+  doc.font("Helvetica").fontSize(14).fillColor("#111827").text(title);
   doc
     .moveTo(doc.x, doc.y + 3)
     .lineTo(doc.page.width - doc.page.margins.right, doc.y + 3)
@@ -26,7 +22,7 @@ function section(doc: PDFKit.PDFDocument, title: string) {
 }
 
 function paragraph(doc: PDFKit.PDFDocument, text: string, options: PDFKit.Mixins.TextOptions = {}) {
-  doc.font("Report").fontSize(9.5).fillColor("#374151").text(text, {
+  doc.font("Helvetica").fontSize(9.5).fillColor("#374151").text(text, {
     lineGap: 3,
     ...options
   });
@@ -34,10 +30,10 @@ function paragraph(doc: PDFKit.PDFDocument, text: string, options: PDFKit.Mixins
 
 function metric(doc: PDFKit.PDFDocument, label: string, value: string, x: number, y: number, width: number) {
   doc.roundedRect(x, y, width, 56, 6).fillAndStroke("#f8fafc", "#d9e1ea");
-  doc.font("Report").fontSize(7.5).fillColor("#64748b").text(label.toUpperCase(), x + 10, y + 10, {
+  doc.font("Helvetica").fontSize(7.5).fillColor("#64748b").text(label.toUpperCase(), x + 10, y + 10, {
     width: width - 20
   });
-  doc.font("Report").fontSize(17).fillColor("#111827").text(value, x + 10, y + 27, {
+  doc.font("Helvetica").fontSize(17).fillColor("#111827").text(value, x + 10, y + 27, {
     width: width - 20
   });
 }
@@ -53,19 +49,19 @@ function topEvent(doc: PDFKit.PDFDocument, rank: number, score: number, title: s
       6
     )
     .fillAndStroke("#ffffff", "#e5e7eb");
-  doc.font("Report").fontSize(16).fillColor("#0b6bcb").text(String(rank), doc.page.margins.left + 12, startY + 12, {
+  doc.font("Helvetica").fontSize(16).fillColor("#0b6bcb").text(String(rank), doc.page.margins.left + 12, startY + 12, {
     width: 28
   });
-  doc.font("Report").fontSize(10).fillColor("#111827").text(title, doc.page.margins.left + 48, startY + 12, {
+  doc.font("Helvetica").fontSize(10).fillColor("#111827").text(title, doc.page.margins.left + 48, startY + 12, {
     width: doc.page.width - doc.page.margins.left - doc.page.margins.right - 110,
     lineGap: 2
   });
-  doc.font("Report").fontSize(8.5).fillColor("#64748b").text(body, doc.page.margins.left + 48, startY + 36, {
+  doc.font("Helvetica").fontSize(8.5).fillColor("#64748b").text(body, doc.page.margins.left + 48, startY + 36, {
     width: doc.page.width - doc.page.margins.left - doc.page.margins.right - 74,
     height: 28,
     lineGap: 2
   });
-  doc.font("Report").fontSize(16).fillColor("#168a3a").text(String(score), doc.page.width - doc.page.margins.right - 42, startY + 14, {
+  doc.font("Helvetica").fontSize(16).fillColor("#168a3a").text(String(score), doc.page.width - doc.page.margins.right - 42, startY + 14, {
     width: 36,
     align: "right"
   });
@@ -78,7 +74,7 @@ function ensureSpace(doc: PDFKit.PDFDocument, height: number) {
   }
 }
 
-export function renderDailyReportPdf(report: DailyReport, options: PdfOptions = {}) {
+export function renderDailyReportPdf(report: DailyReport) {
   return new Promise<Buffer>((resolve, reject) => {
     const chunks: Buffer[] = [];
     const doc = new PDFDocument({
@@ -96,12 +92,7 @@ export function renderDailyReportPdf(report: DailyReport, options: PdfOptions = 
     doc.on("error", reject);
     doc.on("end", () => resolve(Buffer.concat(chunks)));
 
-    if (options.fontBuffer) {
-      doc.registerFont("Report", options.fontBuffer);
-    } else {
-      doc.registerFont("Report", "Helvetica");
-    }
-    doc.font("Report");
+    doc.font("Helvetica");
 
     doc.rect(0, 0, doc.page.width, 118).fill("#101116");
     doc.fontSize(21).fillColor("#ffffff").text("AI 舆情分析日报", 42, 38);
@@ -172,7 +163,7 @@ export function renderDailyReportPdf(report: DailyReport, options: PdfOptions = 
     for (let index = 0; index < pageCount; index += 1) {
       doc.switchToPage(index);
       doc
-        .font("Report")
+        .font("Helvetica")
         .fontSize(8)
         .fillColor("#8a92a0")
         .text(

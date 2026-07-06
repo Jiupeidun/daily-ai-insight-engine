@@ -42,7 +42,7 @@ export async function POST() {
         })
       );
       return NextResponse.json(
-        { error: "OpenAI API key is not configured for report generation.", requestId },
+        { error: "AI API key is not configured for report generation.", requestId },
         { status: 503 }
       );
     }
@@ -94,7 +94,7 @@ export async function POST() {
       );
       return NextResponse.json(
         {
-          error: "OpenAI report generation did not pass validation.",
+          error: "AI report generation did not pass validation.",
           requestId,
           sourceAiItems,
           synthesisStatus: synthesisGate?.status ?? "missing",

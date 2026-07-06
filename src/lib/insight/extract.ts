@@ -14,7 +14,7 @@ import { ArticleInsightSchema, NewsInsightSchema } from "./schema";
 import { stableId, truncateText } from "./normalize";
 
 export const PROMPT_VERSION = "extract-news-v1";
-export const DEFAULT_OPENAI_BASE_URL = "https://api.deepseek.com";
+export const DEFAULT_OPENAI_BASE_URL = "https://api.deepseek.com/v1";
 export const DEFAULT_OPENAI_MODEL = "deepseek-chat";
 
 type AiProvider = "deterministic" | "openai_compatible" | "cloudflare_rest";
@@ -479,12 +479,15 @@ function createOpenAiModel(options: ExtractionOptions) {
     throw new Error("AI_API_KEY is required.");
   }
 
+  const baseURL = options.baseUrl ?? DEFAULT_OPENAI_BASE_URL;
   const provider = createOpenAI({
     apiKey: options.apiKey,
-    baseURL: options.baseUrl ?? DEFAULT_OPENAI_BASE_URL
+    baseURL,
+    name: baseURL.includes("deepseek") ? "deepseek" : "openai"
   });
 
-  return provider(options.model ?? DEFAULT_OPENAI_MODEL);
+  const model = options.model ?? DEFAULT_OPENAI_MODEL;
+  return baseURL.includes("deepseek") ? provider.chat(model) : provider(model);
 }
 
 async function extractWithVercelAiSdk(batch: RawNewsItem[], options: ExtractionOptions) {
