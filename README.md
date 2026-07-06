@@ -12,8 +12,8 @@ An **AI daily intelligence report MVP** for an AI coding interview. It collects 
 - PDF report: the current report is generated as `public/reports/latest-ai-insight-report.pdf`.
 - 中英切换与深浅色切换：偏好写入 `localStorage`，刷新后保留。
 - Chinese/English and dark/light mode: preferences persist through `localStorage`.
-- Google Analytics：设置 `NEXT_PUBLIC_GA_MEASUREMENT_ID` 后启用 pageview 和下载/偏好事件埋点。
-- Google Analytics: set `NEXT_PUBLIC_GA_MEASUREMENT_ID` to enable page views plus download/preference events.
+- Google Analytics：已默认配置 `G-KD5YSDV426`，也可用 `NEXT_PUBLIC_GA_MEASUREMENT_ID` 覆盖。
+- Google Analytics: defaults to `G-KD5YSDV426`, and can be overridden with `NEXT_PUBLIC_GA_MEASUREMENT_ID`.
 - Cloudflare 部署：Next.js App Router + OpenNext + Cloudflare Workers AI binding。
 - Cloudflare deployment: Next.js App Router + OpenNext + Cloudflare Workers AI binding.
 
@@ -51,12 +51,12 @@ AI_MODEL=
 CLOUDFLARE_ACCOUNT_ID=
 CLOUDFLARE_API_TOKEN=
 CLOUDFLARE_AI_MODEL=@cf/meta/llama-3.1-8b-instruct
-NEXT_PUBLIC_GA_MEASUREMENT_ID=
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KD5YSDV426
 ```
 
-`NEXT_PUBLIC_GA_MEASUREMENT_ID` is optional. When empty, no Google Analytics scripts are rendered.
+`NEXT_PUBLIC_GA_MEASUREMENT_ID` is optional because the app has a checked-in fallback measurement ID. Set it when deploying a different GA property.
 
-`NEXT_PUBLIC_GA_MEASUREMENT_ID` 可选；留空时不会加载 GA 脚本。
+`NEXT_PUBLIC_GA_MEASUREMENT_ID` 可选，因为代码里已经有默认 GA ID。换成其他 GA property 时再覆盖。
 
 ## Data Pipeline / 数据链路
 
@@ -102,6 +102,10 @@ Extraction starts in `src/lib/insight/extract.ts`. Supported modes:
 - `openai_compatible`: any OpenAI-compatible API.
 - `cloudflare_rest`: local scripts call Cloudflare Workers AI REST.
 - deployed `/api/analyze`: uses the Cloudflare Workers AI binding via `env.AI.run(...)`.
+
+当前仓库里的样例日报是用 `deterministic` fallback 生成的，这样面试现场没有 API key 时也能稳定复现、测试和部署。要生成真正由模型抽取的日报，提供 OpenAI-compatible 或 Cloudflare Workers AI 的 key 后运行 `npm run pipeline`。
+
+The committed sample report uses the `deterministic` fallback so the demo is reproducible without secrets. To regenerate the daily report with a real model, provide an OpenAI-compatible or Cloudflare Workers AI key and run `npm run pipeline`.
 
 OpenAI-compatible local run:
 

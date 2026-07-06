@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { ChartSection } from "@/components/dashboard/chart-section";
 import type { DashboardCharts } from "@/components/dashboard/chart-types";
+import { LocalClock } from "@/components/dashboard/local-clock";
 import { PreferenceControls } from "@/components/dashboard/preference-controls";
 import { ReportActions } from "@/components/dashboard/report-actions";
 import {
@@ -79,15 +80,6 @@ function toExtractionRows(report: DailyReport): ExtractionListRow[] {
     impact: article.impact.score,
     method: article.extractionMeta.method
   }));
-}
-
-function formatDateTime(value: string) {
-  return new Intl.DateTimeFormat("zh-CN", {
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit"
-  }).format(new Date(value));
 }
 
 function formatDate(value: string) {
@@ -277,9 +269,7 @@ export default function Home() {
                 <ShieldCheck aria-hidden="true" size={14} />
                 <Bilingual zh="Schema 已验证" en="Schema verified" />
               </span>
-              <span className="status-pill status-pill-blue">
-                {formatDateTime(report.generatedAt)}
-              </span>
+              <LocalClock />
             </div>
           }
         >
@@ -400,9 +390,8 @@ export default function Home() {
         </div>
 
         <footer className="site-footer">
-          <span>Daily AI Insight Engine</span>
-          <span>Cloudflare Workers + OpenNext</span>
-          <span>{report.schemaRationale.join(" ")}</span>
+          <span>© 2026 Kkertin. All rights reserved.</span>
+          <span>Contact: kkertin1214@gmail.com</span>
         </footer>
       </div>
     </main>

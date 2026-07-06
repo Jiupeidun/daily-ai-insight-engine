@@ -1,12 +1,12 @@
 "use client";
 
-import { Languages, Moon, Sun } from "lucide-react";
+import { Languages, Monitor, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
-type Theme = "dark" | "light";
+type ThemeMode = "system" | "dark" | "light";
 type Locale = "zh" | "en";
 
-const DEFAULT_THEME: Theme = "dark";
+const DEFAULT_THEME: ThemeMode = "system";
 const DEFAULT_LOCALE: Locale = "zh";
 
 function getStoredPreference<T extends string>(key: string, fallback: T): T {
@@ -16,9 +16,9 @@ function getStoredPreference<T extends string>(key: string, fallback: T): T {
   return (window.localStorage.getItem(key) as T | null) ?? fallback;
 }
 
-function getStoredTheme(): Theme {
+function getStoredTheme(): ThemeMode {
   const stored = getStoredPreference("dai-theme", DEFAULT_THEME);
-  return stored === "light" || stored === "dark" ? stored : DEFAULT_THEME;
+  return stored === "system" || stored === "light" || stored === "dark" ? stored : DEFAULT_THEME;
 }
 
 function getStoredLocale(): Locale {
@@ -26,9 +26,17 @@ function getStoredLocale(): Locale {
   return stored === "en" || stored === "zh" ? stored : DEFAULT_LOCALE;
 }
 
-function applyPreferences(theme: Theme, locale: Locale) {
+function resolveTheme(theme: ThemeMode) {
+  if (theme !== "system") {
+    return theme;
+  }
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function applyPreferences(theme: ThemeMode, locale: Locale) {
   const root = document.documentElement;
-  root.dataset.theme = theme;
+  root.dataset.themeMode = theme;
+  root.dataset.theme = resolveTheme(theme);
   root.dataset.lang = locale;
   root.lang = locale === "en" ? "en" : "zh-CN";
 }
@@ -41,14 +49,24 @@ function trackPreference(name: string, value: string) {
 }
 
 export function PreferenceControls() {
-  const [theme, setTheme] = useState<Theme>(() => getStoredTheme());
+  const [theme, setTheme] = useState<ThemeMode>(() => getStoredTheme());
   const [locale, setLocale] = useState<Locale>(() => getStoredLocale());
 
   useEffect(() => {
     applyPreferences(theme, locale);
   }, [theme, locale]);
 
-  const updateTheme = (nextTheme: Theme) => {
+  useEffect(() => {
+    if (theme !== "system") {
+      return;
+    }
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const updateSystemTheme = () => applyPreferences("system", locale);
+    media.addEventListener("change", updateSystemTheme);
+    return () => media.removeEventListener("change", updateSystemTheme);
+  }, [theme, locale]);
+
+  const updateTheme = (nextTheme: ThemeMode) => {
     setTheme(nextTheme);
     window.localStorage.setItem("dai-theme", nextTheme);
     applyPreferences(nextTheme, locale);
@@ -87,6 +105,15 @@ export function PreferenceControls() {
       </div>
 
       <div className="segmented-control" aria-label="Theme">
+        <button
+          type="button"
+          aria-label="Use system theme"
+          aria-pressed={theme === "system"}
+          className={theme === "system" ? "icon-button icon-button-active" : "icon-button"}
+          onClick={() => updateTheme("system")}
+        >
+          <Monitor size={14} />
+        </button>
         <button
           type="button"
           aria-label="Dark theme"
