@@ -1,0 +1,4 @@
+AI_PROVIDER=cloudflare_rest
+CLOUDFLARE_ACCOUNT_ID=
+CLOUDFLARE_API_TOKEN=
+CLOUDFLARE_AI_MODEL=@cf/meta/llama-3.1-8b-instruct

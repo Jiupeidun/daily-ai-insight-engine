@@ -1,0 +1,363 @@
+{
+  "collectedAt": "2026-07-06T03:30:42.199Z",
+  "targetCount": 18,
+  "candidateCount": 87,
+  "failures": [
+    {
+      "source": "anthropic-news",
+      "error": "Request timed out after 12000ms"
+    },
+    {
+      "source": "google-deepmind",
+      "error": "Status code 404"
+    },
+    {
+      "source": "huggingface-blog",
+      "error": "Request timed out after 12000ms"
+    }
+  ],
+  "items": [
+    {
+      "id": "abf7faf0fae0ced5",
+      "title": "How AI Poisons Creativity [video]",
+      "summary": "Article URL: https://www.youtube.com/watch?v=WeCSzEtZcUw Comments URL: https://news.ycombinator.com/item?id=48800326 Points: 1 # Comments: 0",
+      "content": "Article URL: https://www.youtube.com/watch?v=WeCSzEtZcUw Comments URL: https://news.ycombinator.com/item?id=48800326 Points: 1 # Comments: 0",
+      "url": "https://www.youtube.com/watch?v=WeCSzEtZcUw",
+      "sourceName": "Hacker News AI Search",
+      "sourceUrl": "https://hnrss.org/newest?q=AI",
+      "sourceType": "aggregator",
+      "publishedAt": "2026-07-06T03:25:24.000Z",
+      "collectedAt": "2026-07-06T03:30:42.192Z",
+      "language": "en",
+      "authors": [
+        "g-andrade"
+      ],
+      "rawTags": []
+    },
+    {
+      "id": "c512fde2ca518a58",
+      "title": "Cewsco – a multimodal AI assistant powered by Dravik",
+      "summary": "Article URL: https://cewsco.com/ Comments URL: https://news.ycombinator.com/item?id=48800302 Points: 1 # Comments: 0",
+      "content": "Article URL: https://cewsco.com/ Comments URL: https://news.ycombinator.com/item?id=48800302 Points: 1 # Comments: 0",
+      "url": "https://cewsco.com/",
+      "sourceName": "Hacker News AI Search",
+      "sourceUrl": "https://hnrss.org/newest?q=AI",
+      "sourceType": "aggregator",
+      "publishedAt": "2026-07-06T03:20:43.000Z",
+      "collectedAt": "2026-07-06T03:30:42.192Z",
+      "language": "en",
+      "authors": [
+        "kalkalka"
+      ],
+      "rawTags": []
+    },
+    {
+      "id": "074c0a73a3b60655",
+      "title": "日本 TURING 目标最早 2028 年推出基于 AMD 硬件的 Robotaxi 软件",
+      "summary": "IT之家 7 月 6 日消息，日本智驾技术初创企业 TURING 当地时间今日宣布完成 7900 万美元的延展融资，使其 A 轮融资总额达到 1.74 亿美元（现汇率约合 11.81 亿元人民币）。 IT之家注意到，TURING 的 A 轮延展融资由三菱日联提供的 3600 万美元信贷额度和来自 AMD Ventures、三菱商事、三菱日联、Supermicro 等的 4300 万美元股权融资组成。 据彭博社报道，TURING 已于 2025 年在东京郊区进行了时长 30 分钟的首次自动驾驶测试，后续又在日本多个其它拥堵路段重复了实验。该企业的目标是最早在 2028 年将适用于 Robotaxi 的软件推向消费市场。 TURING 的智驾软件堆栈将运行在 AMD 芯片上，该企业表示这样做是为了确保在资本密集型的自动驾驶领域保持价格竞争力。其此前在 AI 训练与推理上一直依赖于 NVIDIA 芯片，但当前已有约一成的训练负载转移到 AMD 的 GPU 上。",
+      "content": "IT之家 7 月 6 日消息，日本智驾技术初创企业 TURING 当地时间今日宣布完成 7900 万美元的延展融资，使其 A 轮融资总额达到 1.74 亿美元（现汇率约合 11.81 亿元人民币）。 IT之家注意到，TURING 的 A 轮延展融资由三菱日联提供的 3600 万美元信贷额度和来自 AMD Ventures、三菱商事、三菱日联、Supermicro 等的 4300 万美元股权融资组成。 据彭博社报道，TURING 已于 2025 年在东京郊区进行了时长 30 分钟的首次自动驾驶测试，后续又在日本多个其它拥堵路段重复了实验。该企业的目标是 最早在 2028 年将适用于 Robotaxi 的软件推向消费市场 。 TURING 的智驾软件堆栈将运行在 AMD 芯片上 ，该企业表示这样做是为了确保在资本密集型的自动驾驶领域保持价格竞争力。其此前在 AI 训练与推理上一直依赖于 NVIDIA 芯片，但当前已有约一成的训练负载转移到 AMD 的 GPU 上。",
+      "url": "https://www.ithome.com/0/972/938.htm",
+      "sourceName": "IT之家",
+      "sourceUrl": "https://www.ithome.com/rss/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-06T02:58:04.000Z",
+      "collectedAt": "2026-07-06T03:26:18.410Z",
+      "language": "mixed",
+      "authors": [],
+      "rawTags": []
+    },
+    {
+      "id": "40fe311b5b2cbb23",
+      "title": "小鹏 MONA L03 汽车官宣 7 月 10 日起开放试驾，预售版本均配备高阶智能辅助驾驶",
+      "summary": "IT之家 7 月 6 日消息，小鹏集团董事长、CEO 何小鹏今日发文宣布，MONA L03 中国首秀刚过去一个周末，首周末门店客流创下 2026 年新高。 何小鹏还提前公布了一则消息：7 月 10 日起，全国门店将陆续开放试驾。他表示，MONA L03 从底盘操控、细节用料到安全标准，都是对标 30 万级车型研发，预售的版本都配备了高阶智能辅助驾驶。 据IT之家此前报道，在 7 月 2 日晚的 MONA L03 中国首秀活动上，小鹏正式公布了 MONA L03 的预售价，14.38 万元起。新车将于 7 月 16 日正式上市。该车定位“年轻人的第一台智能时尚 SUV”，提供纯电 + 增程双动力，搭载 1500TOPS 算力图灵芯片与第二代 VLA 智驾系统。",
+      "content": "IT之家 7 月 6 日消息，小鹏集团董事长、CEO 何小鹏今日发文宣布，MONA L03 中国首秀刚过去一个周末， 首周末门店客流创下 2026 年新高 。 何小鹏还提前公布了一则消息： 7 月 10 日起，全国门店将陆续开放试驾 。他表示，MONA L03 从底盘操控、细节用料到安全标准，都是对标 30 万级车型研发， 预售的版本都配备了高阶智能辅助驾驶 。 据IT之家此前报道，在 7 月 2 日晚的 MONA L03 中国首秀活动上， 小鹏正式公布了 MONA L03 的预售价 ，14.38 万元起。新车将于 7 月 16 日正式上市。该车定位“年轻人的第一台智能时尚 SUV”，提供纯电 + 增程双动力，搭载 1500TOPS 算力图灵芯片与第二代 VLA 智驾系统。",
+      "url": "https://www.ithome.com/0/972/935.htm",
+      "sourceName": "IT之家",
+      "sourceUrl": "https://www.ithome.com/rss/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-06T02:55:51.000Z",
+      "collectedAt": "2026-07-06T03:26:18.410Z",
+      "language": "mixed",
+      "authors": [],
+      "rawTags": []
+    },
+    {
+      "id": "5cf785277e6fe87a",
+      "title": "上汽名爵 MG 07 官宣 7 月 29 日预售：首搭 Momenta R7 世界模型，定位“年轻人的智能纯血轿跑”",
+      "summary": "IT之家 7 月 6 日消息，上汽 MG 今日宣布，上汽名爵 MG 07 将在 7 月 29 日开启预售，新车定位“年轻人的智能纯血轿跑”。 据介绍，新车尺寸为 4886×1900×1485mm、轴距 2825mm，前脸采用一体冲压蚌式机盖 + 曲面切割悬浮前大灯组设计，尾部采用掀背式溜背造型设计，配备四门无框车门和五档可调电动尾翼，可选 19 英寸星环引力轮毂和 19 英寸银石竞速轮毂。 上汽名爵 MG 07 内饰可选白紫罗兰和皇家蓝两种配色，拥有 168L KK 自动开合前备箱、697L 电动后备厢，以及 109L 下沉空间。新车支持全车通风加热按摩、配备整片式调光全景天幕，同时行业首创“女王多功能美妆台”。 新车还配备副驾零重力座椅，内置 7.1.4 声道 21 扬声器；车机搭载 8295P 芯片，配备 15.6 英寸 2.5K 中控屏，支持 3D Moli 实时交互大世界、全场景手车互联等功能。 IT之家注意到，上汽名爵 MG 07 还首搭 Momenta R7 世界模型 + Xheart X7 大模型专用芯片；配备 mCDC 智能电磁悬架，支持每秒 200 次调整；拥有 AI 预瞄功能，可前瞻探测 15-150 米距离。新车续航可达 840km，采用 800V 高压平台，支持 5C 速率快充、5 秒级零百加速。",
+      "content": "IT之家 7 月 6 日消息，上汽 MG 今日宣布， 上汽名爵 MG 07 将在 7 月 29 日开启预售 ，新车定位“年轻人的智能纯血轿跑”。 据介绍，新车尺寸为 4886×1900×1485mm、轴距 2825mm，前脸采用一体冲压蚌式机盖 + 曲面切割悬浮前大灯组设计，尾部采用掀背式溜背造型设计， 配备四门无框车门和五档可调电动尾翼 ，可选 19 英寸星环引力轮毂和 19 英寸银石竞速轮毂。 上汽名爵 MG 07 内饰可选白紫罗兰和皇家蓝两种配色， 拥有 168L KK 自动开合前备箱、697L 电动后备厢，以及 109L 下沉空间 。新车支持全车通风加热按摩、配备整片式调光全景天幕，同时行业首创“女王多功能美妆台”。 新车还配备副驾零重力座椅， 内置 7.1.4 声道 21 扬声器 ；车机搭载 8295P 芯片，配备 15.6 英寸 2.5K 中控屏，支持 3D Moli 实时交互大世界、全场景手车互联等功能。 IT之家注意到， 上汽名爵 MG 07 还首搭 Momenta R7 世界模型 + Xheart X7 大模型专用芯片 ；配备 mCDC 智能电磁悬架，支持每秒 200 次调整；拥有 AI 预瞄功能，可前瞻探测 15-150 米距离。 新车续航可达 840km ，采用 800V 高压平台，支持 5C 速率快充、5 秒级零百加速。",
+      "url": "https://www.ithome.com/0/972/930.htm",
+      "sourceName": "IT之家",
+      "sourceUrl": "https://www.ithome.com/rss/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-06T02:50:08.000Z",
+      "collectedAt": "2026-07-06T03:26:18.410Z",
+      "language": "zh",
+      "authors": [],
+      "rawTags": []
+    },
+    {
+      "id": "f6e849964a0adb25",
+      "title": "AI 砍掉的第一批大厂人：高薪，高绩效，高P｜深氪",
+      "summary": "访谈｜任彩茹 兰杰 彭倩 文｜任彩茹 编辑｜乔芊 杨轩 “630”减员，AI是祸首还是替罪羊? “现在公司有（减员）名单，你在这里面。”5月中的一天，林越被组长叫进会议室，对方开门见山。 林越的第一反应是平静，他早有预料。早在今年三四月，一些互联网公司内部便传出要裁员的风声。开年以来，中国互联网大公司围绕AI提效激进开展的token竞赛、培训会、隐形考核等，无处不在。当所有人都被卷入一场“all in AI”的运动时，“裁员一定会发生”就是大家心照不宣的共识。 但站在HR门口时，他还是迎来了情绪崩溃的瞬间：手开始发抖，犹豫了很长时间，想着怎么开头，怎么调整自己的举止表情。“我再也不想经历这样的事。” 林越月薪2万5，一年前本科毕业，入职携程当后端工程师——当时看，他是极其幸运的一个。互联网招聘红利不再，携程几千份简历只录取不到500人，但他进入的是公司最赚钱的酒店部门，负责为商业化产品写代码。 但现在看，月薪2万5、只有一年经验的初级程序员，不裁他裁谁呢？一是赔偿成本低，二是比起对业务通盘更熟的老员工，新人使用AI的效率往往更低。“有业务经验打底，想用AI做什么，有什么影响，老员工更清楚。”林越说。 斯坦福大学在一篇名为《Canaries in the Coal Mine?》（《煤矿里的金丝雀？》）的论文中，用“金丝雀”比喻刚踏入职场的年轻人。其研究显示，2022年ChatGPT普及以来，最年轻劳动者的就业大幅下降，到2025年9月，22-25岁软件开发者的就业相比其2022年底的峰值下降了近20%。 最近一年，AI让一切更卷了。携程曾是著名的“互联网养老厂”：程序员岗早上10点半上班，午休两小时，下午7点就能准时下班，主APP两周一个迭代。但林越入职没多久，赶上AI Coding能力大爆发，已经卷成一周一个APP迭代，“每天干到10点半”。 但这种节奏加快，并不是因为业务有爆发式增长，“而是因为不找事做，就会变成边缘部门，边缘部门就会被砍。”林越告诉36氪。但最终，他还是没有避免“被砍”的命运。 不过，“斩杀”也可能是无差别的。 苍述完全没想到，自己会是第一批出现在裁员名单上的人。 5月的一个周五，上班前半小时，“部门突然拉了一个all hands（全员会），HR直接宣布了结果，告诉大家有这个事儿。” 来美团之前，苍述是字节的SSP校招生（Super Special Offer），高薪入职，到最后也是组内同级员工中工资最高的一个。跳槽到美团后，组内的核心项目几乎都被放在他手中，今年本该是苍述的晋升节点。 这场裁员潮中，“绩优”、“高P”的保护屏障都失效了。苍述的隔壁组，裁掉的两名员工都在去年取得了“超预期”的绩效评级。裁到最后，苍述所在的小组几乎被全员“端掉”，“这个组名义上还存在，实际已经没人了。” 林越得知自己被裁时，才发现平时常常对接的两位前端工程...",
+      "content": "访谈｜任彩茹 兰杰 彭倩 文｜任彩茹 编辑｜乔芊 杨轩 “630”减员，AI是祸首还是替罪羊? “现在公司有（减员）名单，你在这里面。”5月中的一天，林越被组长叫进会议室，对方开门见山。 林越的第一反应是平静，他早有预料。早在今年三四月，一些互联网公司内部便传出要裁员的风声。开年以来，中国互联网大公司围绕AI提效激进开展的token竞赛、培训会、隐形考核等，无处不在。当所有人都被卷入一场“all in AI”的运动时，“裁员一定会发生”就是大家心照不宣的共识。 但站在HR门口时，他还是迎来了情绪崩溃的瞬间：手开始发抖，犹豫了很长时间，想着怎么开头，怎么调整自己的举止表情。“我再也不想经历这样的事。” 林越月薪2万5，一年前本科毕业，入职携程当后端工程师——当时看，他是极其幸运的一个。互联网招聘红利不再，携程几千份简历只录取不到500人，但他进入的是公司最赚钱的酒店部门，负责为商业化产品写代码。 但现在看，月薪2万5、只有一年经验的初级程序员，不裁他裁谁呢？一是赔偿成本低，二是比起对业务通盘更熟的老员工，新人使用AI的效率往往更低。“有业务经验打底，想用AI做什么，有什么影响，老员工更清楚。”林越说。 斯坦福大学在一篇名为《Canaries in the Coal Mine?》（《煤矿里的金丝雀？》）的论文中，用“金丝雀”比喻刚踏入职场的年轻人。其研究显示，2022年ChatGPT普及以来，最年轻劳动者的就业大幅下降，到2025年9月，22-25岁软件开发者的就业相比其2022年底的峰值下降了近20%。 最近一年，AI让一切更卷了。携程曾是著名的“互联网养老厂”：程序员岗早上10点半上班，午休两小时，下午7点就能准时下班，主APP两周一个迭代。但林越入职没多久，赶上AI Coding能力大爆发，已经卷成一周一个APP迭代，“每天干到10点半”。 但这种节奏加快，并不是因为业务有爆发式增长，“而是因为不找事做，就会变成边缘部门，边缘部门就会被砍。”林越告诉36氪。但最终，他还是没有避免“被砍”的命运。 不过，“斩杀”也可能是无差别的。 苍述完全没想到，自己会是第一批出现在裁员名单上的人。 5月的一个周五，上班前半小时，“部门突然拉了一个all hands（全员会），HR直接宣布了结果，告诉大家有这个事儿。” 来美团之前，苍述是字节的SSP校招生（Super Special Offer），高薪入职，到最后也是组内同级员工中工资最高的一个。跳槽到美团后，组内的核心项目几乎都被放在他手中，今年本该是苍述的晋升节点。 这场裁员潮中，“绩优”、“高P”的保护屏障都失效了。苍述的隔壁组，裁掉的两名员工都在去年取得了“超预期”的绩效评级。裁到最后，苍述所在的小组几乎被全员“端掉”，“这个组名义上还存在，实际已经没人了。” 林越得知自己被裁时，才发现平时常常对接的两位前端工程师，“头像不知道什么时候已经灰了”；美团的一个用户增长大群，原本的数百位成员如今只剩一半左右；阿里巴巴的高德、飞猪等业务，也处在剧烈震荡中。 “630”成了社交媒体上的热词。它是国内AI真正大规模走进互联网职场的第一个季度末。六月底到七旬中旬，既是许多公司人员汰换的惯例时点，也是这场裁员潮中普遍设定的“last day”。 风向标硅谷已经率先在裁员，特征是成批量、规模大。5月，Meta宣布裁员8000人，7000人转岗AI部门，成为硅谷科技公司里最动荡的一家，高管承认“公司士气近20年来最低”；更早时候，亚马逊宣布裁员1.6万白领岗位，把省下的资金投向AI。 2021年上一轮裁员潮发生前，国内互联网大公司疯狂扩张边界，高密度地成立一个又一个新业务，一批人被快速招募起来，又快速抹去。 但今年裁员潮的内在主线并非这样单一。 AI提效、大而重的老业务增长乏力或深陷竞争泥潭、投资AI新业务带来的现金压力，在这个时段交织并行。 许多被通知离开的人，也很难说得清这些因素孰轻孰重。 《哈萨比斯：谷歌AI之脑》的作者称，如同奥本海默创造了原子弹，却无法控制它的使用，追求真理的科学家们也是“万物的破坏者”：我们的工作、思维方式，甚至生存，都可能被“破坏”。十年前的韩国首尔，AlphaGo带给人类棋手李世石最初的破坏。十年后，从硅谷到北京，这种破坏再次蔓延。 对大公司而言，AI是船票，它指向大模型或AI应用这类新业务。但新业务能不能干成、何时干成，没人说得准。面对不再增长的老业务，大公司不得不在每一个确定的和不确定的方向上，更加坚决地提效、进而裁员。 林越向朋友倾诉裁员遭遇时，被安慰道，“没关系，我们大家都会有这一天，只是你的这天来得更早一些。”但比自我开解更重要的可能是，被AI替代、被大厂裁员后，人们该如何选择、如何行动。 焦虑的高层、加码的中层、发疯的基层 “以前在字节两个月才能做出来的产品demo，我们现在两个星期就能做出来。”一名前字节产品经理、现AI创业公司高管对36氪说，有了Claud Code、Codex这样的工具后，自己团队现在可以3小时做出demo，一周内完成想法验证。 “一个产品（经理）就像一个CEO。”他说，组织结构可以随之大幅压缩，信息传递的损耗比大厂少太多，完美“熵减”。 当创业公司借助AI快速行动之时，互联网大厂回望自身，是否会觉得自己像迟缓的巨兽？ 来自大厂最高层的表态，往往是一个信号。 今年3月，美团CEO王兴在高管沟通会上谈到自己对AI的看法，“AI Agent对我的冲击比ChatGPT更大，AI注定会创造巨大生产力，也一定会对组织、对工作模式带来很大的变化。” 那场沟通会结束不久，美团在全公司范围拉了一场线上大会，核心是宣贯“龙虾”的安装与使用，提倡每位同事安装“龙虾”，以及将日常工作尽可能写成可复用的Skill。 会后，在美团核心本地商业从事商家运营的陈宇佳收到通知，需要在每周的周报里加上一个板块，写明自己利用AI做了哪些提效、有什么Skill可以推广到全组和全部门使用。“然后就感受到大家好像拼命在把AI融入自己的工作中。” 4月的一天，一位阿里算法工程师毫无征兆地收到部门上一个月的token消耗排行榜，他以170亿token消耗量赫然位列第一名，被公开表扬。部门老板表示，以后年度KPI、晋升考核都将参考这一排行。但一个月后，新的token消耗排行榜没能如期而至，“可能老板也发现了这种排名方式不靠谱。” 新的规则接踵而至。部门领导很快又提出，员工需要在工作日的早上11点到下午6点上传每小时的“时报”，由Agent上的插件自动记录代码及对话内容，生成工作总结——这意味着员工无法修改自己的时报内容。就在第二天，hr以近乎争吵的姿态，劝阻了该领导的荒谬制度。 类似这样的事情，已经不再让人意外。来自高层的AI焦虑不断下放，中层们层层加码，努力暗示下属，这是一场隐形的汇报竞赛、军备竞赛、淘汰竞赛。 尽管没有强制每个人一定要写Skill，陈宇佳的部门领导还是会密切关注每个下属的token用量，不时询问具体情况，“他也不清楚AI具体能做什么，但他说他不允许我们团队的每个人在这次AI浪潮中落后”。有时在工作结束后的私下聚餐中，大家也会接收到老板暗暗传达的一种危机感，“一定要把AI用起来，否���到时候我想拉你们一把都拉不了。” 阿里...",
+      "url": "https://36kr.com/p/3883456791163138?f=rss",
+      "sourceName": "36Kr",
+      "sourceUrl": "https://36kr.com/feed",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-06T02:26:34.000Z",
+      "collectedAt": "2026-07-06T03:26:18.231Z",
+      "language": "mixed",
+      "authors": [],
+      "rawTags": []
+    },
+    {
+      "id": "3f3788dd8afae74d",
+      "title": "Claude Code and Fable 5 ported the 2003 PC game Command & Conquer to native iOS in \"a few hours\"",
+      "summary": "A Google Deepmind developer ported the 2003 real-time strategy game \"Command & Conquer: Generals Zero Hour\" to iPhone and iPad using Anthropic's Claude Code. The first build took 40 minutes. The full source code is on GitHub. The article Claude Code and Fable 5 ported the 2003 PC game Command & Conquer to native iOS in \"a few hours\" appeared first on The Decoder.",
+      "content": "A Google Deepmind developer ported the 2003 real-time strategy game \"Command &#038; Conquer: Generals Zero Hour\" to iPhone and iPad using Anthropic's Claude Code. The first build took 40 minutes. The full source code is on GitHub. The article Claude Code and Fable 5 ported the 2003 PC game Command &#038; Conquer to native iOS in \"a few hours\" appeared first on The Decoder .",
+      "url": "https://the-decoder.com/claude-code-and-fable-5-ported-the-2003-pc-game-command-conquer-to-native-ios-in-a-few-hours/",
+      "sourceName": "The Decoder",
+      "sourceUrl": "https://the-decoder.com/feed/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-05T15:58:56.000Z",
+      "collectedAt": "2026-07-06T03:26:21.158Z",
+      "language": "en",
+      "authors": [
+        "Matthias Bastian"
+      ],
+      "rawTags": [
+        "AI in practice",
+        "Artificial Intelligence",
+        "Short News",
+        "Claude Code",
+        "Fable 5",
+        "Googe Deepmind"
+      ]
+    },
+    {
+      "id": "e4b5b6a3e8fa51d5",
+      "title": "AI private schools sell wealthy US families on personalized learning over traditional education",
+      "summary": "Wealthy US families are increasingly sending their kids to AI schools like Alpha School, which combines two hours of AI tutoring with project-based workshops for up to $75,000 a year in tuition. The trend highlights a growing education gap in the AI era, where traditional schools are struggling to adopt the technology, which may do more harm than good if used without the right skills. The article AI private schools sell wealthy US families on personalized learning over traditional education appeared first on The Decoder.",
+      "content": "Wealthy US families are increasingly sending their kids to AI schools like Alpha School, which combines two hours of AI tutoring with project-based workshops for up to $75,000 a year in tuition. The trend highlights a growing education gap in the AI era, where traditional schools are struggling to adopt the technology, which may do more harm than good if used without the right skills. The article AI private schools sell wealthy US families on personalized learning over traditional education appeared first on The Decoder .",
+      "url": "https://the-decoder.com/ai-private-schools-sell-wealthy-us-families-on-personalized-learning-over-traditional-education/",
+      "sourceName": "The Decoder",
+      "sourceUrl": "https://the-decoder.com/feed/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-05T10:45:46.000Z",
+      "collectedAt": "2026-07-06T03:26:21.158Z",
+      "language": "en",
+      "authors": [
+        "Matthias Bastian"
+      ],
+      "rawTags": [
+        "AI and society",
+        "Artificial Intelligence",
+        "AI in education",
+        "Learning"
+      ]
+    },
+    {
+      "id": "1368b74237d8ed1f",
+      "title": "New Google commercial imagines a Declaration of Independence written with help from AI",
+      "summary": "Two hundred and fifty years after the signing of the Declaration of Independence, a new commercial asks: What if the Founding Fathers had access to Google Workspace?",
+      "content": "Two hundred and fifty years after the signing of the Declaration of Independence, a new commercial asks: What if the Founding Fathers had access to Google Workspace?",
+      "url": "https://techcrunch.com/2026/07/04/new-google-commercial-imagines-a-declaration-of-independence-written-with-help-from-ai/",
+      "sourceName": "TechCrunch AI",
+      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-04T20:55:25.000Z",
+      "collectedAt": "2026-07-06T03:26:18.610Z",
+      "language": "en",
+      "authors": [
+        "Anthony Ha"
+      ],
+      "rawTags": [
+        "AI",
+        "Media & Entertainment",
+        "gemini",
+        "Google"
+      ]
+    },
+    {
+      "id": "e14a670566cdbcfa",
+      "title": "Midjourney wants Hollywood studios to reveal the details of their AI usage",
+      "summary": "As part of an ongoing legal dispute with three Hollywood studios, Midjourney is seeking to compel those studios to reveal how they use AI themselves.",
+      "content": "As part of an ongoing legal dispute with three Hollywood studios, Midjourney is seeking to compel those studios to reveal how they use AI themselves.",
+      "url": "https://techcrunch.com/2026/07/04/midjourney-wants-hollywood-studios-to-reveal-the-details-of-their-ai-usage/",
+      "sourceName": "TechCrunch AI",
+      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-04T18:00:05.000Z",
+      "collectedAt": "2026-07-06T03:26:18.610Z",
+      "language": "en",
+      "authors": [
+        "Anthony Ha"
+      ],
+      "rawTags": [
+        "AI",
+        "Media & Entertainment",
+        "Disney",
+        "MidJourney",
+        "Universal",
+        "Warner Bros"
+      ]
+    },
+    {
+      "id": "8c409c95695b95d3",
+      "title": "Alibaba reportedly bans employees from using Claude Code",
+      "summary": "Alibaba has reportedly classified Claude Code as high-risk software.",
+      "content": "Alibaba has reportedly classified Claude Code as high-risk software.",
+      "url": "https://techcrunch.com/2026/07/04/alibaba-reportedly-bans-employees-from-using-claude-code/",
+      "sourceName": "TechCrunch AI",
+      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-04T16:32:08.000Z",
+      "collectedAt": "2026-07-06T03:26:18.610Z",
+      "language": "en",
+      "authors": [
+        "Anthony Ha"
+      ],
+      "rawTags": [
+        "AI",
+        "Security",
+        "alibaba",
+        "claude code"
+      ]
+    },
+    {
+      "id": "506a46ea0aa91464",
+      "title": "9点1氪｜阿里内部全面禁用Claude Code；FF洛杉矶总部人去楼空？公司回应：不实；微软砸25亿美元组建6000人AI新公司",
+      "summary": "今日热点导览 三部门：调整节能汽车、新能源汽车车船税优惠政策 三星传获Meta超10万亿韩元AI芯片代工订单 茉莉奶白小程序更换彩色Logo Meta打算出售富余算力引发科技股回落 英伟达前光互连技术高管Ashkan Seyedi加入艾迈斯欧司朗 TOP3大新闻 因存在植入后门风险，阿里内部全面禁用Claude Code 36氪从阿里内部人士处获悉，因近期Claude Code被曝存在植入后门的安全风险，阿里经综合评估后已将其列入高风险软件名单。自7月10日起，阿里将全面禁止内部员工在办公环境下使用Claude Code，并推荐使用Qoder作为替代方案。 FF洛杉矶总部人去楼空？公司回应：不实 7月3日，法拉第未来发布声明称，公司日前关注到近部分网络平台流传所谓“FF洛杉矶总部人去楼空”等不实信息。FF位于汉福德的工厂并未关闭，此次系全球总部正常搬迁至洛杉矶硅滩（El Segundo）。网传视频所拍摄地点为FF曾经位于Gardena市的旧总部，今年3月底开始不再由FF使用。所谓“FF洛杉矶总部人去楼空”的说法具有严重误导性，属于对公司正常办公地点搬迁事实的恶意歪曲。（界面新闻） 微软砸25亿美元组建6000人AI新公司 当地时间7月2日，微软宣布成立全新运营实体——微软前沿公司（Microsoft Frontier Company）。该业务依托微软现有人工智能工具，主要为企业客户落地有成效的人工智能部署项目。微软将为该项目投入25亿美元资金，并配备6000名行业专家与工程技术人员。据微软商业业务总裁贾德森·阿尔托夫（Judson Althoff）介绍，这项业务远超所谓前沿部署工程（FDE）的范畴，将打造业内规模最大、综合实力最强、以业务成果为核心导向的工程团队。 该部门将整合微软现有的FDE工程师、技术顾问、支持人员以及具备行业经验的销售团队。新公司将为客户提供AI技术选型与系统集成服务，涵盖微软自有模型及外部模型，并与企业自身的专有数据进行深度结合。客户将保留所有成果与开发成果的所有权，无需将结果回传给微软。（界面新闻） AI最前沿 Github Copilot接入开源模型Kimi K2.7 36氪获悉，月之暗面宣布，Github Copilot接入第一个开源模型Kimi K2.7。 阿里云宣布AI原生数据库服务产品Databridge Agent功能收费 36氪获悉，阿里云官网显示，AI原生数据库服务产品Databridge Agent将于2026年8月1日正式转商业化计费。 大公司/大事件 国家发改委：自7月3日24时起，国内汽、柴油（标准品）价格每吨分别下调950元、915元 36氪获悉，据国家发改委，6月18日国内成品油价格调整以来，国际市场原油价格快速回落后小幅波动运行，本次调价的前10个工作日平均价格低于上次调价前10个工作日平均价格。根据...",
+      "content": "今日热点导览 三部门：调整节能汽车、新能源汽车车船税优惠政策 三星传获Meta超10万亿韩元AI芯片代工订单 茉莉奶白小程序更换彩色Logo Meta打算出售富余算力引发科技股回落 英伟达前光互连技术高管Ashkan Seyedi加入艾迈斯欧司朗 TOP3大新闻 因存在植入后门风险，阿里内部全面禁用Claude Code 36氪从阿里内部人士处获悉，因近期Claude Code被曝存在植入后门的安全风险，阿里经综合评估后已将其列入高风险软件名单。自7月10日起，阿里将全面禁止内部员工在办公环境下使用Claude Code，并推荐使用Qoder作为替代方案。 FF洛杉矶总部人去楼空？公司回应：不实 7月3日，法拉第未来发布声明称，公司日前关注到近部分网络平台流传所谓“FF洛杉矶总部人去楼空”等不实信息。FF位于汉福德的工厂并未关闭，此次系全球总部正常搬迁至洛杉矶硅滩（El Segundo）。网传视频所拍摄地点为FF曾经位于Gardena市的旧总部，今年3月底开始不再由FF使用。所谓“FF洛杉矶总部人去楼空”的说法具有严重误导性，属于对公司正常办公地点搬迁事实的恶意歪曲。（界面新闻） 微软砸25亿美元组建6000人AI新公司 当地时间7月2日，微软宣布成立全新运营实体——微软前沿公司（Microsoft Frontier Company）。该业务依托微软现有人工智能工具，主要为企业客户落地有成效的人工智能部署项目。微软将为该项目投入25亿美元资金，并配备6000名行业专家与工程技术人员。据微软商业业务总裁贾德森·阿尔托夫（Judson Althoff）介绍，这项业务远超所谓前沿部署工程（FDE）的范畴，将打造业内规模最大、综合实力最强、以业务成果为核心导向的工程团队。 该部门将整合微软现有的FDE工程师、技术顾问、支持人员以及具备行业经验的销售团队。新公司将为客户提供AI技术选型与系统集成服务，涵盖微软自有模型及外部模型，并与企业自身的专有数据进行深度结合。客户将保留所有成果与开发成果的所有权，无需将结果回传给微软。（界面新闻） AI最前沿 Github Copilot接入开源模型Kimi K2.7 36氪获悉，月之暗面宣布，Github Copilot接入第一个开源模型Kimi K2.7。 阿里云宣布AI原生数据库服务产品Databridge Agent功能收费 36氪获悉，阿里云官网显示，AI原生数据库服务产品Databridge Agent将于2026年8月1日正式转商业化计费。 大公司/大事件 国家发改委：自7月3日24时起，国内汽、柴油（标准品）价格每吨分别下调950元、915元 36氪获悉，据国家发改委，6月18日国内成品油价格调整以来，国际市场原油价格快速回落后小幅波动运行，本次调价的前10个工作日平均价格低于上次调价前10个工作日平均价格。根据国际市场油价变化情况，自7月3日24时起，国内汽、柴油（标准品）价格每吨分别下调950元、915元。 多家品牌金饰价格大涨，周生生克价1266元 7月3日，国内黄金饰品价格对比显示，多家黄金珠宝品牌公布的境内足金首饰价格较2日有所上调，老凤祥报价1260元/克，较前一日1230元/克涨30元；周生生报价1266元/克，较前一日1236元/克涨30元；周大福报价1262元/克，较前一日1233元涨29元；老庙黄金报价1261元/克，较前一日1235元/克涨26元。（界面新闻） 三星传获Meta超10万亿韩元AI芯片代工订单，2纳米中长期积压订单看涨 7月3日，据报道，三星电子正成为全球大科技公司自研AI芯片（ASIC）的核心生产基地，其中长期积压订单有望逼近50万亿韩元。Meta正推进与三星晶圆代工合作设计并生产价值超10万亿韩元的下一代ASIC。其自研AI加速器“MTIA”已锁定三星为合作伙伴，计划采用2纳米尖端工艺量产数十万组。同时，美国AI巨头Anthropic也在评估使用其2纳米工艺开发芯片。（界面新闻） 国家金融监督管理总局决定对众邦银行实施接管 国家金融监督管理总局、湖北省人民政府关于对武汉众邦银行股份有限公司实施接管的公告。鉴于武汉众邦银行股份有限公司（以下简称众邦银行）出现严重信用风险，为保护存款人和其他客户的合法权益，依照《中华人民共和国银行业监督管理法》和《中华人民共和国商业银行法》有关规定，国家金融监督管理总局决定对众邦银行实施接管。（央视新闻） 三部门：调整节能汽车、新能源汽车车船税优惠政策 36氪获悉，财政部、税务总局、工业和信息化部发布关于调整节能汽车、新能源汽车车船税优惠政策的公告。自2027年1月1日起，取消对节能汽车减半征收车船税政策，取消对纯电动商用车、插电式（含增程式）混合动力汽车、燃料电池商用车免征车船税政策；纳税人新取得及本公告实施前已取得的上述类型车辆，应按照《中华人民共和国车船税法》及其实施条例和其他相关规定征收车船税。 科技板块遭遇深度调整，机构建议聚焦细分龙头 7月2日，A股市场迎来大幅调整。分析人士认为，本轮调整并非基本面逻辑的逆转，而是上半年科技板块极致分化行情下交易拥挤、筹码结构脆弱等风险因素的集中释放。经历半年大幅上涨后，部分高位品种估值与预期透支较为严重，短期回调具有一定的合理性。但从中长期维度来看，AI产业趋势并未改变，机构普遍建议投资者在调整过程中保持定力，关注具备核心竞争力的细分龙头，同时适度配置高股息资产以平滑组合波动。（中证网） 茉莉奶白小程序更换彩色Logo，此前被判赔LV超千万元 因商标侵权纠纷一审被判向LV赔偿1000万元后，茉莉奶白更换头像的消息引发关注。7月2日晚上，茉莉奶白小程序会员中心原本黑色的Logo换成了彩色Logo，相关话题也冲上社交平台热搜。7月3日，记者就“换Logo是否与LV诉讼一事有关”的问题咨询茉莉奶白客服，工作人员对界面新闻表示：“抱歉给您添麻烦了，我司将依法提起上诉，未来我们将持续专注品质与服务，不负信任。”（界面新闻） 腾讯游戏暑期未保行动：每周限玩3小时 36氪获悉，7月3日，腾讯游戏发布“2026年暑期未成年人保护专项行动”，每周限玩3小时，升级“AI双引擎防沉迷”模式：游戏外，成长守护焕新AI版本，接入腾讯混元与DeepSeek双模型，家长可通过对话式交互完成信息查询与账号管控，提升管理便捷度；游戏内，健康系统推出AI巡航功能，内置“AI守卫”，基于玩家行为进行动态风险分级，并在人脸识别基础上，新增声纹检测、年龄识别等多模态验证，实现全链路干预，提高冒用、代过门槛。 关停“杠杆炒金”通道，银行拧紧个人贵金属业务风险阀门 6月以来，包括交通银行、招商银行、工商银行在内的多家国有大行、股份制银行密集“踩刹车”——宣布将于7月停办代理上海黄金交易所个人贵金属交易业务。在业内人士看来，这是银行主动进行风险管理的举措，通过提前压缩高风险投机业务，防范极端行情下的客户违约风险、声誉风险，同时帮助投资者规避贵金属价格波动带来的资金损失。（中证网） Meta打算出售富余算力引发科技股回落，业内人士：算力租赁市场并未降温 科技巨头Meta（脸书）打算出售富余算力的消息，引发AI算力过剩恐慌，全球科技股普遍回落，A股存储、光模块、PCB（印制电路...",
+      "url": "https://36kr.com/p/3880629882679301?f=rss",
+      "sourceName": "36Kr",
+      "sourceUrl": "https://36kr.com/feed",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-04T01:03:44.000Z",
+      "collectedAt": "2026-07-06T03:26:18.231Z",
+      "language": "mixed",
+      "authors": [],
+      "rawTags": []
+    },
+    {
+      "id": "423a91d13460f31c",
+      "title": "Achieving operational excellence with AI",
+      "summary": "Frameworks like Lean Six Sigma and business process management (BPM) first gained traction because they promised clarity in the chaos—a structured way to bring order to messy, sprawling operations. Lean Six Sigma emphasized statistical rigor and quality control; BPM created end-to-end maps of how work should flow across departments. Both offered a repeatable way to…",
+      "content": "Frameworks like Lean Six Sigma and business process management (BPM) first gained traction because they promised clarity in the chaos—a structured way to bring order to messy, sprawling operations. Lean Six Sigma emphasized statistical rigor and quality control; BPM created end-to-end maps of how work should flow across departments. Both offered a repeatable way to embed habits of measurement, analysis, and accountability into day-to-day company culture. DOWNLOAD THE REPORT But today, those time-tested playbooks are evolving as companies seek to embed AI into established process excellence methodologies. By some estimates, the market for AI-powered process optimization is projected to exceed $113 billion within the next decade. In one study, a full 88% of business leaders anticipated increasing investments into AI-infused process intelligence in the next 12 to 18 months. Yet without the right foundations, many of those investments may not fully deliver on their potential. Companies that already operate with discipline have an edge. They can channel new tools into proven systems rather than bolting them onto shaky foundations. Organizations with mature process disciplines are also better positioned to translate AI ambition into real outcomes, as they are already accustomed to data-driven decision-making and process discipline—precisely the cultural foundation AI systems need to deliver value. Simply put: AI can accelerate process excellence, but existing process excellence is what makes AI truly impactful. Technology and process are no longer separate levers, and only organizations that pull them together stand to realize the full value of both. Download the full report. This content was produced by Insights, the custom content arm of MIT Technology Review. It was not written by MIT Technology Review’s editorial staff. It was researched, designed, and written by human writers, editors, analysts, and illustrators. This includes the writing of surveys and collection of data for surveys. AI tools that may have been used were limited to secondary production processes that passed thorough human review.",
+      "url": "https://www.technologyreview.com/2026/07/02/1140045/achieving-operational-excellence-with-ai/",
+      "sourceName": "MIT Technology Review AI",
+      "sourceUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-02T15:37:08.000Z",
+      "collectedAt": "2026-07-06T03:26:19.441Z",
+      "language": "en",
+      "authors": [
+        "MIT Technology Review Insights"
+      ],
+      "rawTags": [
+        "Artificial intelligence",
+        "sponsored"
+      ]
+    },
+    {
+      "id": "ce009498e9dc7982",
+      "title": "Teaching AI to run with the turbines",
+      "summary": "Artificial intelligence may have captured the public imagination through chatbots and image generators, but some of its most consequential use cases are unfolding far from consumer-facing tools. In industries where physical infrastructure, operational continuity, and safety are paramount, AI is becoming a core operating layer. With its sprawling industrial systems and constant stream of operational…",
+      "content": "Artificial intelligence may have captured the public imagination through chatbots and image generators, but some of its most consequential use cases are unfolding far from consumer-facing tools. In industries where physical infrastructure, operational continuity, and safety are paramount, AI is becoming a core operating layer. With its sprawling industrial systems and constant stream of operational data, the energy sector offers a glimpse into what that future could look like. At Woodside Energy, AI adoption did not begin with generative models or enterprise copilots. The company has spent years building predictive analytics, optimization systems, and machine learning tools across exploration, drilling, maintenance, and plant operations. “We’ve always had very large volumes of operational data coming from the equipment and the plants and the assets that we operate,” says the company&#8217;s vice president for digital Andrew Melouney. “Those have created really clear, quite high-value use cases for us.” That long-term investment in infrastructure and governance is now enabling a broader shift toward agentic AI systems that can support complex industrial workflows. Rather than replace human operators, Woodside designs AI systems to augment expertise in high-stakes environments. A prime example is its “Startup Advisor,” an AI copilot that helps operators manage the complex process of starting liquefied natural gas (LNG) plants. “We’re really thinking about, how does it support the people in the organization in terms of empowering them to make better decisions, to make faster decisions,” Melouney explains. The company’s approach reflects a wider evolution taking place across industrial AI: graduating from isolated experiments to enterprise-wide systems built on standardized platforms, governed data, and repeatable deployment patterns. That transition, Melouney argues, requires organizations to rethink both their technology stacks and how work itself gets done. “We’re not just bolting AI onto an existing process,” he says. “We’re deeply thinking about how that work needs to be reimagined.” Melouney&#8217;s motto has become: “Think big, prototype small, and scale fast.&#8221; As AI systems become more autonomous and interconnected, the companies poised to succeed may be those that spent years building the operational foundations beneath the hype. &#8220;Our ambition is really for an autonomous enterprise, where we have agents with agency that are able to really deeply interact with our core workflows,&#8221; says Melouney. This episode of Business Lab is produced in partnership with Infosys. Full Transcript: Megan Tatum: From MIT Technology Review, I&#8217;m Megan Tatum, and this is Business Lab, the show that helps business leaders make sense of new technologies coming out of the lab and into the marketplace. This episode is produced in partnership with Infosys. Now, when people think about artificial intelligence, they often picture chatbots or prod...",
+      "url": "https://www.technologyreview.com/2026/07/02/1138433/teaching-ai-to-run-with-the-turbines/",
+      "sourceName": "MIT Technology Review AI",
+      "sourceUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-07-02T12:51:44.000Z",
+      "collectedAt": "2026-07-06T03:26:19.441Z",
+      "language": "en",
+      "authors": [
+        "MIT Technology Review Insights"
+      ],
+      "rawTags": [
+        "Artificial intelligence",
+        "Infosys Content",
+        "sponsored"
+      ]
+    },
+    {
+      "id": "3a8bc694f90308e7",
+      "title": "How ChatGPT adoption has expanded",
+      "summary": "New OpenAI Signals data shows how ChatGPT adoption is growing globally, with users increasing usage, exploring more capabilities, and driving growth across regions and languages.",
+      "content": "New OpenAI Signals data shows how ChatGPT adoption is growing globally, with users increasing usage, exploring more capabilities, and driving growth across regions and languages.",
+      "url": "https://openai.com/index/how-chatgpt-adoption-has-expanded",
+      "sourceName": "OpenAI News",
+      "sourceUrl": "https://openai.com/news/rss.xml",
+      "sourceType": "official",
+      "publishedAt": "2026-06-30T09:00:00.000Z",
+      "collectedAt": "2026-07-06T03:26:22.364Z",
+      "language": "en",
+      "authors": [],
+      "rawTags": [
+        "Global Affairs"
+      ]
+    },
+    {
+      "id": "edffe261ac48630b",
+      "title": "Introducing GeneBench-Pro",
+      "summary": "Introducing GeneBench-Pro, a new benchmark testing AI performance in genomics, biology, and scientific research using complex, real-world datasets.",
+      "content": "Introducing GeneBench-Pro, a new benchmark testing AI performance in genomics, biology, and scientific research using complex, real-world datasets.",
+      "url": "https://openai.com/index/introducing-genebench-pro",
+      "sourceName": "OpenAI News",
+      "sourceUrl": "https://openai.com/news/rss.xml",
+      "sourceType": "official",
+      "publishedAt": "2026-06-30T00:00:00.000Z",
+      "collectedAt": "2026-07-06T03:26:22.364Z",
+      "language": "en",
+      "authors": [],
+      "rawTags": [
+        "Research"
+      ]
+    },
+    {
+      "id": "64e893ac93f36446",
+      "title": "Google just redesigned the search box for the first time in 25 years — here’s why it matters more than you think.",
+      "summary": "For a quarter century, the Google search box has been one of the most recognizable interfaces in computing: a thin white rectangle, a blinking cursor, a few typed words, and a list of blue links. On Tuesday, Google will formally retire that paradigm. At its annual I/O developer conference, Google announced a sweeping redesign of the search box itself — the literal text field where billions of queries begin every day — transforming it from a simple keyword input into a dynamic, AI-driven conversation starter that can accept text, images, PDFs, videos, and even open Chrome tabs as inputs. The company is also merging its AI Overviews and AI Mode features into a single, seamless search flow, eliminating the friction that previously forced users to choose between a traditional results page and an AI-forward experience. Liz Reid, Google's vice president and head of Search, called it \"the biggest upgrade to our iconic search box since its debut over 25 years ago\" during a press briefing on Monday. The announcement arrived alongside a blizzard of other news — new Gemini models, a personal AI agent called Spark, an intelligent shopping cart, a reimagined developer platform — but the search...",
+      "content": "For a quarter century, the Google search box has been one of the most recognizable interfaces in computing: a thin white rectangle, a blinking cursor, a few typed words, and a list of blue links. On Tuesday, Google will formally retire that paradigm. At its annual I/O developer conference , Google announced a sweeping redesign of the search box itself — the literal text field where billions of queries begin every day — transforming it from a simple keyword input into a dynamic, AI-driven conversation starter that can accept text, images, PDFs, videos, and even open Chrome tabs as inputs. The company is also merging its AI Overviews and AI Mode features into a single, seamless search flow, eliminating the friction that previously forced users to choose between a traditional results page and an AI-forward experience. Liz Reid, Google&#x27;s vice president and head of Search, called it \"the biggest upgrade to our iconic search box since its debut over 25 years ago\" during a press briefing on Monday. The announcement arrived alongside a blizzard of other news — new Gemini models , a personal AI agent called Spark , an intelligent shopping cart , a reimagined developer platform — but the search box redesign may prove to be the most consequential. It is the clearest signal yet that Google views the future of its flagship product not as a place where users type fragmented keywords, but as an interface where they hold open-ended, multimodal conversations with an AI system backed by the entire web. The new search box expands, accepts files, and coaches you on what to ask The changes show a fundamental shift in how Google expects people to interact with the product that generates the vast majority of Alphabet&#x27;s revenue. The box itself now dynamically expands to accommodate longer, more conversational queries. Where the old interface subtly encouraged brevity — a narrow field suited to two- or three-word keyword strings — the new design invites users to fully articulate complex questions in granular detail. It also now supports multimodal inputs directly. Users can upload images, PDFs, files, and videos, or drag in content from Chrome tabs, right from the main search interface. Previously, some of these capabilities existed in AI Mode, but reaching them required extra steps. Now they sit at the primary entry point. Google is also deploying what it describes as an AI-powered query suggestion system that \"goes beyond autocomplete.\" Rather than simply predicting the next word a user might type based on popular searches, the system helps users formulate complex, nuanced queries — essentially coaching them toward the kind of detailed questions that AI Mode handles best. The new search box is starting to roll out immediately in all countries and languages where AI Mode is available. Google is merging AI overviews and AI mode into one seamless experience Perhaps more significant than the box itself is the architectural change happening behind it. Google is u...",
+      "url": "https://venturebeat.com/technology/google-just-redesigned-the-search-box-for-the-first-time-in-25-years-heres-why-it-matters-more-than-you-think",
+      "sourceName": "VentureBeat AI",
+      "sourceUrl": "https://venturebeat.com/category/ai/feed/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-05-19T17:45:00.000Z",
+      "collectedAt": "2026-07-06T03:26:19.101Z",
+      "language": "en",
+      "authors": [
+        "michael.nunez@venturebeat.com (Michael Nuñez)",
+        "michael.nunez@venturebeat.com (Michael Nuñez)"
+      ],
+      "rawTags": [
+        "Technology",
+        "Infrastructure",
+        "Business",
+        "AI"
+      ]
+    },
+    {
+      "id": "dbc9a46701955c3d",
+      "title": "Railway secures $100 million to challenge AWS with AI-native cloud infrastructure",
+      "summary": "Railway, a San Francisco-based cloud platform that has quietly amassed two million developers without spending a dollar on marketing, announced Thursday that it raised $100 million in a Series B funding round, as surging demand for artificial intelligence applications exposes the limitations of legacy cloud infrastructure. TQ Ventures led the round, with participation from FPV Ventures, Redpoint, and Unusual Ventures. The investment values Railway as one of the most significant infrastructure startups to emerge during the AI boom, capitalizing on developer frustration with the complexity and cost of traditional platforms like Amazon Web Services and Google Cloud. \"As AI models get better at writing code, more and more people are asking the age-old question: where, and how, do I run my applications?\" said Jake Cooper, Railway's 28-year-old founder and chief executive, in an exclusive interview with VentureBeat. \"The last generation of cloud primitives were slow and outdated, and now with AI moving everything faster, teams simply can't keep up.\" The funding is a dramatic acceleration for a company that has charted an unconventional path through the cloud computing industry. Railway...",
+      "content": "Railway , a San Francisco-based cloud platform that has quietly amassed two million developers without spending a dollar on marketing, announced Thursday that it raised $100 million in a Series B funding round, as surging demand for artificial intelligence applications exposes the limitations of legacy cloud infrastructure. TQ Ventures led the round, with participation from FPV Ventures , Redpoint , and Unusual Ventures . The investment values Railway as one of the most significant infrastructure startups to emerge during the AI boom, capitalizing on developer frustration with the complexity and cost of traditional platforms like Amazon Web Services and Google Cloud . \"As AI models get better at writing code, more and more people are asking the age-old question: where, and how, do I run my applications?\" said Jake Cooper, Railway&#x27;s 28-year-old founder and chief executive, in an exclusive interview with VentureBeat. \"The last generation of cloud primitives were slow and outdated, and now with AI moving everything faster, teams simply can&#x27;t keep up.\" The funding is a dramatic acceleration for a company that has charted an unconventional path through the cloud computing industry. Railway raised just $24 million in total before this round, including a $20 million Series A from Redpoint in 2022. The company now processes more than 10 million deployments monthly and handles over one trillion requests through its edge network — metrics that rival far larger and better-funded competitors. Why three-minute deploy times have become unacceptable in the age of AI coding assistants Railway&#x27;s pitch rests on a simple observation: the tools developers use to deploy and manage software were designed for a slower era. A standard build-and-deploy cycle using Terraform , the industry-standard infrastructure tool, takes two to three minutes. That delay, once tolerable, has become a critical bottleneck as AI coding assistants like Claude , ChatGPT , and Cursor can generate working code in seconds. \"When godly intelligence is on tap and can solve any problem in three seconds, those amalgamations of systems become bottlenecks,\" Cooper told VentureBeat. \"What was really cool for humans to deploy in 10 seconds or less is now table stakes for agents.\" The company claims its platform delivers deployments in under one second — fast enough to keep pace with AI-generated code. Customers report a tenfold increase in developer velocity and up to 65 percent cost savings compared to traditional cloud providers. These numbers come directly from enterprise clients, not internal benchmarks. Daniel Lobaton, chief technology officer at G2X, a platform serving 100,000 federal contractors, measured deployment speed improvements of seven times faster and an 87 percent cost reduction after migrating to Railway. His infrastructure bill dropped from $15,000 per month to approximately $1,000. \"The work that used to take me a week on our previous infrastructure, I can do in Rai...",
+      "url": "https://venturebeat.com/infrastructure/railway-secures-usd100-million-to-challenge-aws-with-ai-native-cloud",
+      "sourceName": "VentureBeat AI",
+      "sourceUrl": "https://venturebeat.com/category/ai/feed/",
+      "sourceType": "tech_media",
+      "publishedAt": "2026-01-22T14:00:00.000Z",
+      "collectedAt": "2026-07-06T03:26:19.101Z",
+      "language": "en",
+      "authors": [
+        "michael.nunez@venturebeat.com (Michael Nuñez)",
+        "michael.nunez@venturebeat.com (Michael Nuñez)"
+      ],
+      "rawTags": [
+        "Infrastructure",
+        "AI"
+      ]
+    }
+  ]
+}

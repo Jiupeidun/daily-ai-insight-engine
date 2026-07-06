@@ -1,0 +1,1872 @@
+{
+  "id": "7513ed2f0ee36d30",
+  "title": "AI 舆情分析日报",
+  "generatedAt": "2026-07-06T03:30:48.192Z",
+  "coverageWindow": {
+    "start": "2026-01-22T14:00:00.000Z",
+    "end": "2026-07-06T03:25:24.000Z"
+  },
+  "sourceStats": {
+    "rawCount": 18,
+    "structuredCount": 18,
+    "sourceCount": 8,
+    "languageMix": {
+      "zh": 1,
+      "en": 13,
+      "mixed": 4
+    },
+    "sourceTypeMix": {
+      "tech_media": 14,
+      "official": 2,
+      "research": 0,
+      "developer": 0,
+      "aggregator": 2,
+      "social": 0
+    }
+  },
+  "schemaRationale": [
+    "The schema separates raw article facts from extracted event judgment so claims remain traceable to sources.",
+    "Taxonomy fields make cross-source aggregation possible; the report can count themes instead of stitching summaries.",
+    "Impact fields encode horizon, stakeholders, risks, and opportunities because a daily report should support decisions.",
+    "Extraction metadata records AI/fallback method, prompt version, validation time, and warnings for auditability."
+  ],
+  "qualityGates": [
+    {
+      "name": "Minimum evidence volume",
+      "status": "pass",
+      "value": "18 structured items",
+      "rationale": "The assignment requires at least 10-20 recent AI-related news or information items."
+    },
+    {
+      "name": "Source diversity",
+      "status": "pass",
+      "value": "8 sources",
+      "rationale": "Multiple source types reduce one-feed bias and make trend judgment more defensible."
+    },
+    {
+      "name": "Structured extraction coverage",
+      "status": "pass",
+      "value": "18/18 items validated",
+      "rationale": "Every item should pass the schema before it can influence the report."
+    },
+    {
+      "name": "Language diversity",
+      "status": "pass",
+      "value": "mixed language signal",
+      "rationale": "The prompt encourages Chinese-English mix where possible; source availability may vary by run."
+    },
+    {
+      "name": "AI extraction resilience",
+      "status": "warn",
+      "value": "18 fallback items",
+      "rationale": "Fallback is intentional: it keeps the pipeline reproducible when model keys or JSON responses fail."
+    },
+    {
+      "name": "Evidence confidence",
+      "status": "pass",
+      "value": "72/100 average confidence",
+      "rationale": "Confidence combines source type and evidence density; low confidence should be visible."
+    }
+  ],
+  "executiveBrief": "今日 AI 信息流的主轴集中在 Product launches、Frontier models、Developer tools。高分事件包括 「Teaching AI to run with the turbines」、「How ChatGPT adoption has expanded」、「Introducing GeneBench-Pro」。整体判断：市场注意力仍在从单点模型能力扩散到产品化、算力约束、企业采用和治理问题；真正值得跟踪的不是单篇新闻的热度，而是这些信号是否在同一价值链上互相强化。",
+  "topEvents": [
+    {
+      "rank": 1,
+      "articleId": "0117236229ee1d29",
+      "title": "Teaching AI to run with the turbines",
+      "score": 100,
+      "whyImportant": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+      "evidence": "Artificial intelligence may have captured the public imagination through chatbots and image generators, but some of its most consequential use cases are unfolding far from consumer-facing tools. In industries where physical infrastructure, operational continu...",
+      "url": "https://www.technologyreview.com/2026/07/02/1138433/teaching-ai-to-run-with-the-turbines/"
+    },
+    {
+      "rank": 2,
+      "articleId": "c8c759e99a5304ad",
+      "title": "How ChatGPT adoption has expanded",
+      "score": 100,
+      "whyImportant": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+      "evidence": "New OpenAI Signals data shows how ChatGPT adoption is growing globally, with users increasing usage, exploring more capabilities, and driving growth across regions and languages.",
+      "url": "https://openai.com/index/how-chatgpt-adoption-has-expanded"
+    },
+    {
+      "rank": 3,
+      "articleId": "baac6aa7b4c9c07c",
+      "title": "Introducing GeneBench-Pro",
+      "score": 100,
+      "whyImportant": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+      "evidence": "Introducing GeneBench-Pro, a new benchmark testing AI performance in genomics, biology, and scientific research using complex, real-world datasets.",
+      "url": "https://openai.com/index/introducing-genebench-pro"
+    },
+    {
+      "rank": 4,
+      "articleId": "c60bf51ff3cc616d",
+      "title": "Google just redesigned the search box for the first time in 25 years — here’s why it matters more than you think.",
+      "score": 100,
+      "whyImportant": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+      "evidence": "For a quarter century, the Google search box has been one of the most recognizable interfaces in computing: a thin white rectangle, a blinking cursor, a few typed words, and a list of blue links. On Tuesday, Google will formally retire that paradigm. At its a...",
+      "url": "https://venturebeat.com/technology/google-just-redesigned-the-search-box-for-the-first-time-in-25-years-heres-why-it-matters-more-than-you-think"
+    },
+    {
+      "rank": 5,
+      "articleId": "52769a51fa1e7aa2",
+      "title": "Railway secures $100 million to challenge AWS with AI-native cloud infrastructure",
+      "score": 100,
+      "whyImportant": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+      "evidence": "Railway, a San Francisco-based cloud platform that has quietly amassed two million developers without spending a dollar on marketing, announced Thursday that it raised $100 million in a Series B funding round, as surging demand for artificial intelligence app...",
+      "url": "https://venturebeat.com/infrastructure/railway-secures-usd100-million-to-challenge-aws-with-ai-native-cloud"
+    }
+  ],
+  "deepDives": [
+    {
+      "articleId": "0117236229ee1d29",
+      "headline": "Teaching AI to run with the turbines",
+      "background": "Artificial intelligence may have captured the public imagination through chatbots and image generators, but some of its most consequential use cases are unfolding far from consumer-facing tools",
+      "impact": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+      "watchNext": "Watch whether MIT and developers convert this signal into measurable adoption, regulation, or platform shifts over the next quarter.",
+      "citedUrls": [
+        "https://www.technologyreview.com/2026/07/02/1138433/teaching-ai-to-run-with-the-turbines/"
+      ]
+    },
+    {
+      "articleId": "c8c759e99a5304ad",
+      "headline": "How ChatGPT adoption has expanded",
+      "background": "New OpenAI Signals data shows how ChatGPT adoption is growing globally, with users increasing usage, exploring more capabilities, and driving growth across regions and languages",
+      "impact": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+      "watchNext": "Watch whether OpenAI and AI product teams convert this signal into measurable adoption, regulation, or platform shifts over the next weeks.",
+      "citedUrls": [
+        "https://openai.com/index/how-chatgpt-adoption-has-expanded"
+      ]
+    },
+    {
+      "articleId": "baac6aa7b4c9c07c",
+      "headline": "Introducing GeneBench-Pro",
+      "background": "Introducing GeneBench-Pro, a new benchmark testing AI performance in genomics, biology, and scientific research using complex, real-world datasets",
+      "impact": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+      "watchNext": "Watch whether AI ecosystem and AI product teams convert this signal into measurable adoption, regulation, or platform shifts over the next today.",
+      "citedUrls": [
+        "https://openai.com/index/introducing-genebench-pro"
+      ]
+    }
+  ],
+  "trendRadar": [
+    {
+      "theme": "product_launch",
+      "intensity": 100,
+      "direction": "up",
+      "rationale": "Product launches appears in 13 validated items with average impact 91."
+    },
+    {
+      "theme": "frontier_model",
+      "intensity": 100,
+      "direction": "up",
+      "rationale": "Frontier models appears in 8 validated items with average impact 93."
+    },
+    {
+      "theme": "developer_tools",
+      "intensity": 100,
+      "direction": "up",
+      "rationale": "Developer tools appears in 7 validated items with average impact 94."
+    },
+    {
+      "theme": "capital_market",
+      "intensity": 100,
+      "direction": "up",
+      "rationale": "Capital markets appears in 4 validated items with average impact 100."
+    },
+    {
+      "theme": "enterprise_adoption",
+      "intensity": 100,
+      "direction": "up",
+      "rationale": "Enterprise adoption appears in 4 validated items with average impact 96."
+    },
+    {
+      "theme": "research",
+      "intensity": 98,
+      "direction": "up",
+      "rationale": "Research appears in 3 validated items with average impact 100."
+    }
+  ],
+  "riskOpportunity": [
+    {
+      "type": "risk",
+      "title": "Model and product velocity may outrun governance readiness",
+      "rationale": "Safety or privacy concerns could slow adoption or trigger scrutiny.",
+      "relatedArticleIds": [
+        "0117236229ee1d29",
+        "c8c759e99a5304ad",
+        "baac6aa7b4c9c07c",
+        "c60bf51ff3cc616d"
+      ]
+    },
+    {
+      "type": "opportunity",
+      "title": "Developer and enterprise workflow layers remain the clearest monetization path",
+      "rationale": "Developer workflow automation can compound quickly through integrations.",
+      "relatedArticleIds": [
+        "0117236229ee1d29",
+        "c8c759e99a5304ad",
+        "baac6aa7b4c9c07c",
+        "c60bf51ff3cc616d"
+      ]
+    }
+  ],
+  "charts": {
+    "topicDistribution": [
+      {
+        "topic": "product_launch",
+        "label": "Product launches",
+        "count": 13,
+        "avgImpact": 91
+      },
+      {
+        "topic": "frontier_model",
+        "label": "Frontier models",
+        "count": 8,
+        "avgImpact": 93
+      },
+      {
+        "topic": "developer_tools",
+        "label": "Developer tools",
+        "count": 7,
+        "avgImpact": 94
+      },
+      {
+        "topic": "capital_market",
+        "label": "Capital markets",
+        "count": 4,
+        "avgImpact": 100
+      },
+      {
+        "topic": "enterprise_adoption",
+        "label": "Enterprise adoption",
+        "count": 4,
+        "avgImpact": 96
+      },
+      {
+        "topic": "research",
+        "label": "Research",
+        "count": 3,
+        "avgImpact": 100
+      },
+      {
+        "topic": "safety_security",
+        "label": "Safety and security",
+        "count": 2,
+        "avgImpact": 92
+      },
+      {
+        "topic": "open_source",
+        "label": "Open source",
+        "count": 2,
+        "avgImpact": 87
+      },
+      {
+        "topic": "ai_infrastructure",
+        "label": "AI infrastructure",
+        "count": 1,
+        "avgImpact": 93
+      }
+    ],
+    "sourceMix": [
+      {
+        "type": "tech_media",
+        "count": 14
+      },
+      {
+        "type": "official",
+        "count": 2
+      },
+      {
+        "type": "aggregator",
+        "count": 2
+      }
+    ],
+    "impactTimeline": [
+      {
+        "date": "2026-01-22",
+        "count": 1,
+        "avgImpact": 100,
+        "maxImpact": 100
+      },
+      {
+        "date": "2026-05-19",
+        "count": 1,
+        "avgImpact": 100,
+        "maxImpact": 100
+      },
+      {
+        "date": "2026-06-30",
+        "count": 2,
+        "avgImpact": 100,
+        "maxImpact": 100
+      },
+      {
+        "date": "2026-07-02",
+        "count": 2,
+        "avgImpact": 100,
+        "maxImpact": 100
+      },
+      {
+        "date": "2026-07-04",
+        "count": 4,
+        "avgImpact": 86,
+        "maxImpact": 90
+      },
+      {
+        "date": "2026-07-05",
+        "count": 2,
+        "avgImpact": 90,
+        "maxImpact": 90
+      },
+      {
+        "date": "2026-07-06",
+        "count": 6,
+        "avgImpact": 88,
+        "maxImpact": 93
+      }
+    ],
+    "signalRadar": [
+      {
+        "signal": "Novelty",
+        "value": 71
+      },
+      {
+        "signal": "Adoption",
+        "value": 49
+      },
+      {
+        "signal": "Technical depth",
+        "value": 49
+      },
+      {
+        "signal": "Regulatory weight",
+        "value": 23
+      },
+      {
+        "signal": "Capital intensity",
+        "value": 33
+      }
+    ],
+    "valueChainMap": [
+      {
+        "valueChain": "application",
+        "count": 12
+      },
+      {
+        "valueChain": "model",
+        "count": 8
+      },
+      {
+        "valueChain": "tooling",
+        "count": 7
+      },
+      {
+        "valueChain": "data",
+        "count": 5
+      },
+      {
+        "valueChain": "market",
+        "count": 3
+      },
+      {
+        "valueChain": "governance",
+        "count": 1
+      },
+      {
+        "valueChain": "compute",
+        "count": 1
+      }
+    ]
+  },
+  "articles": [
+    {
+      "id": "0117236229ee1d29",
+      "rawId": "ce009498e9dc7982",
+      "title": "Teaching AI to run with the turbines",
+      "sourceName": "MIT Technology Review AI",
+      "sourceType": "tech_media",
+      "url": "https://www.technologyreview.com/2026/07/02/1138433/teaching-ai-to-run-with-the-turbines/",
+      "publishedAt": "2026-07-02T12:51:44.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "Artificial intelligence may have captured the public imagination through chatbots and image generators, but some of its most consequential use cases are unfolding far from consumer-facing tools",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "MIT"
+        ],
+        "evidence": "Artificial intelligence may have captured the public imagination through chatbots and image generators, but some of its most consequential use cases are unfolding far from consumer-facing tools. In industries where physical infrastructure, operational continu...",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "frontier_model",
+          "product_launch",
+          "capital_market",
+          "safety_security",
+          "enterprise_adoption",
+          "developer_tools"
+        ],
+        "valueChain": [
+          "model",
+          "data",
+          "application",
+          "tooling",
+          "governance",
+          "market"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 100,
+        "horizon": "quarter",
+        "stakeholders": [
+          "MIT",
+          "developers",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Safety or privacy concerns could slow adoption or trigger scrutiny."
+        ],
+        "opportunities": [
+          "Developer workflow automation can compound quickly through integrations.",
+          "Enterprise buyers may convert experimentation into budgeted workflows."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "MIT"
+        ],
+        "products": [
+          "Copilot"
+        ],
+        "people": [],
+        "geographies": [
+          "US"
+        ]
+      },
+      "signals": {
+        "novelty": 4,
+        "adoption": 4,
+        "technicalDepth": 4,
+        "regulatoryWeight": 4,
+        "capitalIntensity": 4
+      },
+      "sentiment": "mixed",
+      "keywords": [
+        "frontier model",
+        "product launch",
+        "capital market",
+        "safety security",
+        "enterprise adoption",
+        "developer tools",
+        "mit",
+        "teaching"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.191Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "c8c759e99a5304ad",
+      "rawId": "3a8bc694f90308e7",
+      "title": "How ChatGPT adoption has expanded",
+      "sourceName": "OpenAI News",
+      "sourceType": "official",
+      "url": "https://openai.com/index/how-chatgpt-adoption-has-expanded",
+      "publishedAt": "2026-06-30T09:00:00.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "New OpenAI Signals data shows how ChatGPT adoption is growing globally, with users increasing usage, exploring more capabilities, and driving growth across regions and languages",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "OpenAI"
+        ],
+        "evidence": "New OpenAI Signals data shows how ChatGPT adoption is growing globally, with users increasing usage, exploring more capabilities, and driving growth across regions and languages.",
+        "confidence": 0.86
+      },
+      "taxonomy": {
+        "topics": [
+          "frontier_model"
+        ],
+        "valueChain": [
+          "model",
+          "data"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 100,
+        "horizon": "weeks",
+        "stakeholders": [
+          "OpenAI",
+          "AI product teams",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Track follow-up releases and usage data for investable momentum."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "OpenAI"
+        ],
+        "products": [
+          "ChatGPT"
+        ],
+        "people": [],
+        "geographies": [
+          "US"
+        ]
+      },
+      "signals": {
+        "novelty": 4,
+        "adoption": 4,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "frontier model",
+        "openai",
+        "chatgpt",
+        "signals"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.191Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "baac6aa7b4c9c07c",
+      "rawId": "edffe261ac48630b",
+      "title": "Introducing GeneBench-Pro",
+      "sourceName": "OpenAI News",
+      "sourceType": "official",
+      "url": "https://openai.com/index/introducing-genebench-pro",
+      "publishedAt": "2026-06-30T00:00:00.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "Introducing GeneBench-Pro, a new benchmark testing AI performance in genomics, biology, and scientific research using complex, real-world datasets",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "AI ecosystem"
+        ],
+        "evidence": "Introducing GeneBench-Pro, a new benchmark testing AI performance in genomics, biology, and scientific research using complex, real-world datasets.",
+        "confidence": 0.86
+      },
+      "taxonomy": {
+        "topics": [
+          "research"
+        ],
+        "valueChain": [
+          "data"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 100,
+        "horizon": "today",
+        "stakeholders": [
+          "AI ecosystem",
+          "AI product teams",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Research signal can become product differentiation if validated in benchmarks."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "AI ecosystem"
+        ],
+        "products": [],
+        "people": [],
+        "geographies": [
+          "US"
+        ]
+      },
+      "signals": {
+        "novelty": 4,
+        "adoption": 2,
+        "technicalDepth": 4,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "research",
+        "introducing",
+        "genebench-pro"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.191Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "c60bf51ff3cc616d",
+      "rawId": "64e893ac93f36446",
+      "title": "Google just redesigned the search box for the first time in 25 years — here’s why it matters more than you think.",
+      "sourceName": "VentureBeat AI",
+      "sourceType": "tech_media",
+      "url": "https://venturebeat.com/technology/google-just-redesigned-the-search-box-for-the-first-time-in-25-years-heres-why-it-matters-more-than-you-think",
+      "publishedAt": "2026-05-19T17:45:00.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "For a quarter century, the Google search box has been one of the most recognizable interfaces in computing: a thin white rectangle, a blinking cursor, a few typed words, and a list of blue links",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "Google"
+        ],
+        "evidence": "For a quarter century, the Google search box has been one of the most recognizable interfaces in computing: a thin white rectangle, a blinking cursor, a few typed words, and a list of blue links. On Tuesday, Google will formally retire that paradigm. At its a...",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "frontier_model",
+          "product_launch",
+          "capital_market",
+          "developer_tools"
+        ],
+        "valueChain": [
+          "model",
+          "application",
+          "tooling",
+          "market"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 100,
+        "horizon": "weeks",
+        "stakeholders": [
+          "Google",
+          "developers",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Developer workflow automation can compound quickly through integrations."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "Google"
+        ],
+        "products": [
+          "Gemini"
+        ],
+        "people": [],
+        "geographies": [
+          "US"
+        ]
+      },
+      "signals": {
+        "novelty": 4,
+        "adoption": 4,
+        "technicalDepth": 4,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "frontier model",
+        "product launch",
+        "capital market",
+        "developer tools",
+        "google",
+        "tuesday",
+        "ai-driven",
+        "pdfs"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.192Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "52769a51fa1e7aa2",
+      "rawId": "dbc9a46701955c3d",
+      "title": "Railway secures $100 million to challenge AWS with AI-native cloud infrastructure",
+      "sourceName": "VentureBeat AI",
+      "sourceType": "tech_media",
+      "url": "https://venturebeat.com/infrastructure/railway-secures-usd100-million-to-challenge-aws-with-ai-native-cloud",
+      "publishedAt": "2026-01-22T14:00:00.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "Railway, a San Francisco-based cloud platform that has quietly amassed two million developers without spending a dollar on marketing, announced Thursday that it raised $100 million in a Series B funding round, as surgin...",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "Google",
+          "Amazon",
+          "MIT",
+          "VentureBeat"
+        ],
+        "evidence": "Railway, a San Francisco-based cloud platform that has quietly amassed two million developers without spending a dollar on marketing, announced Thursday that it raised $100 million in a Series B funding round, as surging demand for artificial intelligence app...",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "frontier_model",
+          "product_launch",
+          "research",
+          "capital_market",
+          "enterprise_adoption",
+          "developer_tools"
+        ],
+        "valueChain": [
+          "model",
+          "application",
+          "tooling",
+          "market"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 100,
+        "horizon": "weeks",
+        "stakeholders": [
+          "Google",
+          "Amazon",
+          "MIT",
+          "VentureBeat",
+          "developers",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Developer workflow automation can compound quickly through integrations.",
+          "Enterprise buyers may convert experimentation into budgeted workflows.",
+          "Research signal can become product differentiation if validated in benchmarks."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "Google",
+          "Amazon",
+          "MIT",
+          "VentureBeat"
+        ],
+        "products": [
+          "ChatGPT",
+          "Claude"
+        ],
+        "people": [],
+        "geographies": [
+          "US"
+        ]
+      },
+      "signals": {
+        "novelty": 3,
+        "adoption": 4,
+        "technicalDepth": 4,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 4
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "frontier model",
+        "product launch",
+        "research",
+        "capital market",
+        "enterprise adoption",
+        "developer tools",
+        "google",
+        "amazon"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.192Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "42c1bc2e34c7fd19",
+      "rawId": "423a91d13460f31c",
+      "title": "Achieving operational excellence with AI",
+      "sourceName": "MIT Technology Review AI",
+      "sourceType": "tech_media",
+      "url": "https://www.technologyreview.com/2026/07/02/1140045/achieving-operational-excellence-with-ai/",
+      "publishedAt": "2026-07-02T15:37:08.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "Frameworks like Lean Six Sigma and business process management (BPM) first gained traction because they promised clarity in the chaos—a structured way to bring order to messy, sprawling operations",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "MIT"
+        ],
+        "evidence": "Frameworks like Lean Six Sigma and business process management (BPM) first gained traction because they promised clarity in the chaos—a structured way to bring order to messy, sprawling operations. Lean Six Sigma emphasized statistical rigor and quality contr...",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "product_launch",
+          "research",
+          "capital_market",
+          "enterprise_adoption",
+          "developer_tools"
+        ],
+        "valueChain": [
+          "data",
+          "tooling"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 99,
+        "horizon": "today",
+        "stakeholders": [
+          "MIT",
+          "developers",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Developer workflow automation can compound quickly through integrations.",
+          "Enterprise buyers may convert experimentation into budgeted workflows.",
+          "Research signal can become product differentiation if validated in benchmarks."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "MIT"
+        ],
+        "products": [],
+        "people": [],
+        "geographies": [
+          "US"
+        ]
+      },
+      "signals": {
+        "novelty": 4,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 4
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "product launch",
+        "research",
+        "capital market",
+        "enterprise adoption",
+        "developer tools",
+        "mit",
+        "achieving",
+        "frameworks"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.190Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "e33441226d163fe7",
+      "rawId": "074c0a73a3b60655",
+      "title": "日本 TURING 目标最早 2028 年推出基于 AMD 硬件的 Robotaxi 软件",
+      "sourceName": "IT之家",
+      "sourceType": "tech_media",
+      "url": "https://www.ithome.com/0/972/938.htm",
+      "publishedAt": "2026-07-06T02:58:04.000Z",
+      "language": "mixed",
+      "canonicalEvent": {
+        "whatHappened": "IT之家 7 月 6 日消息，日本智驾技术初创企业 TURING 当地时间今日宣布完成 7900 万美元的延展融资，使其 A 轮融资总额达到 1",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "Nvidia"
+        ],
+        "evidence": "IT之家 7 月 6 日消息，日本智驾技术初创企业 TURING 当地时间今日宣布完成 7900 万美元的延展融资，使其 A 轮融资总额达到 1.74 亿美元（现汇率约合 11.81 亿元人民币）。 IT之家注意到，TURING 的 A 轮延展融资由三菱日联提供的 3600 万美元信贷额度和来自 AMD Ventures、三菱商事、三菱日联、Supermicro 等的 4300 万美元股权融资组成。 据彭博社报道，TURING 已于 2025 年在东京郊区进行了时长 30 分钟的首次自动驾驶测试，后续又在日本多个...",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "ai_infrastructure"
+        ],
+        "valueChain": [
+          "compute"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 93,
+        "horizon": "today",
+        "stakeholders": [
+          "Nvidia",
+          "AI product teams",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Compute supply, cost, or latency may constrain scale."
+        ],
+        "opportunities": [
+          "Infrastructure improvements can lower inference cost and unlock new usage."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "Nvidia"
+        ],
+        "products": [],
+        "people": [],
+        "geographies": []
+      },
+      "signals": {
+        "novelty": 3,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 4
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "ai infrastructure",
+        "nvidia",
+        "turing",
+        "robotaxi",
+        "ventures",
+        "supermicro"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.186Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "a3bf966aa2319b9e",
+      "rawId": "abf7faf0fae0ced5",
+      "title": "How AI Poisons Creativity [video]",
+      "sourceName": "Hacker News AI Search",
+      "sourceType": "aggregator",
+      "url": "https://www.youtube.com/watch?v=WeCSzEtZcUw",
+      "publishedAt": "2026-07-06T03:25:24.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "Article URL: https://www",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "AI ecosystem"
+        ],
+        "evidence": "Article URL: https://www.youtube.com/watch?v=WeCSzEtZcUw Comments URL: https://news.ycombinator.com/item?id=48800326 Points: 1 # Comments: 0",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "product_launch"
+        ],
+        "valueChain": [
+          "application"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 90,
+        "horizon": "today",
+        "stakeholders": [
+          "AI ecosystem",
+          "AI product teams",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Track follow-up releases and usage data for investable momentum."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "AI ecosystem"
+        ],
+        "products": [],
+        "people": [],
+        "geographies": []
+      },
+      "signals": {
+        "novelty": 4,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "product launch",
+        "poisons",
+        "creativity",
+        "article",
+        "wecszetzcuw",
+        "comments",
+        "points"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.183Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "944a02f4cb480067",
+      "rawId": "c512fde2ca518a58",
+      "title": "Cewsco – a multimodal AI assistant powered by Dravik",
+      "sourceName": "Hacker News AI Search",
+      "sourceType": "aggregator",
+      "url": "https://cewsco.com/",
+      "publishedAt": "2026-07-06T03:20:43.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "Article URL: https://cewsco",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "AI ecosystem"
+        ],
+        "evidence": "Article URL: https://cewsco.com/ Comments URL: https://news.ycombinator.com/item?id=48800302 Points: 1 # Comments: 0",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "product_launch"
+        ],
+        "valueChain": [
+          "application"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 90,
+        "horizon": "today",
+        "stakeholders": [
+          "AI ecosystem",
+          "AI product teams",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Track follow-up releases and usage data for investable momentum."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "AI ecosystem"
+        ],
+        "products": [],
+        "people": [],
+        "geographies": []
+      },
+      "signals": {
+        "novelty": 4,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "product launch",
+        "cewsco",
+        "dravik",
+        "article",
+        "comments",
+        "points"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.186Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "4e4b28d7edd1229c",
+      "rawId": "3f3788dd8afae74d",
+      "title": "Claude Code and Fable 5 ported the 2003 PC game Command & Conquer to native iOS in \"a few hours\"",
+      "sourceName": "The Decoder",
+      "sourceType": "tech_media",
+      "url": "https://the-decoder.com/claude-code-and-fable-5-ported-the-2003-pc-game-command-conquer-to-native-ios-in-a-few-hours/",
+      "publishedAt": "2026-07-05T15:58:56.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "A Google Deepmind developer ported the 2003 real-time strategy game \"Command & Conquer: Generals Zero Hour\" to iPhone and iPad using Anthropic's Claude Code",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "Anthropic",
+          "Google",
+          "DeepMind",
+          "GitHub"
+        ],
+        "evidence": "A Google Deepmind developer ported the 2003 real-time strategy game \"Command & Conquer: Generals Zero Hour\" to iPhone and iPad using Anthropic's Claude Code. The first build took 40 minutes. The full source code is on GitHub. The article Claude Code and Fable...",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "frontier_model",
+          "product_launch",
+          "open_source",
+          "developer_tools"
+        ],
+        "valueChain": [
+          "model",
+          "application",
+          "tooling"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 90,
+        "horizon": "today",
+        "stakeholders": [
+          "Anthropic",
+          "Google",
+          "DeepMind",
+          "GitHub",
+          "developers",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Open release may create governance and misuse tradeoffs."
+        ],
+        "opportunities": [
+          "Developer workflow automation can compound quickly through integrations."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "Anthropic",
+          "Google",
+          "DeepMind",
+          "GitHub"
+        ],
+        "products": [
+          "Claude"
+        ],
+        "people": [],
+        "geographies": [
+          "US"
+        ]
+      },
+      "signals": {
+        "novelty": 4,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "frontier model",
+        "product launch",
+        "open source",
+        "developer tools",
+        "anthropic",
+        "google",
+        "deepmind",
+        "github"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.187Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "b02edeaeaa314403",
+      "rawId": "e4b5b6a3e8fa51d5",
+      "title": "AI private schools sell wealthy US families on personalized learning over traditional education",
+      "sourceName": "The Decoder",
+      "sourceType": "tech_media",
+      "url": "https://the-decoder.com/ai-private-schools-sell-wealthy-us-families-on-personalized-learning-over-traditional-education/",
+      "publishedAt": "2026-07-05T10:45:46.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "Wealthy US families are increasingly sending their kids to AI schools like Alpha School, which combines two hours of AI tutoring with project-based workshops for up to $75,000 a year in tuition",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "AI ecosystem"
+        ],
+        "evidence": "Wealthy US families are increasingly sending their kids to AI schools like Alpha School, which combines two hours of AI tutoring with project-based workshops for up to $75,000 a year in tuition. The trend highlights a growing education gap in the AI era, wher...",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "product_launch"
+        ],
+        "valueChain": [
+          "application"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 90,
+        "horizon": "today",
+        "stakeholders": [
+          "AI ecosystem",
+          "AI product teams",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Track follow-up releases and usage data for investable momentum."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "AI ecosystem"
+        ],
+        "products": [],
+        "people": [],
+        "geographies": [
+          "US"
+        ]
+      },
+      "signals": {
+        "novelty": 4,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "product launch",
+        "wealthy",
+        "alpha",
+        "school",
+        "decoder"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.187Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "59e3d7286da40dc4",
+      "rawId": "1368b74237d8ed1f",
+      "title": "New Google commercial imagines a Declaration of Independence written with help from AI",
+      "sourceName": "TechCrunch AI",
+      "sourceType": "tech_media",
+      "url": "https://techcrunch.com/2026/07/04/new-google-commercial-imagines-a-declaration-of-independence-written-with-help-from-ai/",
+      "publishedAt": "2026-07-04T20:55:25.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "Two hundred and fifty years after the signing of the Declaration of Independence, a new commercial asks: What if the Founding Fathers had access to Google Workspace",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "Google"
+        ],
+        "evidence": "Two hundred and fifty years after the signing of the Declaration of Independence, a new commercial asks: What if the Founding Fathers had access to Google Workspace?",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "product_launch"
+        ],
+        "valueChain": [
+          "application"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 90,
+        "horizon": "today",
+        "stakeholders": [
+          "Google",
+          "AI product teams",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Track follow-up releases and usage data for investable momentum."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "Google"
+        ],
+        "products": [],
+        "people": [],
+        "geographies": []
+      },
+      "signals": {
+        "novelty": 4,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "product launch",
+        "google",
+        "declaration",
+        "independence",
+        "what",
+        "founding",
+        "fathers",
+        "workspace"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.188Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "dae9e10572a97ac3",
+      "rawId": "40fe311b5b2cbb23",
+      "title": "小鹏 MONA L03 汽车官宣 7 月 10 日起开放试驾，预售版本均配备高阶智能辅助驾驶",
+      "sourceName": "IT之家",
+      "sourceType": "tech_media",
+      "url": "https://www.ithome.com/0/972/935.htm",
+      "publishedAt": "2026-07-06T02:55:51.000Z",
+      "language": "mixed",
+      "canonicalEvent": {
+        "whatHappened": "IT之家 7 月 6 日消息，小鹏集团董事长、CEO 何小鹏今日发文宣布，MONA L03 中国首秀刚过去一个周末，首周末门店客流创下 2026 年新高",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "AI ecosystem"
+        ],
+        "evidence": "IT之家 7 月 6 日消息，小鹏集团董事长、CEO 何小鹏今日发文宣布，MONA L03 中国首秀刚过去一个周末，首周末门店客流创下 2026 年新高。 何小鹏还提前公布了一则消息：7 月 10 日起，全国门店将陆续开放试驾。他表示，MONA L03 从底盘操控、细节用料到安全标准，都是对标 30 万级车型研发，预售的版本都配备了高阶智能辅助驾驶。 据IT之家此前报道，在 7 月 2 日晚的 MONA L03 中国首秀活动上，小鹏正式公布了 MONA L03 的预售价，14.38 万元起。新车将于 7 月 16...",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "product_launch"
+        ],
+        "valueChain": [
+          "application"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 84,
+        "horizon": "today",
+        "stakeholders": [
+          "AI ecosystem",
+          "AI product teams",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Track follow-up releases and usage data for investable momentum."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "AI ecosystem"
+        ],
+        "products": [],
+        "people": [],
+        "geographies": []
+      },
+      "signals": {
+        "novelty": 3,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "product launch",
+        "mona"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.186Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "ef537c4b52a8ebc6",
+      "rawId": "5cf785277e6fe87a",
+      "title": "上汽名爵 MG 07 官宣 7 月 29 日预售：首搭 Momenta R7 世界模型，定位“年轻人的智能纯血轿跑”",
+      "sourceName": "IT之家",
+      "sourceType": "tech_media",
+      "url": "https://www.ithome.com/0/972/930.htm",
+      "publishedAt": "2026-07-06T02:50:08.000Z",
+      "language": "zh",
+      "canonicalEvent": {
+        "whatHappened": "IT之家 7 月 6 日消息，上汽 MG 今日宣布，上汽名爵 MG 07 将在 7 月 29 日开启预售，新车定位“年轻人的智能纯血轿跑”",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "AI ecosystem"
+        ],
+        "evidence": "IT之家 7 月 6 日消息，上汽 MG 今日宣布，上汽名爵 MG 07 将在 7 月 29 日开启预售，新车定位“年轻人的智能纯血轿跑”。 据介绍，新车尺寸为 4886×1900×1485mm、轴距 2825mm，前脸采用一体冲压蚌式机盖 + 曲面切割悬浮前大灯组设计，尾部采用掀背式溜背造型设计，配备四门无框车门和五档可调电动尾翼，可选 19 英寸星环引力轮毂和 19 英寸银石竞速轮毂。 上汽名爵 MG 07 内饰可选白紫罗兰和皇家蓝两种配色，拥有 168L KK 自动开合前备箱、697L 电动后备厢，以及 1...",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "product_launch"
+        ],
+        "valueChain": [
+          "application"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 84,
+        "horizon": "today",
+        "stakeholders": [
+          "AI ecosystem",
+          "AI product teams",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Track follow-up releases and usage data for investable momentum."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "AI ecosystem"
+        ],
+        "products": [],
+        "people": [],
+        "geographies": []
+      },
+      "signals": {
+        "novelty": 3,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "product launch",
+        "momenta",
+        "moli",
+        "xheart"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.186Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "058d8fe03056c506",
+      "rawId": "f6e849964a0adb25",
+      "title": "AI 砍掉的第一批大厂人：高薪，高绩效，高P｜深氪",
+      "sourceName": "36Kr",
+      "sourceType": "tech_media",
+      "url": "https://36kr.com/p/3883456791163138?f=rss",
+      "publishedAt": "2026-07-06T02:26:34.000Z",
+      "language": "mixed",
+      "canonicalEvent": {
+        "whatHappened": "访谈｜任彩茹 兰杰 彭倩 文｜任彩茹 编辑｜乔芊 杨轩 “630”减员，AI是祸首还是替罪羊",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "Meta"
+        ],
+        "evidence": "访谈｜任彩茹 兰杰 彭倩 文｜任彩茹 编辑｜乔芊 杨轩 “630”减员，AI是祸首还是替罪羊? “现在公司有（减员）名单，你在这里面。”5月中的一天，林越被组长叫进会议室，对方开门见山。 林越的第一反应是平静，他早有预料。早在今年三四月，一些互联网公司内部便传出要裁员的风声。开年以来，中国互联网大公司围绕AI提效激进开展的token竞赛、培训会、隐形考核等，无处不在。当所有人都被卷入一场“all in AI”的运动时，“裁员一定会发生”就是大家心照不宣的共识。 但站在HR门口时，他还是迎来了情绪崩溃的瞬间：手开始...",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "frontier_model",
+          "product_launch",
+          "developer_tools"
+        ],
+        "valueChain": [
+          "model",
+          "application",
+          "tooling"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 84,
+        "horizon": "today",
+        "stakeholders": [
+          "Meta",
+          "developers",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Developer workflow automation can compound quickly through integrations."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "Meta"
+        ],
+        "products": [
+          "ChatGPT"
+        ],
+        "people": [],
+        "geographies": []
+      },
+      "signals": {
+        "novelty": 3,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "frontier model",
+        "product launch",
+        "developer tools",
+        "meta",
+        "canaries",
+        "coal",
+        "mine",
+        "chatgpt"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.187Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "e060e6fc9dbaa017",
+      "rawId": "e14a670566cdbcfa",
+      "title": "Midjourney wants Hollywood studios to reveal the details of their AI usage",
+      "sourceName": "TechCrunch AI",
+      "sourceType": "tech_media",
+      "url": "https://techcrunch.com/2026/07/04/midjourney-wants-hollywood-studios-to-reveal-the-details-of-their-ai-usage/",
+      "publishedAt": "2026-07-04T18:00:05.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "As part of an ongoing legal dispute with three Hollywood studios, Midjourney is seeking to compel those studios to reveal how they use AI themselves",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "AI ecosystem"
+        ],
+        "evidence": "As part of an ongoing legal dispute with three Hollywood studios, Midjourney is seeking to compel those studios to reveal how they use AI themselves.",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "product_launch"
+        ],
+        "valueChain": [
+          "application"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 84,
+        "horizon": "today",
+        "stakeholders": [
+          "AI ecosystem",
+          "AI product teams",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Signal may be overstated until follow-up adoption data appears."
+        ],
+        "opportunities": [
+          "Track follow-up releases and usage data for investable momentum."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "AI ecosystem"
+        ],
+        "products": [],
+        "people": [],
+        "geographies": [
+          "US"
+        ]
+      },
+      "signals": {
+        "novelty": 3,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "product launch",
+        "midjourney",
+        "hollywood"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.188Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "ff95b695cbd8f574",
+      "rawId": "8c409c95695b95d3",
+      "title": "Alibaba reportedly bans employees from using Claude Code",
+      "sourceName": "TechCrunch AI",
+      "sourceType": "tech_media",
+      "url": "https://techcrunch.com/2026/07/04/alibaba-reportedly-bans-employees-from-using-claude-code/",
+      "publishedAt": "2026-07-04T16:32:08.000Z",
+      "language": "en",
+      "canonicalEvent": {
+        "whatHappened": "Alibaba has reportedly classified Claude Code as high-risk software",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "AI ecosystem"
+        ],
+        "evidence": "Alibaba has reportedly classified Claude Code as high-risk software.",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "frontier_model",
+          "safety_security"
+        ],
+        "valueChain": [
+          "model"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 84,
+        "horizon": "today",
+        "stakeholders": [
+          "AI ecosystem",
+          "AI product teams",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Safety or privacy concerns could slow adoption or trigger scrutiny."
+        ],
+        "opportunities": [
+          "Track follow-up releases and usage data for investable momentum."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "AI ecosystem"
+        ],
+        "products": [
+          "Claude"
+        ],
+        "people": [],
+        "geographies": [
+          "US"
+        ]
+      },
+      "signals": {
+        "novelty": 3,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "mixed",
+      "keywords": [
+        "frontier model",
+        "safety security",
+        "alibaba",
+        "claude",
+        "code"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.188Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    },
+    {
+      "id": "5e55cda6f40148ae",
+      "rawId": "506a46ea0aa91464",
+      "title": "9点1氪｜阿里内部全面禁用Claude Code；FF洛杉矶总部人去楼空？公司回应：不实；微软砸25亿美元组建6000人AI新公司",
+      "sourceName": "36Kr",
+      "sourceType": "tech_media",
+      "url": "https://36kr.com/p/3880629882679301?f=rss",
+      "publishedAt": "2026-07-04T01:03:44.000Z",
+      "language": "mixed",
+      "canonicalEvent": {
+        "whatHappened": "今日热点导览 三部门：调整节能汽车、新能源汽车车船税优惠政策 三星传获Meta超10万亿韩元AI芯片代工订单 茉莉奶白小程序更换彩色Logo Meta打算出售富余算力引发科技股回落 英伟达前光互连技术高管Ashkan Seyedi加入艾迈斯欧司朗 TOP3大新闻 因存在植入后门风险，阿里内部全面禁用Claude Code 36氪从阿里内部人士处获悉，因近期Claude Code被曝存在植入后门的安全风险，阿里经综合评估后已将其列入高风...",
+        "whyItMatters": "This item has strong near-term impact because it combines credible source signal with product, market, or technical change.",
+        "affectedActors": [
+          "Anthropic",
+          "Microsoft",
+          "Meta",
+          "GitHub"
+        ],
+        "evidence": "今日热点导览 三部门：调整节能汽车、新能源汽车车船税优惠政策 三星传获Meta超10万亿韩元AI芯片代工订单 茉莉奶白小程序更换彩色Logo Meta打算出售富余算力引发科技股回落 英伟达前光互连技术高管Ashkan Seyedi加入艾迈斯欧司朗 TOP3大新闻 因存在植入后门风险，阿里内部全面禁用Claude Code 36氪从阿里内部人士处获悉，因近期Claude Code被曝存在植入后门的安全风险，阿里经综合评估后已将其列入高风险软件名单。自7月10日起，阿里将全面禁止内部员工在办公环境下使用Claude...",
+        "confidence": 0.7
+      },
+      "taxonomy": {
+        "topics": [
+          "frontier_model",
+          "open_source",
+          "enterprise_adoption",
+          "developer_tools"
+        ],
+        "valueChain": [
+          "model",
+          "data",
+          "tooling"
+        ],
+        "maturity": "mainstream"
+      },
+      "impact": {
+        "score": 84,
+        "horizon": "today",
+        "stakeholders": [
+          "Anthropic",
+          "Microsoft",
+          "Meta",
+          "GitHub",
+          "developers",
+          "enterprise buyers"
+        ],
+        "risks": [
+          "Open release may create governance and misuse tradeoffs."
+        ],
+        "opportunities": [
+          "Developer workflow automation can compound quickly through integrations.",
+          "Enterprise buyers may convert experimentation into budgeted workflows."
+        ]
+      },
+      "entities": {
+        "organizations": [
+          "Anthropic",
+          "Microsoft",
+          "Meta",
+          "GitHub"
+        ],
+        "products": [
+          "Claude",
+          "Copilot"
+        ],
+        "people": [],
+        "geographies": []
+      },
+      "signals": {
+        "novelty": 3,
+        "adoption": 2,
+        "technicalDepth": 2,
+        "regulatoryWeight": 1,
+        "capitalIntensity": 1
+      },
+      "sentiment": "neutral",
+      "keywords": [
+        "frontier model",
+        "open source",
+        "enterprise adoption",
+        "developer tools",
+        "anthropic",
+        "microsoft",
+        "meta",
+        "github"
+      ],
+      "extractionMeta": {
+        "method": "deterministic_fallback",
+        "promptVersion": "extract-news-v1",
+        "validatedAt": "2026-07-06T03:30:48.190Z",
+        "warnings": [
+          "Generated by deterministic extractor because no validated AI response was used."
+        ]
+      }
+    }
+  ],
+  "methodology": [
+    {
+      "step": "Source selection",
+      "detail": "RSS feeds are chosen from official, media, developer, research, and aggregator sources to balance freshness and credibility."
+    },
+    {
+      "step": "Normalize and dedupe",
+      "detail": "HTML is stripped, timestamps are normalized to ISO, URLs are canonicalized, and repeated links are removed before extraction."
+    },
+    {
+      "step": "Batch extraction",
+      "detail": "Articles are processed in small batches; AI output must pass Zod validation or the deterministic extractor takes over."
+    },
+    {
+      "step": "Structured aggregation",
+      "detail": "Daily report sections are generated from validated schema fields, not from raw article text."
+    },
+    {
+      "step": "Quality gates",
+      "detail": "The output exposes source diversity, extraction coverage, language mix, fallback count, and evidence confidence."
+    }
+  ]
+}
