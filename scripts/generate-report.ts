@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { extractArticles, optionsFromEnv } from "../src/lib/insight/extract";
+import { extractArticles, optionsFromEnv, type ExtractionFailure } from "../src/lib/insight/extract";
 import { generateDailyReportWithAiSupport } from "../src/lib/insight/report";
 import {
   DailyReportSchema,
@@ -107,7 +107,11 @@ async function main() {
 
   const rawItems = await readRawItems();
   const options = optionsFromEnv(process.env);
-  const articles = await extractArticles(rawItems, options);
+  const failedRecords: ExtractionFailure[] = [];
+  const articles = await extractArticles(rawItems, {
+    ...options,
+    onFailure: (failure) => failedRecords.push(failure)
+  });
   const report = DailyReportSchema.parse(
     await generateDailyReportWithAiSupport(articles, rawItems.length, options)
   );
@@ -119,6 +123,10 @@ async function main() {
     path.join(PROCESSED_DIR, "structured-news.json"),
     `${JSON.stringify({ generatedAt: new Date().toISOString(), articles }, null, 2)}\n`
   );
+  await writeFile(
+    path.join(PROCESSED_DIR, "failed-records.json"),
+    `${JSON.stringify({ generatedAt: new Date().toISOString(), failedRecords }, null, 2)}\n`
+  );
   await writeFile(path.join(REPORT_DIR, "latest.json"), `${JSON.stringify(report, null, 2)}\n`);
   await writeFile(path.join(REPORT_DIR, "latest.md"), `${reportToMarkdown(report)}\n`);
 
@@ -128,6 +136,7 @@ async function main() {
       provider: options.provider,
       rawItems: rawItems.length,
       structuredItems: articles.length,
+      failedRecords: failedRecords.length,
       report: "data/reports/latest.json"
     })
   );

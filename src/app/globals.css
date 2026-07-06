@@ -487,7 +487,7 @@ h1 {
 }
 
 .panel-column-left {
-  grid-template-rows: 188px minmax(0, 1fr) minmax(0, 0.68fr);
+  grid-template-rows: 188px minmax(0, 1fr) minmax(0, 0.7fr);
 }
 
 .panel-column-main {
@@ -495,7 +495,7 @@ h1 {
 }
 
 .panel-column-right {
-  grid-template-rows: minmax(0, 1fr) minmax(0, 0.74fr) minmax(0, 0.82fr);
+  grid-template-rows: minmax(0, 0.95fr) minmax(0, 0.65fr) minmax(0, 1fr);
 }
 
 .metric-panel {
@@ -559,7 +559,9 @@ h1 {
 
 .scroll-panel,
 .chart-terminal-body,
-.virtual-card-body {
+.virtual-card-body,
+.pipeline-panel,
+.schema-card-body {
   min-height: 0;
 }
 
@@ -570,6 +572,97 @@ h1 {
 
 .compact-scroll {
   padding: 8px;
+}
+
+.pipeline-panel,
+.schema-card-body {
+  overflow: auto;
+  padding: 8px;
+}
+
+.pipeline-flow {
+  display: grid;
+  gap: 7px;
+}
+
+.pipeline-node {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  border: 1px solid var(--terminal-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.026);
+  padding: 7px;
+}
+
+.pipeline-node-index {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 1px solid var(--status-blue-border);
+  border-radius: 7px;
+  background: var(--status-blue-bg);
+  color: var(--terminal-blue);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.pipeline-node strong,
+.schema-field strong {
+  display: block;
+  overflow: hidden;
+  color: var(--terminal-text);
+  font-size: 11px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pipeline-node span,
+.schema-field span {
+  display: block;
+  margin-top: 2px;
+  overflow: hidden;
+  color: var(--terminal-muted);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.schema-panel {
+  display: grid;
+  gap: 8px;
+}
+
+.schema-panel-head {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+  color: var(--terminal-blue);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.schema-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.schema-field {
+  min-width: 0;
+  border: 1px solid var(--terminal-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.026);
+  padding: 7px;
 }
 
 .chart-terminal-body {

@@ -28,7 +28,11 @@ export async function POST() {
   }
 
   const rawItems = RawNewsItemSchema.array().parse((rawNews as { items: unknown }).items);
-  const articles = await extractArticles(rawItems, options);
+  const failedRecords: unknown[] = [];
+  const articles = await extractArticles(rawItems, {
+    ...options,
+    onFailure: (failure) => failedRecords.push(failure)
+  });
   const aiItems = articles.filter((article) => article.extractionMeta.method === "ai").length;
   const report = await generateDailyReportWithAiSupport(articles, rawItems.length, options);
   const synthesisGate = report.qualityGates.find((gate) => gate.name === "AI report synthesis");
@@ -38,6 +42,7 @@ export async function POST() {
       {
         error: "OpenAI report generation did not pass validation.",
         aiItems,
+        failedRecords,
         synthesisStatus: synthesisGate?.status ?? "missing",
         synthesisRationale: synthesisGate?.rationale
       },

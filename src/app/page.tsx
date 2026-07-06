@@ -6,6 +6,7 @@ import {
   CircleAlert,
   Cloud,
   Database,
+  FileJson2,
   ShieldCheck,
   Sparkles
 } from "lucide-react";
@@ -191,26 +192,6 @@ function TopEvents({ report }: { report: DailyReport }) {
   );
 }
 
-function DeepDives({ report }: { report: DailyReport }) {
-  return (
-    <div className="deep-dive-grid">
-      {report.deepDives.map((item) => (
-        <article className="deep-dive" key={item.articleId}>
-          <h3>{item.headline}</h3>
-          <dl>
-            <dt>Background</dt>
-            <dd>{item.background}</dd>
-            <dt>Impact</dt>
-            <dd>{item.impact}</dd>
-            <dt>Watch next</dt>
-            <dd>{item.watchNext}</dd>
-          </dl>
-        </article>
-      ))}
-    </div>
-  );
-}
-
 function TrendRadar({ report }: { report: DailyReport }) {
   return (
     <div className="trend-list">
@@ -230,18 +211,64 @@ function TrendRadar({ report }: { report: DailyReport }) {
   );
 }
 
-function Methodology({ report }: { report: DailyReport }) {
+function ProcessingPipeline() {
+  const steps = [
+    { zh: "原始新闻", en: "Raw News" },
+    { zh: "结构化 JSON", en: "Structured JSON" },
+    { zh: "Schema 校验", en: "Schema Validation" },
+    { zh: "趋势聚合", en: "Trend Aggregation" },
+    { zh: "日报生成", en: "Report" },
+    { zh: "PDF 输出", en: "PDF" }
+  ];
+
   return (
-    <div className="method-grid">
-      {report.methodology.map((item, index) => (
-        <div className="method-step" key={item.step}>
-          <span>{index + 1}</span>
+    <div className="pipeline-flow" aria-label="Processing Pipeline">
+      {steps.map((step, index) => (
+        <div className="pipeline-node" key={step.en}>
+          <div className="pipeline-node-index">{index + 1}</div>
           <div>
-            <h3>{item.step}</h3>
-            <p>{item.detail}</p>
+            <strong>
+              <Bilingual zh={step.zh} en={step.en} />
+            </strong>
+            <span>
+              {index < steps.length - 1 ? (
+                <Bilingual zh="通过校验后进入下一步" en="validated before next step" />
+              ) : (
+                <Bilingual zh="点击按钮实时生成" en="generated on demand" />
+              )}
+            </span>
           </div>
         </div>
       ))}
+    </div>
+  );
+}
+
+function SchemaDesignPanel({ report }: { report: DailyReport }) {
+  const first = report.articles[0];
+  const fields = [
+    ["category", first.category],
+    ["event_type", first.eventType],
+    ["entities", String(first.entities.extracted.length)],
+    ["key_facts", String(first.keyFacts.length)],
+    ["importance", `${first.importanceScore}/5`],
+    ["confidence", first.confidenceScore.toFixed(2)]
+  ];
+
+  return (
+    <div className="schema-panel">
+      <div className="schema-panel-head">
+        <FileJson2 aria-hidden="true" size={15} />
+        <span>NewsInsightSchema</span>
+      </div>
+      <div className="schema-field-grid">
+        {fields.map(([field, value]) => (
+          <div className="schema-field" key={field}>
+            <span>{field}</span>
+            <strong>{value}</strong>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -324,12 +351,12 @@ export default function Home() {
               />
             </TerminalCard>
 
-            <TerminalCard title={<Bilingual zh="质量门" en="Quality Gates" />} bodyClassName="scroll-panel">
-              <QualityGateList report={report} />
+            <TerminalCard title="Processing Pipeline" bodyClassName="pipeline-panel">
+              <ProcessingPipeline />
             </TerminalCard>
 
-            <TerminalCard title={<Bilingual zh="处理流程" en="Pipeline" />} bodyClassName="scroll-panel compact-scroll">
-              <Methodology report={report} />
+            <TerminalCard title={<Bilingual zh="核心 Schema" en="Core Schema" />} bodyClassName="schema-card-body">
+              <SchemaDesignPanel report={report} />
             </TerminalCard>
           </aside>
 
@@ -348,10 +375,10 @@ export default function Home() {
             </TerminalCard>
 
             <TerminalCard
-              title={<Bilingual zh="结构化抽取" en="Structured Extraction" />}
+              title={<Bilingual zh="质量门" en="Quality Gates" />}
               bodyClassName="virtual-card-body"
             >
-              <StructuredExtractionList rows={extractionRows} />
+              <QualityGateList report={report} />
             </TerminalCard>
           </section>
 
@@ -382,8 +409,8 @@ export default function Home() {
               <TrendRadar report={report} />
             </TerminalCard>
 
-            <TerminalCard title={<Bilingual zh="深度分析" en="Deep Dives" />} bodyClassName="scroll-panel compact-scroll">
-              <DeepDives report={report} />
+            <TerminalCard title={<Bilingual zh="结构化抽取" en="Structured Extraction" />} bodyClassName="virtual-card-body">
+              <StructuredExtractionList rows={extractionRows} />
             </TerminalCard>
           </aside>
         </div>

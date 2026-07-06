@@ -9,7 +9,16 @@ export const SourceTypeSchema = z.enum([
   "social"
 ]);
 
+export const InsightSourceTypeSchema = z.enum([
+  "official",
+  "media",
+  "community",
+  "research",
+  "social"
+]);
+
 export const LanguageSchema = z.enum(["zh", "en", "mixed"]);
+export const InsightLanguageSchema = z.enum(["zh", "en", "other"]);
 
 export const TopicSchema = z.enum([
   "frontier_model",
@@ -43,6 +52,37 @@ export const SentimentSchema = z.enum([
   "mixed"
 ]);
 
+export const InsightCategorySchema = z.enum([
+  "model_release",
+  "ai_product",
+  "infrastructure",
+  "research",
+  "policy",
+  "capital",
+  "security",
+  "industry_application"
+]);
+
+export const EntityTypeSchema = z.enum([
+  "company",
+  "model",
+  "product",
+  "person",
+  "organization",
+  "technology"
+]);
+
+export const EventTypeSchema = z.enum([
+  "launch",
+  "upgrade",
+  "partnership",
+  "funding",
+  "regulation",
+  "research_result",
+  "controversy",
+  "market_signal"
+]);
+
 export const RawNewsItemSchema = z.object({
   id: z.string().min(8),
   title: z.string().min(6),
@@ -74,9 +114,16 @@ export const ArticleInsightSchema = z.object({
   title: z.string().min(6),
   sourceName: z.string().min(2),
   sourceType: SourceTypeSchema,
+  sourceTypeNormalized: InsightSourceTypeSchema,
   url: z.string().url(),
   publishedAt: z.string().datetime(),
   language: LanguageSchema,
+  languageNormalized: InsightLanguageSchema,
+  category: InsightCategorySchema,
+  eventType: EventTypeSchema,
+  summary: z.string().min(12),
+  keyFacts: z.array(z.string()).min(1),
+  impactAnalysis: z.string().min(12),
   canonicalEvent: z.object({
     whatHappened: z.string().min(12),
     whyItMatters: z.string().min(12),
@@ -100,7 +147,13 @@ export const ArticleInsightSchema = z.object({
     organizations: z.array(z.string()),
     products: z.array(z.string()),
     people: z.array(z.string()),
-    geographies: z.array(z.string())
+    geographies: z.array(z.string()),
+    extracted: z.array(
+      z.object({
+        name: z.string().min(1),
+        type: EntityTypeSchema
+      })
+    )
   }),
   signals: z.object({
     novelty: z.number().int().min(0).max(5),
@@ -110,6 +163,16 @@ export const ArticleInsightSchema = z.object({
     capitalIntensity: z.number().int().min(0).max(5)
   }),
   sentiment: SentimentSchema,
+  importanceScore: z.number().int().min(1).max(5),
+  confidenceScore: z.number().min(0).max(1),
+  riskSignals: z.array(z.string()),
+  opportunitySignals: z.array(z.string()),
+  evidence: z.array(
+    z.object({
+      field: z.string(),
+      quoteOrReason: z.string()
+    })
+  ),
   keywords: z.array(z.string()).min(2).max(10),
   extractionMeta: z.object({
     method: z.enum(["ai", "deterministic_fallback"]),
@@ -118,6 +181,31 @@ export const ArticleInsightSchema = z.object({
     warnings: z.array(z.string())
   })
 });
+
+export const NewsInsightSchema = ArticleInsightSchema.transform((article) => ({
+  id: article.id,
+  title: article.title,
+  source: article.sourceName,
+  source_type: article.sourceTypeNormalized,
+  url: article.url,
+  published_at: article.publishedAt,
+  language: article.languageNormalized,
+  category: article.category,
+  entities: article.entities.extracted,
+  event_type: article.eventType,
+  summary: article.summary,
+  key_facts: article.keyFacts,
+  impact_analysis: article.impactAnalysis,
+  sentiment: article.sentiment,
+  importance_score: article.importanceScore,
+  confidence_score: article.confidenceScore,
+  risk_signals: article.riskSignals,
+  opportunity_signals: article.opportunitySignals,
+  evidence: article.evidence.map((item) => ({
+    field: item.field,
+    quote_or_reason: item.quoteOrReason
+  }))
+}));
 
 export const QualityGateSchema = z.object({
   name: z.string(),
@@ -203,11 +291,16 @@ export const DailyReportSchema = z.object({
 });
 
 export type SourceType = z.infer<typeof SourceTypeSchema>;
+export type InsightSourceType = z.infer<typeof InsightSourceTypeSchema>;
 export type Language = z.infer<typeof LanguageSchema>;
+export type InsightLanguage = z.infer<typeof InsightLanguageSchema>;
 export type Topic = z.infer<typeof TopicSchema>;
 export type ValueChain = z.infer<typeof ValueChainSchema>;
+export type InsightCategory = z.infer<typeof InsightCategorySchema>;
+export type EventType = z.infer<typeof EventTypeSchema>;
 export type RawNewsItem = z.infer<typeof RawNewsItemSchema>;
 export type SourceManifest = z.infer<typeof SourceManifestSchema>;
 export type ArticleInsight = z.infer<typeof ArticleInsightSchema>;
+export type NewsInsight = z.infer<typeof NewsInsightSchema>;
 export type DailyReport = z.infer<typeof DailyReportSchema>;
 export type QualityGate = z.infer<typeof QualityGateSchema>;

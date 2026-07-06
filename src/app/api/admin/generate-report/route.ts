@@ -33,7 +33,11 @@ export async function POST(request: NextRequest) {
 
   const rawItems = RawNewsItemSchema.array().parse((rawNews as { items: unknown }).items);
   const options = optionsFromEnv(env);
-  const articles = await extractArticles(rawItems, options);
+  const failedRecords: unknown[] = [];
+  const articles = await extractArticles(rawItems, {
+    ...options,
+    onFailure: (failure) => failedRecords.push(failure)
+  });
   const report = await generateDailyReportWithAiSupport(articles, rawItems.length, options);
 
   return NextResponse.json({
@@ -43,6 +47,7 @@ export async function POST(request: NextRequest) {
       generatedAt: new Date().toISOString(),
       articles
     },
+    failedRecords,
     report
   });
 }

@@ -1,6 +1,9 @@
 import type {
   ArticleInsight,
+  EventType,
+  InsightCategory,
   RawNewsItem,
+  SourceType,
   Topic,
   ValueChain
 } from "./schema";
@@ -9,7 +12,7 @@ import { stableId, truncateText } from "./normalize";
 
 export const PROMPT_VERSION = "extract-news-v1";
 export const DEFAULT_OPENAI_BASE_URL = "https://api.openai.com/v1";
-export const DEFAULT_OPENAI_MODEL = "gpt-5.5";
+export const DEFAULT_OPENAI_MODEL = "gpt-4o-mini";
 
 type AiProvider = "deterministic" | "openai_compatible" | "cloudflare_rest";
 
@@ -22,6 +25,15 @@ type ExtractionOptions = {
   cloudflareAccountId?: string;
   cloudflareApiToken?: string;
   cloudflareModel?: string;
+  onFailure?: (failure: ExtractionFailure) => void;
+};
+
+export type ExtractionFailure = {
+  rawId: string;
+  title: string;
+  sourceName: string;
+  stage: "extract" | "repair" | "validation";
+  error: string;
 };
 
 const TOPIC_RULES: Array<{ topic: Topic; keywords: string[] }> = [
@@ -153,6 +165,80 @@ function clampScore(score: number): number {
   return Math.max(0, Math.min(100, Math.round(score)));
 }
 
+function normalizeSourceType(sourceType: SourceType) {
+  if (sourceType === "official") return "official";
+  if (sourceType === "research") return "research";
+  if (sourceType === "social") return "social";
+  if (sourceType === "aggregator" || sourceType === "developer") return "community";
+  return "media";
+}
+
+function normalizeLanguage(language: RawNewsItem["language"]) {
+  return language === "zh" || language === "en" ? language : "other";
+}
+
+function inferCategory(topics: Topic[]): InsightCategory {
+  if (topics.includes("frontier_model")) return "model_release";
+  if (topics.includes("ai_infrastructure")) return "infrastructure";
+  if (topics.includes("research")) return "research";
+  if (topics.includes("policy_regulation")) return "policy";
+  if (topics.includes("capital_market")) return "capital";
+  if (topics.includes("safety_security")) return "security";
+  if (topics.includes("enterprise_adoption")) return "industry_application";
+  return "ai_product";
+}
+
+function inferEventType(text: string, topics: Topic[]): EventType {
+  if (includesAny(text, ["funding", "raised", "investment", "valuation"])) return "funding";
+  if (includesAny(text, ["regulation", "policy", "law", "act"])) return "regulation";
+  if (includesAny(text, ["partner", "partnership", "alliance"])) return "partnership";
+  if (includesAny(text, ["controversy", "lawsuit", "risk", "security", "privacy"])) return "controversy";
+  if (topics.includes("research")) return "research_result";
+  if (includesAny(text, ["upgrade", "improve", "new version"])) return "upgrade";
+  if (includesAny(text, ["launch", "release", "introduce", "roll out"])) return "launch";
+  return "market_signal";
+}
+
+function inferExtractedEntities(text: string) {
+  const organizations = inferOrganizations(text).map((name) => ({
+    name,
+    type: "company" as const
+  }));
+  const products = inferProducts(text).map((name) => ({
+    name,
+    type: "product" as const
+  }));
+  return [...organizations, ...products].slice(0, 8);
+}
+
+function buildKeyFacts(item: RawNewsItem, firstSentence: string, topics: Topic[]) {
+  return [
+    firstSentence,
+    `Source type is ${normalizeSourceType(item.sourceType)}, which affects trust weighting.`,
+    `Primary extracted categories: ${topics.slice(0, 3).join(", ")}.`
+  ];
+}
+
+function calculateImportanceScore(input: {
+  sourceType: SourceType;
+  organizations: string[];
+  category: InsightCategory;
+  eventType: EventType;
+  sentiment: ArticleInsight["sentiment"];
+  isRecent: boolean;
+}) {
+  const sourceWeight = input.sourceType === "official" ? 1 : input.sourceType === "tech_media" ? 0.5 : 0;
+  const entityWeight = input.organizations.some((org) =>
+    ["openai", "google", "nvidia", "anthropic", "meta"].includes(org.toLowerCase())
+  )
+    ? 1
+    : 0;
+  const categoryWeight = ["model_release", "policy", "capital"].includes(input.category) ? 1 : 0;
+  const sentimentWeight = input.sentiment === "negative" || input.sentiment === "mixed" ? 0.5 : 0;
+  const recencyWeight = input.isRecent ? 0.5 : 0;
+  return Math.max(1, Math.min(5, Math.round(1 + sourceWeight + entityWeight + categoryWeight + sentimentWeight + recencyWeight)));
+}
+
 export function extractDeterministic(item: RawNewsItem): ArticleInsight {
   const text = `${item.title}. ${item.summary}. ${item.content}`;
   const topics = inferTopics(text);
@@ -184,6 +270,14 @@ export function extractDeterministic(item: RawNewsItem): ArticleInsight {
   );
   const horizon = regulatoryWeight >= 4 ? "quarter" : adoption >= 4 ? "weeks" : "today";
   const firstSentence = truncateText(item.summary.split(/[.!?。！？]/)[0] ?? item.summary, 220);
+  const sentiment = topics.includes("safety_security") || topics.includes("policy_regulation")
+    ? "mixed"
+    : "neutral";
+  const category = inferCategory(topics);
+  const eventType = inferEventType(text, topics);
+  const risks = buildRisks(topics);
+  const opportunities = buildOpportunities(topics);
+  const confidence = isOfficial ? 0.86 : isResearch ? 0.78 : 0.7;
 
   return ArticleInsightSchema.parse({
     id: stableId(`insight:${item.id}`),
@@ -191,9 +285,19 @@ export function extractDeterministic(item: RawNewsItem): ArticleInsight {
     title: item.title,
     sourceName: item.sourceName,
     sourceType: item.sourceType,
+    sourceTypeNormalized: normalizeSourceType(item.sourceType),
     url: item.url,
     publishedAt: item.publishedAt,
     language: item.language,
+    languageNormalized: normalizeLanguage(item.language),
+    category,
+    eventType,
+    summary: firstSentence,
+    keyFacts: buildKeyFacts(item, firstSentence, topics),
+    impactAnalysis:
+      score >= 75
+        ? "This event is important because source credibility, entity relevance, category weight, and recency combine into a strong signal."
+        : "This event is useful as a supporting signal but should be interpreted with follow-up evidence.",
     canonicalEvent: {
       whatHappened: firstSentence,
       whyItMatters:
@@ -202,7 +306,7 @@ export function extractDeterministic(item: RawNewsItem): ArticleInsight {
           : "This item contributes to the daily signal set and helps triangulate where AI attention is moving.",
       affectedActors: organizations,
       evidence: truncateText(item.summary, 260),
-      confidence: isOfficial ? 0.86 : isResearch ? 0.78 : 0.7
+      confidence
     },
     taxonomy: {
       topics,
@@ -219,14 +323,15 @@ export function extractDeterministic(item: RawNewsItem): ArticleInsight {
           topics.includes("policy_regulation") ? "policy teams" : "enterprise buyers"
         ])
       ),
-      risks: buildRisks(topics),
-      opportunities: buildOpportunities(topics)
+      risks,
+      opportunities
     },
     entities: {
       organizations,
       products: inferProducts(text),
       people: [],
-      geographies: inferGeographies(text)
+      geographies: inferGeographies(text),
+      extracted: inferExtractedEntities(text)
     },
     signals: {
       novelty,
@@ -235,9 +340,23 @@ export function extractDeterministic(item: RawNewsItem): ArticleInsight {
       regulatoryWeight,
       capitalIntensity
     },
-    sentiment: topics.includes("safety_security") || topics.includes("policy_regulation")
-      ? "mixed"
-      : "neutral",
+    sentiment,
+    importanceScore: calculateImportanceScore({
+      sourceType: item.sourceType,
+      organizations,
+      category,
+      eventType,
+      sentiment,
+      isRecent
+    }),
+    confidenceScore: confidence,
+    riskSignals: risks,
+    opportunitySignals: opportunities,
+    evidence: [
+      { field: "summary", quoteOrReason: truncateText(item.summary, 180) },
+      { field: "source_type", quoteOrReason: `${item.sourceName} normalized to ${normalizeSourceType(item.sourceType)}` },
+      { field: "importance_score", quoteOrReason: "Rule-based score combines source, entity, category, sentiment, and recency weights." }
+    ],
     keywords: inferKeywords(text, topics),
     extractionMeta: {
       method: "deterministic_fallback",
@@ -306,12 +425,31 @@ export function buildExtractionPrompt(batch: RawNewsItem[]): string {
   return [
     "You are extracting structured AI industry signals for a daily intelligence report.",
     "Return only valid JSON. Do not summarize the batch as prose.",
-    "For each article, extract: canonical event, affected actors, topics, value chain, impact score, risks, opportunities, entities, signals, sentiment, and keywords.",
+    "For each article, extract a deep insight schema, not a shallow title/summary/source object.",
+    "Required insight fields include: sourceTypeNormalized, languageNormalized, category, eventType, summary, keyFacts, impactAnalysis, canonicalEvent, taxonomy, impact, entities, signals, sentiment, importanceScore, confidenceScore, riskSignals, opportunitySignals, evidence, and keywords.",
+    "importanceScore is 1-5. confidenceScore is 0-1. evidence must explain which source text or rule supports important fields.",
     "Use the article summary as evidence. Do not invent facts that are not supported by the item.",
     "Expected output shape: {\"articles\": ArticleInsight[]}.",
     "Allowed topics: frontier_model, ai_infrastructure, product_launch, research, open_source, policy_regulation, capital_market, safety_security, enterprise_adoption, developer_tools.",
     "Allowed valueChain: model, data, compute, application, tooling, governance, market.",
+    "Allowed sourceTypeNormalized: official, media, community, research, social.",
+    "Allowed languageNormalized: zh, en, other.",
+    "Allowed category: model_release, ai_product, infrastructure, research, policy, capital, security, industry_application.",
+    "Allowed eventType: launch, upgrade, partnership, funding, regulation, research_result, controversy, market_signal.",
     JSON.stringify({ batch }, null, 2)
+  ].join("\n\n");
+}
+
+function buildRepairPrompt(batch: RawNewsItem[], invalidJson: string, error: string): string {
+  return [
+    "Repair the following JSON so it exactly matches the requested ArticleInsight[] schema.",
+    "Return only valid JSON with shape {\"articles\": ArticleInsight[]}.",
+    "Do not add facts outside the provided source batch.",
+    `Validation error: ${error}`,
+    "Source batch:",
+    JSON.stringify({ batch }, null, 2),
+    "Invalid JSON:",
+    invalidJson
   ].join("\n\n");
 }
 
@@ -423,6 +561,19 @@ function normalizeAiArticles(raw: unknown, batch: RawNewsItem[]): ArticleInsight
     const articleObject =
       typeof article === "object" && article !== null ? article : {};
 
+    const text = `${batch[index].title}. ${batch[index].summary}. ${batch[index].content}`;
+    const topics = inferTopics(text);
+    const category = inferCategory(topics);
+    const eventType = inferEventType(text, topics);
+    const organizations = inferOrganizations(text);
+    const confidence = 0.78;
+    const sentiment = (articleObject as { sentiment?: ArticleInsight["sentiment"] }).sentiment ?? "neutral";
+    const risks = ((articleObject as { riskSignals?: string[] }).riskSignals ?? (articleObject as { impact?: { risks?: string[] } }).impact?.risks ?? buildRisks(topics));
+    const opportunities =
+      ((articleObject as { opportunitySignals?: string[] }).opportunitySignals ??
+        (articleObject as { impact?: { opportunities?: string[] } }).impact?.opportunities ??
+        buildOpportunities(topics));
+
     return ArticleInsightSchema.parse({
       ...articleObject,
       id: stableId(`insight:${batch[index].id}`),
@@ -430,9 +581,46 @@ function normalizeAiArticles(raw: unknown, batch: RawNewsItem[]): ArticleInsight
       title: batch[index].title,
       sourceName: batch[index].sourceName,
       sourceType: batch[index].sourceType,
+      sourceTypeNormalized: (articleObject as { sourceTypeNormalized?: unknown }).sourceTypeNormalized ?? normalizeSourceType(batch[index].sourceType),
       url: batch[index].url,
       publishedAt: batch[index].publishedAt,
       language: batch[index].language,
+      languageNormalized: (articleObject as { languageNormalized?: unknown }).languageNormalized ?? normalizeLanguage(batch[index].language),
+      category: (articleObject as { category?: unknown }).category ?? category,
+      eventType: (articleObject as { eventType?: unknown }).eventType ?? eventType,
+      summary: (articleObject as { summary?: unknown }).summary ?? truncateText(batch[index].summary, 220),
+      keyFacts: (articleObject as { keyFacts?: unknown }).keyFacts ?? buildKeyFacts(batch[index], truncateText(batch[index].summary, 220), topics),
+      impactAnalysis:
+        (articleObject as { impactAnalysis?: unknown }).impactAnalysis ??
+        (articleObject as { canonicalEvent?: { whyItMatters?: string } }).canonicalEvent?.whyItMatters ??
+        "The item was validated by AI extraction and contributes to the daily intelligence signal.",
+      entities: {
+        ...((articleObject as { entities?: object }).entities ?? {}),
+        organizations: (articleObject as { entities?: { organizations?: unknown } }).entities?.organizations ?? organizations,
+        products: (articleObject as { entities?: { products?: unknown } }).entities?.products ?? inferProducts(text),
+        people: (articleObject as { entities?: { people?: unknown } }).entities?.people ?? [],
+        geographies: (articleObject as { entities?: { geographies?: unknown } }).entities?.geographies ?? inferGeographies(text),
+        extracted: (articleObject as { entities?: { extracted?: unknown } }).entities?.extracted ?? inferExtractedEntities(text)
+      },
+      importanceScore:
+        (articleObject as { importanceScore?: unknown }).importanceScore ??
+        calculateImportanceScore({
+          sourceType: batch[index].sourceType,
+          organizations,
+          category,
+          eventType,
+          sentiment,
+          isRecent: Date.now() - new Date(batch[index].publishedAt).getTime() < 1000 * 60 * 60 * 24 * 10
+        }),
+      confidenceScore: (articleObject as { confidenceScore?: unknown }).confidenceScore ?? confidence,
+      riskSignals: risks,
+      opportunitySignals: opportunities,
+      evidence:
+        (articleObject as { evidence?: unknown }).evidence ??
+        [
+          { field: "summary", quoteOrReason: truncateText(batch[index].summary, 180) },
+          { field: "source_type", quoteOrReason: `${batch[index].sourceName} normalized to ${normalizeSourceType(batch[index].sourceType)}` }
+        ],
       extractionMeta: {
         method: "ai",
         promptVersion: PROMPT_VERSION,
@@ -448,7 +636,7 @@ export async function extractArticles(
   options: ExtractionOptions = {}
 ): Promise<ArticleInsight[]> {
   const provider = options.provider ?? "deterministic";
-  const batchSize = options.batchSize ?? 4;
+  const batchSize = options.batchSize ?? 5;
   const insights: ArticleInsight[] = [];
 
   for (let start = 0; start < items.length; start += batchSize) {
@@ -465,21 +653,27 @@ export async function extractArticles(
         provider === "cloudflare_rest"
           ? await callCloudflareRest(prompt, options)
           : await callOpenAiCompatible(prompt, options);
-      insights.push(...normalizeAiArticles(parseJsonObject(content), batch));
+      try {
+        insights.push(...normalizeAiArticles(parseJsonObject(content), batch));
+      } catch (validationError) {
+        const error = validationError instanceof Error ? validationError.message : String(validationError);
+        const repaired =
+          provider === "cloudflare_rest"
+            ? await callCloudflareRest(buildRepairPrompt(batch, content, error), options)
+            : await callOpenAiCompatible(buildRepairPrompt(batch, content, error), options);
+        insights.push(...normalizeAiArticles(parseJsonObject(repaired), batch));
+      }
     } catch (error) {
       const warning = error instanceof Error ? error.message : String(error);
-      insights.push(
-        ...batch.map((item) => {
-          const fallback = extractDeterministic(item);
-          return {
-            ...fallback,
-            extractionMeta: {
-              ...fallback.extractionMeta,
-              warnings: [warning, ...fallback.extractionMeta.warnings]
-            }
-          };
-        })
-      );
+      for (const item of batch) {
+        options.onFailure?.({
+          rawId: item.id,
+          title: item.title,
+          sourceName: item.sourceName,
+          stage: "repair",
+          error: warning
+        });
+      }
     }
   }
 
