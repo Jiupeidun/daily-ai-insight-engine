@@ -32,6 +32,22 @@ export function GET(request: NextRequest) {
           }
         }
       },
+      "/api/agent/schema": {
+        get: {
+          operationId: "getStructuredSchemaContract",
+          summary: "Fetch schema, refresh cadence, and agent usage rules.",
+          responses: {
+            "200": {
+              description: "Structured schema contract",
+              content: {
+                "application/json": {
+                  schema: { type: "object", additionalProperties: true }
+                }
+              }
+            }
+          }
+        }
+      },
       "/api/report": {
         get: {
           operationId: "getLatestAiReport",
@@ -231,6 +247,7 @@ export function GET(request: NextRequest) {
     },
     "x-agent-contract": {
       manifest: absoluteUrl(request, "/api/agent/manifest"),
+      schema: absoluteUrl(request, "/api/agent/schema"),
       grounding:
         "Agents should treat /api/report as the source of truth and use /api/analyze only for grounded follow-up reasoning.",
       audit:

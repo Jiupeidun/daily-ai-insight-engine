@@ -13,11 +13,21 @@ export function GET(request: NextRequest) {
     generatedAt: new Date().toISOString(),
     contract: {
       openapi: absoluteUrl(request, "/api/agent/openapi"),
+      schema: absoluteUrl(request, "/api/agent/schema"),
       reportSchema: "DailyReportSchema in src/lib/insight/schema.ts",
       qualityModel:
         "Every report includes source statistics, schema rationale, quality gates, structured article insights, chart data, and methodology steps."
     },
     tools: [
+      {
+        name: "get_structured_schema_contract",
+        method: "GET",
+        endpoint: absoluteUrl(request, "/api/agent/schema"),
+        auth: "none",
+        purpose:
+          "Fetch the machine-readable schema summary, refresh cadence, collection window, and agent usage rules.",
+        output: "{ versions, refresh, articleInsight, report, agentRules }"
+      },
       {
         name: "get_latest_ai_report",
         method: "GET",

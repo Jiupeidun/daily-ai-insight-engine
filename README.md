@@ -6,10 +6,10 @@
 [![Node](https://img.shields.io/badge/Node-%E2%89%A520.9-339933)](https://nodejs.org/)
 [![Agent Friendly](https://img.shields.io/badge/Agent-Friendly-blueviolet)](#agent-friendly-api)
 
-AI 舆情分析日报系统。系统从官方博客、科技媒体、研究社区和中文资讯源采集近期 AI 新闻，经过清洗、去重、结构化抽取、Schema 校验、规则评分和趋势聚合，生成可视化 Dashboard 与 PDF 日报。
+AI 舆情分析日报系统。系统从官方博客、科技媒体、研究社区、中文资讯源和金融市场源采集近期 AI 新闻，经过清洗、去重、结构化抽取、Schema 校验、规则评分和趋势聚合，生成 Dashboard、结构化 JSON、Markdown 与 PDF 日报。
 
 - 在线地址：[daily-ai-insight-engine.kkertin1214.workers.dev](https://daily-ai-insight-engine.kkertin1214.workers.dev/)
-- 部署平台：Cloudflare Workers + OpenNext
+- 部署平台：Cloudflare Workers + OpenNext + KV + Cron
 - 技术栈：Next.js App Router、Vercel AI SDK、DeepSeek/OpenAI-compatible API、Zod、Recharts、PDFKit
 
 ## 核心设计
@@ -17,8 +17,8 @@ AI 舆情分析日报系统。系统从官方博客、科技媒体、研究社�
 ```txt
 Raw News -> Clean -> Deduplicate -> LLM Structured Extraction
          -> Zod Validation -> AI Relevance Gate -> Rule-based Scoring
-         -> Momentum Aggregation
-         -> Dashboard / Markdown / PDF / Agent API
+         -> Trend Aggregation
+         -> KV Runtime Store / Dashboard / Markdown / PDF / Agent API
 ```
 
 这个项目刻意把模型能力和确定性工程逻辑拆开：
@@ -27,13 +27,14 @@ Raw News -> Clean -> Deduplicate -> LLM Structured Extraction
 - `Zod` 校验所有模型输出，失败记录进入 `data/processed/failed-records.json`。
 - `aiRelevance` 将新闻分成 `core / adjacent / noise`，Top Events 优先只从 core AI signal 里选，避免 GPU 游戏、折扣、广告等低价值噪声污染日报。
 - 每条结构化新闻保留 `schemaVersion`、`scoringVersion`、实体、事件类型、关键事实、影响分析、风险/机会信号、置信分和证据。
-- 趋势判断不做词云，使用最近 48 小时相对基线窗口的 `momentumSignals`，追踪主题和实体的 rising / stable / cooling。
+- 趋势判断基于结构化事件、影响分、来源类型、实体和资本市场信号，输出技术 / 应用 / 政策 / 资本方向的判断。
 - 重要性排序、趋势聚合、图表数据由程序规则生成，避免“摘要拼接”和模型一次性幻觉。
-- GitHub Actions 每 12 小时自动刷新数据、生成报告并部署。
+- Cloudflare Cron 每 12 小时触发一次线上刷新，结果写入 KV；页面和 API 优先读取 KV 中的最新报告。
+- 采集窗口保持“上一自然日（Asia/Shanghai）+ backfill”，便于生成稳定的日报口径。
 
 ## Agent Friendly API
 
-这个项目不只是一个可视化 Dashboard，也暴露了可被其他 agent 直接调用的稳定接口。推荐调用顺序是：先读取 manifest，再读取结构化日报，最后按需追问或触发刷新。
+这个项目暴露了可被其他 agent 直接调用的稳定接口。推荐调用顺序是：先读取 manifest，再读取 schema contract 和结构化日报，最后按需追问或触发刷新。
 
 ```bash
 BASE_URL="https://daily-ai-insight-engine.kkertin1214.workers.dev"
@@ -44,15 +45,18 @@ curl "$BASE_URL/api/agent/manifest"
 # 2. Import the OpenAPI contract into an IDE agent, workflow agent, or MCP wrapper.
 curl "$BASE_URL/api/agent/openapi"
 
-# 3. Fetch the latest schema-validated report as the source of truth.
+# 3. Inspect schema fields, refresh cadence, and agent usage rules.
+curl "$BASE_URL/api/agent/schema"
+
+# 4. Fetch the latest schema-validated report as the source of truth.
 curl "$BASE_URL/api/report"
 
-# 4. Ask a grounded follow-up question against the current report.
+# 5. Ask a grounded follow-up question against the current report.
 curl -X POST "$BASE_URL/api/analyze" \
   -H "content-type: application/json" \
   -d '{"question":"今天 AI 行业最重要的 3 个变化是什么？"}'
 
-# 5. Trusted automation only: run the full refresh pipeline.
+# 6. Trusted automation only: run the full refresh pipeline and write the result to KV.
 curl -X POST "$BASE_URL/api/admin/generate-report" \
   -H "authorization: Bearer $REPORT_ADMIN_TOKEN"
 ```
@@ -61,7 +65,7 @@ Agent 使用约束：`/api/report` 是事实源；下游摘要应保留 `quality
 
 ## 数据与产物
 
-数据源定义在 `src/lib/insight/source-config.ts`，覆盖 OpenAI、Google AI、Microsoft AI、NVIDIA、TechCrunch、The Verge、WIRED、VentureBeat、MIT Technology Review、The Decoder、arXiv、BAIR、Hacker News、36Kr、IT之家等。
+数据源定义在 `src/lib/insight/source-config.ts`，覆盖 OpenAI、Google AI、Microsoft AI、NVIDIA、TechCrunch、The Verge、WIRED、VentureBeat、MIT Technology Review、The Decoder、arXiv、BAIR、Hacker News、36Kr、IT之家、WSJ Markets、MarketWatch、CNBC、Investing.com 等。
 
 ```txt
 data/raw/source-manifest.json          数据源说明
@@ -70,7 +74,8 @@ data/processed/structured-news.json    结构化抽取结果
 data/processed/failed-records.json     失败记录
 data/reports/latest.json               最新日报 JSON
 data/reports/latest.md                 最新日报 Markdown
-public/reports/latest-ai-insight-report.pdf
+data/reports/latest-ai-insight-report.pdf
+Cloudflare KV latest:report             线上运行时最新报告
 ```
 
 ## 本地运行
@@ -88,6 +93,8 @@ AI_PROVIDER=openai_compatible
 AI_BASE_URL=https://api.deepseek.com/v1
 AI_API_KEY=
 AI_MODEL=deepseek-chat
+AI_EXTRACTION_BATCH_SIZE=20
+AI_EXTRACTION_CONCURRENCY=3
 REPORT_ADMIN_TOKEN=
 ```
 
