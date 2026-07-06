@@ -356,18 +356,20 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
         subtitle={copy.valueChainMap.subtitle[locale]}
       >
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={localizedCharts.valueChainMap} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
-            <CartesianGrid stroke={GRID} vertical={false} />
-            <XAxis
+          <BarChart
+            data={localizedCharts.valueChainMap}
+            layout="vertical"
+            margin={{ top: 8, right: 8, left: 18, bottom: 0 }}
+          >
+            <CartesianGrid stroke={GRID} horizontal={false} />
+            <XAxis type="number" tick={TICK} />
+            <YAxis
+              type="category"
               dataKey="localizedValueChain"
               tick={TICK}
               tickFormatter={shortTick}
-              interval={0}
-              angle={-18}
-              textAnchor="end"
-              height={58}
+              width={92}
             />
-            <YAxis tick={TICK} />
             <Tooltip
               contentStyle={TOOLTIP_STYLE}
               itemStyle={TOOLTIP_ITEM_STYLE}
@@ -375,7 +377,7 @@ export function ChartsPanel({ charts }: { charts: DashboardCharts }) {
             />
             <Bar
               dataKey="count"
-              radius={[8, 8, 0, 0]}
+              radius={[0, 8, 8, 0]}
               fill="#ff9f0a"
               isAnimationActive
               animationDuration={720}

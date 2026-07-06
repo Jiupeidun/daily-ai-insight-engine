@@ -150,9 +150,7 @@ function Metric({
   return (
     <div className="metric-tile">
       <span>{label}</span>
-      <strong>
-        <NumberPop value={value} />
-      </strong>
+      <strong className="metric-value">{value}</strong>
       <small>{detail}</small>
     </div>
   );
