@@ -119,5 +119,6 @@ src/lib/insight/            Schema、清洗、抽取、评分、报告生成
 src/lib/pdf/                PDF 渲染
 scripts/                    采集和离线生成脚本
 data/                       原始数据、结构化数据、日报产物
-public/reports/             可下载 PDF
+worker.ts                   Cloudflare Worker fetch + scheduled handler
+wrangler.jsonc              Cloudflare KV、Cron、环境变量配置
 ```
