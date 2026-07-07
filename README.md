@@ -32,6 +32,10 @@ Raw News -> Clean -> Deduplicate -> LLM Structured Extraction
 - Cloudflare Cron 每 12 小时触发一次线上刷新，结果写入 KV；页面和 API 优先读取 KV 中的最新报告。
 - 采集窗口保持“上一自然日（Asia/Shanghai）+ backfill”，便于生成稳定的日报口径。
 
+## AI 使用方式
+
+AI 用在两个位置：DeepSeek 负责把新闻批量抽取成结构化 `NewsInsight`，报告生成阶段再基于已校验字段辅助生成 Top 事件、深度总结、趋势判断和风险/机会文本。Prompt 设计原则是：低温度、只返回 JSON、禁止 markdown、不得编造来源外事实、每条新闻必须输出分类、实体、关键事实、影响分析、置信度、风险/机会和证据。抽取默认每批 20 条、并发 3 批；输出经过 `Zod` 校验和规范化，再进入 `aiRelevance`、规则评分和趋势聚合。错误处理包括：JSON shape 检查、Schema 校验、异常日志、失败记录、DeepSeek 大批次失败后自动拆批重试，确保单次模型错误不会污染整份报告。
+
 ## Agent Friendly API
 
 这个项目暴露了可被其他 agent 直接调用的稳定接口。推荐调用顺序是：先读取 manifest，再读取 schema contract 和结构化日报，最后按需追问或触发刷新。
@@ -74,7 +78,7 @@ Agent 使用约束：`/api/report` 是事实源；下游摘要应保留 `quality
 - 金融市场源：WSJ Markets、MarketWatch、CNBC、Investing.com 等，用作资本市场验证信号，判断 AI 事件是否已反映到芯片、云、存储、数据中心和企业软件叙事中。
 - 社区聚合源：Hacker News AI Search，用于捕捉开发者早期讨论，但权重低于官方和高质量媒体，避免噪音主导报告。
 
-Schema 的核心模型是 `ArticleInsightSchema`。它不是保存摘要，而是把新闻转成可审计、可排序、可聚合的事件对象：
+Schema 的核心模型是 `ArticleInsightSchema`。它的作用是把新闻转成可审计、可排序、可聚合的事件对象：
 
 - 版本：`schemaVersion`、`scoringVersion`，支持 Schema 和评分逻辑演进。
 - 来源事实：`title`、`sourceName`、`sourceType`、`url`、`publishedAt`、`language`，保证可追溯。
