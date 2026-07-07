@@ -34,8 +34,6 @@ Raw News -> Clean -> Deduplicate -> LLM Structured Extraction
 
 ## AI 使用方式
 
-AI 不是直接“写日报”，而是被放在可校验的工程链路里：
-
 - 使用场景 1：新闻结构化抽取。DeepSeek/OpenAI-compatible API 将每批新闻转成 `NewsInsight`，输出分类、实体、关键事实、影响分析、置信度、风险/机会和证据。
 - 使用场景 2：报告增强。系统先用规则生成 baseline report，再让模型只基于已校验字段补强 Top 事件、深度总结、趋势判断和风险/机会文本。
 - Prompt 设计：system prompt 要求“strict extraction / strict synthesis”；user prompt 明确要求只返回 JSON、禁止 markdown、不得编造来源外事实、必须保留 articleId / URL / evidence。
