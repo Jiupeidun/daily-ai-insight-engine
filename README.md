@@ -65,7 +65,24 @@ Agent 使用约束：`/api/report` 是事实源；下游摘要应保留 `quality
 
 ## 数据与产物
 
-数据源定义在 `src/lib/insight/source-config.ts`，覆盖 OpenAI、Google AI、Microsoft AI、NVIDIA、TechCrunch、The Verge、WIRED、VentureBeat、MIT Technology Review、The Decoder、arXiv、BAIR、Hacker News、36Kr、IT之家、WSJ Markets、MarketWatch、CNBC、Investing.com 等。
+数据源定义在 `src/lib/insight/source-config.ts`，按可信度和用途分层筛选：
+
+- 官方源：OpenAI、Google DeepMind、Microsoft、AWS、NVIDIA、Databricks 等，用于确认正式发布，降低二手解读噪声。
+- 科技媒体源：TechCrunch、The Verge、WIRED、MIT Technology Review、The Decoder、SemiAnalysis、Tom's Hardware 等，用于补充产品化、竞争格局、供应链和市场反应。
+- 研究源：MIT News、arXiv、Berkeley AI Research、ScienceDaily 等，用于捕捉早期技术方向。
+- 开发者源：Simon Willison、Latent Space、KDnuggets、Towards Data Science 等，用于观察 AI 工具链和 Agent 在真实工程场景中的采用。
+- 金融市场源：WSJ Markets、MarketWatch、CNBC、Investing.com 等，用作资本市场验证信号，判断 AI 事件是否已反映到芯片、云、存储、数据中心和企业软件叙事中。
+- 社区聚合源：Hacker News AI Search，用于捕捉开发者早期讨论，但权重低于官方和高质量媒体，避免噪音主导报告。
+
+Schema 的核心模型是 `ArticleInsightSchema`。它不是保存摘要，而是把新闻转成可审计、可排序、可聚合的事件对象：
+
+- 版本：`schemaVersion`、`scoringVersion`，支持 Schema 和评分逻辑演进。
+- 来源事实：`title`、`sourceName`、`sourceType`、`url`、`publishedAt`、`language`，保证可追溯。
+- 事件抽取：`canonicalEvent.whatHappened`、`whyItMatters`、`affectedActors`、`evidence`、`confidence`，记录发生了什么、为什么重要、影响谁和证据。
+- 分类聚合：`category`、`eventType`、`taxonomy.topics`、`taxonomy.valueChain`、`taxonomy.maturity`，支撑技术 / 应用 / 政策 / 资本方向分析。
+- 影响判断：`impact.score`、`horizon`、`stakeholders`、`risks`、`opportunities`，用于 Top Events、深度总结和风险/机会提示。
+- 信号与实体：`signals.*`、`entities.*`，区分技术深度、采用、监管、资本强度，并追踪公司、模型、产品和地区。
+- 审计字段：`confidenceScore`、`evidence[]`、`riskSignals`、`opportunitySignals`、`extractionMeta.*`，记录抽取方式、Prompt 版本、校验时间和 warnings。
 
 ```txt
 data/raw/source-manifest.json          数据源说明
