@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { extractArticles, optionsFromEnv, type ExtractionFailure } from "../src/lib/insight/extract";
 import { generateDailyReportWithAiSupport } from "../src/lib/insight/report";
+import { formatReportDateTime, REPORT_TIME_ZONE } from "../src/lib/insight/time";
 import {
   DailyReportSchema,
   RawNewsItemSchema,
@@ -70,7 +71,7 @@ function reportToMarkdown(report: DailyReport): string {
 
   return `# ${report.title}
 
-Generated at: ${report.generatedAt}
+Generated at: ${formatReportDateTime(report.generatedAt)} (${REPORT_TIME_ZONE})
 
 Coverage: ${report.coverageWindow.start} to ${report.coverageWindow.end}
 

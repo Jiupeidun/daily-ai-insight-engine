@@ -1,5 +1,6 @@
 import PDFDocument from "pdfkit/js/pdfkit.standalone.js";
 import type { ArticleInsight, DailyReport, Topic } from "../insight/schema";
+import { formatReportDateTime, REPORT_TIME_ZONE } from "../insight/time";
 
 const PAGE_MARGIN = 42;
 const CONTENT_WIDTH = 595.28 - PAGE_MARGIN * 2;
@@ -17,13 +18,6 @@ const TOPIC_LABELS: Record<Topic, string> = {
   enterprise_adoption: "Enterprise Adoption",
   developer_tools: "Developer Tools"
 };
-
-function formatDateTime(value: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    dateStyle: "medium",
-    timeStyle: "short"
-  }).format(new Date(value));
-}
 
 function pdfText(value: string | number | undefined | null): string {
   return String(value ?? "")
@@ -369,7 +363,7 @@ export function renderDailyReportPdf(report: DailyReport) {
       .fontSize(8.2)
       .fillColor("#9b9ba1")
       .text(
-        `Generated ${formatDateTime(report.generatedAt)} - ${report.sourceStats.structuredCount} structured items - ${report.sourceStats.sourceCount} sources - ${report.sourceStats.sourceTypeMix.financial ?? 0} financial signals`,
+        `Generated ${formatReportDateTime(report.generatedAt)} (${REPORT_TIME_ZONE}) - ${report.sourceStats.structuredCount} structured items - ${report.sourceStats.sourceCount} sources - ${report.sourceStats.sourceTypeMix.financial ?? 0} financial signals`,
         PAGE_MARGIN,
         91,
         { width: CONTENT_WIDTH }

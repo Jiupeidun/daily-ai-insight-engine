@@ -34,7 +34,15 @@ Raw News -> Clean -> Deduplicate -> LLM Structured Extraction
 
 ## AI 使用方式
 
-AI 用在两个位置：DeepSeek 负责把新闻批量抽取成结构化 `NewsInsight`，报告生成阶段再基于已校验字段辅助生成 Top 事件、深度总结、趋势判断和风险/机会文本。Prompt 设计原则是：低温度、只返回 JSON、禁止 markdown、不得编造来源外事实、每条新闻必须输出分类、实体、关键事实、影响分析、置信度、风险/机会和证据。抽取默认每批 20 条、并发 3 批；输出经过 `Zod` 校验和规范化，再进入 `aiRelevance`、规则评分和趋势聚合。错误处理包括：JSON shape 检查、Schema 校验、异常日志、失败记录、DeepSeek 大批次失败后自动拆批重试，确保单次模型错误不会污染整份报告。
+AI 不是直接“写日报”，而是被放在可校验的工程链路里：
+
+- 使用场景 1：新闻结构化抽取。DeepSeek/OpenAI-compatible API 将每批新闻转成 `NewsInsight`，输出分类、实体、关键事实、影响分析、置信度、风险/机会和证据。
+- 使用场景 2：报告增强。系统先用规则生成 baseline report，再让模型只基于已校验字段补强 Top 事件、深度总结、趋势判断和风险/机会文本。
+- Prompt 设计：system prompt 要求“strict extraction / strict synthesis”；user prompt 明确要求只返回 JSON、禁止 markdown、不得编造来源外事实、必须保留 articleId / URL / evidence。
+- 参数控制：抽取温度 `temperature=0.1`，报告增强温度 `temperature=0.2`。这里的“低温度”指降低模型随机性，让输出更稳定、更适合 Schema 校验。
+- 性能策略：抽取默认每批 20 条、并发 3 批，减少逐条调用的等待时间和成本。
+- 错误处理：先做 JSON shape 检查，再做 `Zod` Schema 校验和字段规范化；大批次失败会自动拆批重试；仍失败的记录进入 failed records，不允许污染最终报告。
+- 工程边界：模型不直接决定最终排序。`aiRelevance`、影响分、趋势聚合、图表数据和质量门禁由程序规则控制。
 
 ## Agent Friendly API
 

@@ -2,6 +2,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextResponse } from "next/server";
 import { optionsFromEnv } from "@/lib/insight/extract";
 import { generateDailyReportWithAiSupport } from "@/lib/insight/report";
+import { formatReportDate } from "@/lib/insight/time";
 import { renderDailyReportPdf } from "@/lib/pdf/render-report-pdf";
 import { getLatestReport } from "@/lib/report-data";
 
@@ -105,7 +106,7 @@ export async function POST() {
     }
 
     const pdf = await renderDailyReportPdf(report);
-    const fileName = `daily-ai-insight-report-${report.generatedAt.slice(0, 10)}.pdf`;
+    const fileName = `daily-ai-insight-report-${formatReportDate(report.generatedAt)}.pdf`;
     console.log(
       JSON.stringify({
         event: "report-pdf:pdf-rendered",

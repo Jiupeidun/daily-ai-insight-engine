@@ -17,6 +17,7 @@ import { PreferenceControls } from "@/components/dashboard/preference-controls";
 import { ReportActions } from "@/components/dashboard/report-actions";
 import { getLatestReport } from "@/lib/report-data";
 import type { DailyReport } from "@/lib/insight/schema";
+import { formatReportDate, formatReportDateTimeCompact } from "@/lib/insight/time";
 
 export const dynamic = "force-dynamic";
 
@@ -200,20 +201,13 @@ function getRuntimeEnv() {
 }
 
 function formatRunTime(value: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    timeZone: "Asia/Shanghai",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false
-  }).format(new Date(value));
+  return formatReportDateTimeCompact(value);
 }
 
 export default async function Home() {
   const report = await getLatestReport(getRuntimeEnv() as Record<string, unknown>);
   const charts = toDashboardCharts(report);
-  const pdfFileName = `AI舆情分析日报-${report.generatedAt.slice(0, 10)}.pdf`;
+  const pdfFileName = `AI舆情分析日报-${formatReportDate(report.generatedAt)}.pdf`;
 
   return (
     <main className="site-shell">

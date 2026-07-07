@@ -1,6 +1,6 @@
 # Daily AI Insight Report
 
-Generated at: 2026-07-06T17:19:37.498Z
+Generated at: Jul 7, 2026, 1:19 AM (Asia/Shanghai)
 
 Coverage: 2026-06-29T19:00:00.000Z to 2026-07-06T15:54:06.000Z
 
@@ -107,4 +107,3 @@ Watch next: Watch whether Nvidia and Kyber NVL144 convert this signal into measu
 - Structured aggregation: The configured AI provider synthesizes final dashboard and PDF support data from validated schema fields; code then revalidates and renders it.
 - Quality gates: The output exposes source diversity, extraction coverage, language mix, fallback count, and evidence confidence.
 - Relevance and momentum: Top Events must pass the AI relevance gate where possible; trend radar uses recent-vs-baseline momentum instead of raw keyword frequency.
-
