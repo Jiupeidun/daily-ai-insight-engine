@@ -107,6 +107,88 @@ function metric(doc: PDFKit.PDFDocument, label: string, value: string, x: number
   });
 }
 
+function inlineHeading(doc: PDFKit.PDFDocument, text: string) {
+  ensureSpace(doc, 22);
+  doc.font("Helvetica-Bold").fontSize(9.6).fillColor("#111827").text(pdfText(text), {
+    width: CONTENT_WIDTH,
+    lineGap: 1
+  });
+  doc.moveDown(0.25);
+}
+
+function chartRowsFromRecord(rows: Array<{ label: string; value: number }>, limit = 5) {
+  return rows
+    .filter((row) => Number.isFinite(row.value) && row.value > 0)
+    .sort((a, b) => b.value - a.value)
+    .slice(0, limit);
+}
+
+function horizontalBarChart(
+  doc: PDFKit.PDFDocument,
+  title: string,
+  rows: Array<{ label: string; value: number }>,
+  options: { accent?: string; maxValue?: number } = {}
+) {
+  const data = chartRowsFromRecord(rows);
+  if (data.length === 0) {
+    return;
+  }
+
+  const chartHeight = 34 + data.length * 20;
+  ensureSpace(doc, chartHeight + 8);
+  const startY = doc.y;
+  const accent = options.accent ?? "#2563eb";
+  const maxValue = options.maxValue ?? Math.max(...data.map((row) => row.value), 1);
+
+  doc.roundedRect(PAGE_MARGIN, startY, CONTENT_WIDTH, chartHeight, 6).fillAndStroke("#fbfdff", "#e5e7eb");
+  doc.font("Helvetica-Bold").fontSize(8.8).fillColor("#111827").text(pdfText(title), PAGE_MARGIN + 12, startY + 10, {
+    width: CONTENT_WIDTH - 24
+  });
+
+  const labelWidth = 128;
+  const barX = PAGE_MARGIN + 12 + labelWidth;
+  const barWidth = CONTENT_WIDTH - labelWidth - 52;
+  let y = startY + 30;
+
+  for (const row of data) {
+    const width = Math.max(4, Math.round((row.value / maxValue) * barWidth));
+    doc.font("Helvetica").fontSize(7.6).fillColor("#475569").text(pdfText(row.label), PAGE_MARGIN + 12, y + 1, {
+      width: labelWidth - 8,
+      ellipsis: true
+    });
+    doc.roundedRect(barX, y, barWidth, 8, 4).fill("#e5e7eb");
+    doc.roundedRect(barX, y, width, 8, 4).fill(accent);
+    doc.font("Helvetica-Bold").fontSize(7.2).fillColor("#334155").text(String(row.value), barX + barWidth + 8, y - 1, {
+      width: 28,
+      align: "right"
+    });
+    y += 20;
+  }
+
+  doc.y = startY + chartHeight + 10;
+}
+
+function executiveSnapshot(doc: PDFKit.PDFDocument, report: DailyReport) {
+  inlineHeading(doc, "Coverage snapshot");
+  const metricWidth = (CONTENT_WIDTH - 24) / 4;
+  const metricGap = 8;
+  const y = doc.y;
+  const coreGate = report.qualityGates.find((gate) => gate.name === "AI relevance gate")?.value.split(" / ")[0] ?? "Validated";
+
+  metric(doc, "Structured", String(report.sourceStats.structuredCount), PAGE_MARGIN, y, metricWidth);
+  metric(doc, "Sources", String(report.sourceStats.sourceCount), PAGE_MARGIN + (metricWidth + metricGap), y, metricWidth);
+  metric(doc, "Financial", String(report.sourceStats.sourceTypeMix.financial ?? 0), PAGE_MARGIN + (metricWidth + metricGap) * 2, y, metricWidth);
+  metric(doc, "AI Core", coreGate, PAGE_MARGIN + (metricWidth + metricGap) * 3, y, metricWidth);
+  doc.y = y + 66;
+
+  horizontalBarChart(
+    doc,
+    "Source mix by validated item count",
+    report.charts.sourceMix.map((row) => ({ label: String(row.type ?? "").replace(/_/g, " "), value: Number(row.count) })),
+    { accent: "#0f766e" }
+  );
+}
+
 function labelPill(doc: PDFKit.PDFDocument, text: string, x: number, y: number, width: number, color = "#0b6bcb") {
   doc.roundedRect(x, y, width, 18, 9).fill("#edf5ff");
   doc.font("Helvetica-Bold").fontSize(7.2).fillColor(color).text(pdfText(text).toUpperCase(), x + 7, y + 5, {
@@ -127,7 +209,7 @@ function sourceLine(article: ArticleInsight | undefined) {
 
 function topEvent(doc: PDFKit.PDFDocument, report: DailyReport, event: DailyReport["topEvents"][number]) {
   const article = getArticle(report, event.articleId);
-  const titleWidth = CONTENT_WIDTH - 102;
+  const titleWidth = CONTENT_WIDTH - 150;
   const bodyWidth = CONTENT_WIDTH - 54;
   const titleHeight = measureText(doc, event.title, titleWidth, 9.8, "Helvetica-Bold", 2);
   const body = `Why it matters: ${sentence(event.whyImportant)} Evidence: ${sentence(event.evidence)}`;
@@ -147,7 +229,7 @@ function topEvent(doc: PDFKit.PDFDocument, report: DailyReport, event: DailyRepo
     width: titleWidth,
     lineGap: 2
   });
-  labelPill(doc, `Score ${event.score}`, doc.page.width - doc.page.margins.right - 70, startY + 12, 58, "#168a3a");
+  labelPill(doc, `Impact ${event.score}`, doc.page.width - doc.page.margins.right - 82, startY + 12, 70, "#168a3a");
 
   const bodyY = startY + 18 + titleHeight;
   doc.font("Helvetica").fontSize(8.4).fillColor("#4b5870").text(pdfText(body), PAGE_MARGIN + 44, bodyY, {
@@ -174,15 +256,21 @@ function deepDive(doc: PDFKit.PDFDocument, report: DailyReport, item: DailyRepor
   const blockHeight = blocks.reduce((sum, block) => sum + measureText(doc, block, CONTENT_WIDTH - 16, 8.7, "Helvetica", 2) + 7, 0);
   ensureSpace(doc, titleHeight + blockHeight + 20);
 
-  doc.font("Helvetica-Bold").fontSize(10.5).fillColor("#111827").text(pdfText(title), { width: CONTENT_WIDTH, lineGap: 2 });
-  doc.moveDown(0.25);
+  const startY = doc.y;
+  doc.roundedRect(PAGE_MARGIN, startY, CONTENT_WIDTH, titleHeight + blockHeight + 18, 6).fillAndStroke("#ffffff", "#e5e7eb");
+  doc.font("Helvetica-Bold").fontSize(10.5).fillColor("#111827").text(pdfText(title), PAGE_MARGIN + 12, startY + 10, {
+    width: CONTENT_WIDTH - 24,
+    lineGap: 2
+  });
+  doc.moveDown(0.3);
   for (const block of blocks) {
-    doc.font("Helvetica").fontSize(8.7).fillColor("#374151").text(pdfText(block), PAGE_MARGIN + 10, doc.y, {
-      width: CONTENT_WIDTH - 16,
+    doc.font("Helvetica").fontSize(8.7).fillColor("#374151").text(pdfText(block), PAGE_MARGIN + 12, doc.y, {
+      width: CONTENT_WIDTH - 24,
       lineGap: 2
     });
     doc.moveDown(0.35);
   }
+  doc.y = startY + titleHeight + blockHeight + 28;
 }
 
 function articleMatches(article: ArticleInsight, topics: Topic[], terms: string[] = []) {
@@ -289,6 +377,22 @@ function buildTrendInsights(report: DailyReport) {
   ];
 }
 
+function trendCharts(doc: PDFKit.PDFDocument, report: DailyReport) {
+  inlineHeading(doc, "Signal distribution");
+  horizontalBarChart(
+    doc,
+    "Top themes by validated event count",
+    report.charts.topicDistribution.map((row) => ({ label: String(row.label ?? row.topic ?? ""), value: Number(row.count) })),
+    { accent: "#2563eb" }
+  );
+  horizontalBarChart(
+    doc,
+    "AI value chain exposure",
+    report.charts.valueChainMap.map((row) => ({ label: String(row.valueChain ?? ""), value: Number(row.count) })),
+    { accent: "#7c3aed" }
+  );
+}
+
 function buildEvidenceSignals(report: DailyReport) {
   return [
     ...topArticles(report, ["ai_infrastructure"], ["Huawei", "Nvidia", "accelerator", "server"], 2),
@@ -380,6 +484,12 @@ function evidenceSignalRow(doc: PDFKit.PDFDocument, item: ReturnType<typeof buil
 
 function riskOpportunityRow(doc: PDFKit.PDFDocument, report: DailyReport, item: DailyReport["riskOpportunity"][number]) {
   const prefix = item.type === "risk" ? "Risk" : "Opportunity";
+  const title =
+    item.type === "risk" && item.title.includes("governance readiness")
+      ? "Infrastructure and agent governance can become near-term bottlenecks"
+      : item.type === "opportunity" && item.title.includes("workflow layers")
+        ? "Enterprise workflows and AI infrastructure remain the clearest monetization paths"
+        : item.title;
   const related = item.relatedArticleIds.map((id) => getArticle(report, id)).filter((article): article is ArticleInsight => Boolean(article));
   const evidence = related
     .slice(0, 2)
@@ -388,7 +498,7 @@ function riskOpportunityRow(doc: PDFKit.PDFDocument, report: DailyReport, item: 
   insightCard(
     doc,
     prefix,
-    item.title,
+    title,
     [
       { label: "Signal", text: sentence(item.rationale) },
       { label: "Evidence", text: evidence || "validated risk/opportunity fields in the structured article set" },
@@ -413,7 +523,7 @@ function renderFooter(doc: PDFKit.PDFDocument) {
       .fontSize(7.5)
       .fillColor("#8a92a0")
       .text(
-        `Daily AI Insight Engine - Agent-friendly structured intelligence report - ${index + 1}/${pageCount}`,
+        `Daily AI Insight Engine - industry intelligence note - ${index + 1}/${pageCount}`,
         PAGE_MARGIN,
         doc.page.height - doc.page.margins.bottom - 16,
         { align: "center", width: CONTENT_WIDTH }
@@ -441,34 +551,26 @@ export function renderDailyReportPdf(report: DailyReport) {
 
     doc.font("Helvetica");
 
-    doc.rect(0, 0, doc.page.width, 120).fill("#101116");
-    doc.font("Helvetica-Bold").fontSize(21).fillColor("#ffffff").text("Daily AI Insight Report", PAGE_MARGIN, 34);
-    doc.font("Helvetica").fontSize(10.5).fillColor("#c6c7ce").text("AI public-opinion intelligence for decisions, not a news digest", PAGE_MARGIN, 64);
+    doc.rect(0, 0, doc.page.width, 118).fill("#0b1020");
+    doc.font("Helvetica-Bold").fontSize(20).fillColor("#ffffff").text("Daily AI Insight Report", PAGE_MARGIN, 30);
+    doc.font("Helvetica").fontSize(10.2).fillColor("#cbd5e1").text("Industry intelligence note - structured signals, evidence, and decision implications", PAGE_MARGIN, 59);
     doc
       .fontSize(8.2)
-      .fillColor("#9b9ba1")
+      .fillColor("#94a3b8")
       .text(
         `Generated ${formatReportDateTime(report.generatedAt)} (${REPORT_TIME_ZONE}) - ${report.sourceStats.structuredCount} structured items - ${report.sourceStats.sourceCount} sources - ${report.sourceStats.sourceTypeMix.financial ?? 0} financial signals`,
         PAGE_MARGIN,
-        91,
+        88,
         { width: CONTENT_WIDTH }
       );
 
-    doc.y = 138;
+    doc.y = 134;
     section(doc, "Executive Brief");
     paragraph(doc, report.executiveBrief);
+    doc.moveDown(0.45);
+    executiveSnapshot(doc, report);
 
-    section(doc, "Run Quality");
-    const metricWidth = (CONTENT_WIDTH - 24) / 4;
-    const metricGap = 8;
-    const y = doc.y;
-    metric(doc, "Structured", String(report.sourceStats.structuredCount), PAGE_MARGIN, y, metricWidth);
-    metric(doc, "Sources", String(report.sourceStats.sourceCount), PAGE_MARGIN + (metricWidth + metricGap), y, metricWidth);
-    metric(doc, "Financial", String(report.sourceStats.sourceTypeMix.financial ?? 0), PAGE_MARGIN + (metricWidth + metricGap) * 2, y, metricWidth);
-    metric(doc, "AI Core", report.qualityGates.find((gate) => gate.name === "AI relevance gate")?.value.split(" / ")[0] ?? "Validated", PAGE_MARGIN + (metricWidth + metricGap) * 3, y, metricWidth);
-    doc.y = y + 66;
-
-    section(doc, "Top 3-5 AI Events Today");
+    section(doc, "Top AI Events Today");
     for (const event of report.topEvents.slice(0, 5)) {
       topEvent(doc, report, event);
     }
@@ -481,12 +583,14 @@ export function renderDailyReportPdf(report: DailyReport) {
     section(doc, "Trend Judgment");
     smallText(doc, "Trend judgment summarizes what today's validated events imply about AI's technology, application, policy, and capital-market direction.");
     doc.moveDown(0.4);
+    trendCharts(doc, report);
     for (const insight of buildTrendInsights(report)) {
       trendInsightRow(doc, insight);
     }
 
     const evidenceSignals = buildEvidenceSignals(report);
     if (evidenceSignals.length > 0) {
+      ensureSpace(doc, 250);
       section(doc, "Evidence Behind the Trend");
       smallText(doc, "These are the concrete source-backed events behind the trend judgment, not keyword counts.");
       doc.moveDown(0.35);
@@ -495,6 +599,7 @@ export function renderDailyReportPdf(report: DailyReport) {
       }
     }
 
+    ensureSpace(doc, 250);
     section(doc, "Risks and Opportunities");
     for (const item of report.riskOpportunity) {
       riskOpportunityRow(doc, report, item);
