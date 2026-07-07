@@ -420,25 +420,53 @@ function buildRiskOpportunity(articles: ArticleInsight[]): DailyReport["riskOppo
   const top = [...articles]
     .sort((a, b) => b.impact.score - a.impact.score)
     .slice(0, 8);
-  const riskArticles = top.filter((article) => article.impact.risks.length > 0);
-  const opportunityArticles = top.filter((article) => article.impact.opportunities.length > 0);
+  const infrastructureArticles = top.filter(
+    (article) =>
+      article.taxonomy.valueChain.includes("compute") ||
+      article.taxonomy.valueChain.includes("market") ||
+      article.taxonomy.topics.includes("ai_infrastructure") ||
+      article.taxonomy.topics.includes("capital_market")
+  );
+  const governanceArticles = top.filter(
+    (article) =>
+      article.taxonomy.valueChain.includes("governance") ||
+      article.taxonomy.topics.includes("policy_regulation") ||
+      article.taxonomy.topics.includes("safety_security")
+  );
+  const applicationArticles = top.filter(
+    (article) =>
+      article.taxonomy.valueChain.includes("application") ||
+      article.taxonomy.valueChain.includes("tooling") ||
+      article.taxonomy.topics.includes("enterprise_adoption") ||
+      article.taxonomy.topics.includes("developer_tools")
+  );
+  const riskArticles = [...governanceArticles, ...infrastructureArticles, ...top].filter(
+    (article, index, list) => article.impact.risks.length > 0 && list.findIndex((candidate) => candidate.id === article.id) === index
+  );
+  const opportunityArticles = [...applicationArticles, ...infrastructureArticles, ...top].filter(
+    (article, index, list) =>
+      article.impact.opportunities.length > 0 && list.findIndex((candidate) => candidate.id === article.id) === index
+  );
 
   return [
     {
       type: "risk",
-      title: "Model and product velocity may outrun governance readiness",
+      title: "Infrastructure and agent governance can become near-term bottlenecks",
       rationale:
-        riskArticles[0]?.impact.risks[0] ??
-        "The report contains several safety, privacy, policy, or rollout risks that should be monitored.",
-      relatedArticleIds: riskArticles.slice(0, 4).map((article) => article.id)
+        riskArticles[0]
+          ? `${riskArticles[0].impact.risks[0]} The risk is amplified when AI adoption depends on scarce compute, autonomous agents, security controls, or policy-sensitive applications.`
+          : "The main risk is that model and product velocity outruns infrastructure availability, agent security controls, or regulatory readiness.",
+      relatedArticleIds: riskArticles.length > 0 ? riskArticles.slice(0, 4).map((article) => article.id) : top.slice(0, 4).map((article) => article.id)
     },
     {
       type: "opportunity",
-      title: "Developer and enterprise workflow layers remain the clearest monetization path",
+      title: "Enterprise workflows and AI infrastructure remain the clearest monetization paths",
       rationale:
-        opportunityArticles[0]?.impact.opportunities[0] ??
-        "The strongest opportunity signals come from tooling, enterprise adoption, and application-layer distribution.",
-      relatedArticleIds: opportunityArticles.slice(0, 4).map((article) => article.id)
+        opportunityArticles[0]
+          ? `${opportunityArticles[0].impact.opportunities[0]} The opportunity is strongest where validated AI capability can be packaged into workflow software, developer tooling, data platforms, or infrastructure supply.`
+          : "The strongest opportunity signals come from products that turn model capability into governed workflows, developer productivity, infrastructure leverage, or enterprise adoption.",
+      relatedArticleIds:
+        opportunityArticles.length > 0 ? opportunityArticles.slice(0, 4).map((article) => article.id) : top.slice(0, 4).map((article) => article.id)
     }
   ];
 }

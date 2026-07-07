@@ -217,12 +217,28 @@ function compactTitle(article: ArticleInsight | undefined) {
   return title.length > 110 ? `${title.slice(0, 107)}...` : title;
 }
 
-function buildTrendInsightText(label: string, insight: string, articles: ArticleInsight[]) {
+type TrendInsight = {
+  label: string;
+  thesis: string;
+  implication: string;
+  articles: ArticleInsight[];
+};
+
+function buildTrendInsight(label: string, thesis: string, implication: string, articles: ArticleInsight[]): TrendInsight {
+  return {
+    label,
+    thesis,
+    implication,
+    articles: articles.filter((article, index, list) => list.findIndex((candidate) => candidate.id === article.id) === index)
+  };
+}
+
+function trendEvidenceText(articles: ArticleInsight[]) {
   const evidence = articles
     .slice(0, 2)
     .map((article) => `${compactTitle(article)} (${article.sourceName})`)
     .join("; ");
-  return `${label}: ${insight} Evidence: ${evidence || "validated source evidence"}.`;
+  return evidence || "validated source evidence";
 }
 
 function buildTrendInsights(report: DailyReport) {
@@ -246,24 +262,28 @@ function buildTrendInsights(report: DailyReport) {
   ];
 
   return [
-    buildTrendInsightText(
+    buildTrendInsight(
       "Technology direction",
-      "AI competition is shifting from model-only announcements toward the physical compute stack. Today's evidence points to accelerator supply, rack-scale servers, and domain-specific science tooling becoming the real battleground.",
+      "AI competition is moving from model-only announcements into the physical compute stack.",
+      "The practical battleground is accelerator supply, rack-scale servers, storage, and domain-specific science tooling. Teams should track whether compute constraints delay product roadmaps or shift demand toward alternative suppliers.",
       technology
     ),
-    buildTrendInsightText(
+    buildTrendInsight(
       "Application direction",
-      "Enterprise AI is moving from generic chat interfaces into governed workflows for data platforms, software development, and scientific research. The important signal is vertical integration: model capability plus workflow context plus enterprise controls.",
+      "Enterprise AI is moving from generic chat interfaces into governed workflows.",
+      "The stronger applications combine model capability with workflow context, enterprise controls, and domain data. Data platforms, developer tools, and scientific research workflows are more credible near-term adoption paths than standalone chatbot features.",
       application
     ),
-    buildTrendInsightText(
+    buildTrendInsight(
       "Policy and security direction",
-      "Agentic AI is becoming a control-plane problem. Security teams are being forced to treat agents as autonomous actors with identity, permissions, secrets, and rollback requirements, while regulators are starting with high-risk humanlike or manipulative use cases.",
+      "Agentic AI is becoming a control-plane and governance problem.",
+      "Security teams need identity, permission, secret-management, audit, and rollback controls for agents. Regulators are likely to start with high-risk companion, impersonation, autonomous action, and manipulative use cases.",
       policy
     ),
-    buildTrendInsightText(
+    buildTrendInsight(
       "Capital direction",
-      "Capital attention is concentrating on AI infrastructure bottlenecks rather than only application-layer narratives. Chip availability, server delays, supplier exposure, storage density, and AI spending signals are the market variables to watch.",
+      "Capital attention is concentrating on AI infrastructure bottlenecks.",
+      "The market signal is less about who has a demo and more about who controls chips, servers, storage, cloud capacity, and AI spending budgets. Supplier delays or alternative accelerator adoption can quickly change the value-chain narrative.",
       capital
     )
   ];
@@ -280,43 +300,108 @@ function buildEvidenceSignals(report: DailyReport) {
     .slice(0, 6)
     .map((article) => {
       const topicText = article.taxonomy.topics.slice(0, 2).map(topicLabel).join(" / ");
-      return `${topicText}: ${article.canonicalEvent.whatHappened} Why it matters: ${article.canonicalEvent.whyItMatters}`;
+      return {
+        label: topicText,
+        title: article.title,
+        source: article.sourceName,
+        evidence: article.canonicalEvent.evidence,
+        implication: article.canonicalEvent.whyItMatters
+      };
     });
 }
 
-function trendInsightRow(doc: PDFKit.PDFDocument, text: string) {
-  const height = measureText(doc, text, CONTENT_WIDTH - 10, 8.8, "Helvetica", 2) + 8;
-  ensureSpace(doc, height);
-  paragraph(doc, text, { width: CONTENT_WIDTH - 10 });
-  doc.moveDown(0.15);
+function insightCard(
+  doc: PDFKit.PDFDocument,
+  label: string,
+  thesis: string,
+  details: Array<{ label: string; text: string }>,
+  accent = "#0b6bcb"
+) {
+  const labelHeight = measureText(doc, label, CONTENT_WIDTH - 24, 9.2, "Helvetica-Bold", 2);
+  const thesisHeight = measureText(doc, thesis, CONTENT_WIDTH - 24, 9.2, "Helvetica-Bold", 2);
+  const detailHeight = details.reduce(
+    (sum, item) => sum + measureText(doc, `${item.label}: ${item.text}`, CONTENT_WIDTH - 24, 8.4, "Helvetica", 2) + 6,
+    0
+  );
+  const cardHeight = Math.max(82, 24 + labelHeight + thesisHeight + detailHeight);
+  ensureSpace(doc, cardHeight + 10);
+  const startY = doc.y;
+
+  doc.roundedRect(PAGE_MARGIN, startY, CONTENT_WIDTH, cardHeight, 6).fillAndStroke("#ffffff", "#e5e7eb");
+  doc.rect(PAGE_MARGIN, startY, 4, cardHeight).fill(accent);
+  doc.font("Helvetica-Bold").fontSize(9.2).fillColor(accent).text(pdfText(label), PAGE_MARGIN + 14, startY + 12, {
+    width: CONTENT_WIDTH - 24,
+    lineGap: 2
+  });
+  doc.font("Helvetica-Bold").fontSize(9.2).fillColor("#111827").text(pdfText(thesis), PAGE_MARGIN + 14, doc.y + 3, {
+    width: CONTENT_WIDTH - 24,
+    lineGap: 2
+  });
+  doc.moveDown(0.25);
+  for (const item of details) {
+    doc.font("Helvetica-Bold").fontSize(8.4).fillColor("#374151").text(`${pdfText(item.label)}: `, PAGE_MARGIN + 14, doc.y, {
+      continued: true
+    });
+    doc.font("Helvetica").fontSize(8.4).fillColor("#4b5870").text(pdfText(item.text), {
+      width: CONTENT_WIDTH - 24,
+      lineGap: 2
+    });
+    doc.moveDown(0.25);
+  }
+  doc.y = startY + cardHeight + 10;
 }
 
-function riskOpportunityRow(doc: PDFKit.PDFDocument, item: DailyReport["riskOpportunity"][number]) {
+function trendInsightRow(doc: PDFKit.PDFDocument, insight: TrendInsight) {
+  insightCard(
+    doc,
+    insight.label,
+    insight.thesis,
+    [
+      { label: "Why it matters", text: insight.implication },
+      { label: "Evidence", text: trendEvidenceText(insight.articles) }
+    ],
+    "#2563eb"
+  );
+}
+
+function evidenceSignalRow(doc: PDFKit.PDFDocument, item: ReturnType<typeof buildEvidenceSignals>[number]) {
+  insightCard(
+    doc,
+    item.label,
+    item.title,
+    [
+      { label: "Evidence", text: item.evidence },
+      { label: "Implication", text: item.implication },
+      { label: "Source", text: item.source }
+    ],
+    "#0f766e"
+  );
+}
+
+function riskOpportunityRow(doc: PDFKit.PDFDocument, report: DailyReport, item: DailyReport["riskOpportunity"][number]) {
   const prefix = item.type === "risk" ? "Risk" : "Opportunity";
-  const text = `${prefix} - ${item.title}: ${sentence(item.rationale)}`;
-  const height = measureText(doc, text, CONTENT_WIDTH - 10, 8.8, "Helvetica", 2) + 8;
-  ensureSpace(doc, height);
-  paragraph(doc, text, { width: CONTENT_WIDTH - 10 });
-  doc.moveDown(0.15);
-}
-
-function methodologySummary(report: DailyReport) {
-  const aiGate = report.qualityGates.find((gate) => gate.name === "AI extraction resilience");
-  return [
-    `Data coverage: ${report.sourceStats.structuredCount}/${report.sourceStats.rawCount} collected items passed schema validation across ${report.sourceStats.sourceCount} sources.`,
-    `Extraction: each article is transformed into schema-versioned event facts, entities, taxonomy, impact, confidence, evidence, risks, and opportunities.`,
-    `Quality gate: ${aiGate?.value ?? "AI extraction validated"}. Low-quality or malformed model output is not allowed into the report until it passes validation.`,
-    "Ranking: Top Events are selected from structured impact score, AI relevance tier, source credibility, recency, entities, and evidence confidence."
-  ];
-}
-
-function schemaSummary(report: DailyReport) {
-  return [
-    `Article schema: ${report.schemaVersion} report over ${report.articles[0]?.schemaVersion ?? "article-insight-v2"} article records.`,
-    "Core fields: canonicalEvent records what happened, why it matters, affected actors, evidence, and confidence.",
-    "Taxonomy fields: topics and valueChain convert unstructured news into comparable technical, application, policy, and capital signals.",
-    "Decision fields: impact score, horizon, stakeholders, risks, opportunities, and signal scores make the output useful for daily judgment, not only summarization."
-  ];
+  const related = item.relatedArticleIds.map((id) => getArticle(report, id)).filter((article): article is ArticleInsight => Boolean(article));
+  const evidence = related
+    .slice(0, 2)
+    .map((article) => `${compactTitle(article)} (${article.sourceName})`)
+    .join("; ");
+  insightCard(
+    doc,
+    prefix,
+    item.title,
+    [
+      { label: "Signal", text: sentence(item.rationale) },
+      { label: "Evidence", text: evidence || "validated risk/opportunity fields in the structured article set" },
+      {
+        label: "Action",
+        text:
+          item.type === "risk"
+            ? "Monitor follow-up reports, supplier or policy constraints, and whether the affected actors publish mitigation plans."
+            : "Look for products, platforms, or suppliers that can convert this signal into measurable adoption, revenue, or infrastructure leverage."
+      }
+    ],
+    item.type === "risk" ? "#dc2626" : "#16a34a"
+  );
 }
 
 function renderFooter(doc: PDFKit.PDFDocument) {
@@ -406,27 +491,13 @@ export function renderDailyReportPdf(report: DailyReport) {
       smallText(doc, "These are the concrete source-backed events behind the trend judgment, not keyword counts.");
       doc.moveDown(0.35);
       for (const signal of evidenceSignals) {
-        trendInsightRow(doc, signal);
+        evidenceSignalRow(doc, signal);
       }
     }
 
     section(doc, "Risks and Opportunities");
     for (const item of report.riskOpportunity) {
-      riskOpportunityRow(doc, item);
-    }
-
-    section(doc, "Methodology");
-    for (const [index, item] of methodologySummary(report).entries()) {
-      ensureSpace(doc, 36);
-      paragraph(doc, `${index + 1}. ${item}`);
-      doc.moveDown(0.15);
-    }
-
-    section(doc, "Schema Design Notes");
-    for (const [index, item] of schemaSummary(report).entries()) {
-      ensureSpace(doc, 34);
-      paragraph(doc, `${index + 1}. ${item}`);
-      doc.moveDown(0.15);
+      riskOpportunityRow(doc, report, item);
     }
 
     renderFooter(doc);
